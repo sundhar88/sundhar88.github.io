@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sundhar m | product designer</title>
+    <link href="https://api.fontshare.com/v2/css?f[]=switzer@400,500&display=swap" rel="stylesheet">
+    <link href="https://api.fontshare.com/v2/css?f[]=array@400,500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <style>
+        :root {
+            --accent: #FFFFFF;    /* Default to white for dark theme */
+            --bg-primary: #0C1114;    /* Dark background */
+            --bg-secondary: #24272C;   /* Dark gray */
+            --bg-secondary-rgb: 36, 39, 44; /* RGB values for --bg-secondary */
+        }
+
+        :root[data-theme="light"] {
+            --accent: #000000;    /* Default to black for light theme */
+            --bg-primary: #F3F4F6;    /* Light background */
+            --bg-secondary: #DCDFE4;   /* Light gray */
+            --bg-secondary-rgb: 220, 223, 228; /* RGB values for light theme --bg-secondary */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Switzer', sans-serif;
+            color: var(--accent);
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            padding: 2rem;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .terminal-body {
+            position: relative;
+            width: 100%;
+        }
+
+        .section {
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.25s ease-out, transform 0.25s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section:last-child {
+            margin-bottom: 0;     /* Remove margin from last section */
+        }
+
+        .command {
+            display: block;
+            margin-bottom: 1rem;
+        }
+
+        .project-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-top: 2rem;
+        }
+
+        .project-link {
+            position: relative;
+        }
+
+        .project-link a {
+            position: relative;
+            text-decoration: none;
+            color: var(--accent);
+            transition: all 0.15s ease;
+            display: inline-block;  /* Contain hover to link text */
+        }
+
+        .project-link a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -2px;
+            left: 0;
+            background-color: var(--accent);
+            transition: width 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .project-link a:hover::after {
+            width: 100%;
+        }
+
+        .project-link a:hover {
+            text-decoration: underline;  /* Add underline on hover */
+        }
+
+        .project-link a:hover + .popover,
+        .popover:hover {  /* Keep popover visible when hovering over it */
+            display: block;
+        }
+
+        .project-link:hover .popover {
+            display: none;
+        }
+
+        .popover {
+            display: none;
+            position: absolute;
+            left: 0;
+            bottom: 100%;
+            background-color: rgba(var(--bg-secondary-rgb), 0.4);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            backdrop-filter: saturate(180%) blur(20px);
+            padding: 1rem;
+            border-radius: 8px;
+            width: 400px;
+            margin-bottom: 0.5rem;
+            z-index: 100;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .popover img {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+        }
+
+        .popover p {
+            display: block;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        /* Mobile adjustments */
+        @media (max-width: 767px) {
+            .popover {
+                left: 0;
+                top: 100%;
+                bottom: auto;
+                transform: translateY(-20px);
+                width: 100%;
+                margin-top: 0.5rem;
+                margin-bottom: 0;
+            }
+
+            .project-grid {
+                gap: 8px;  /* Slightly larger gap on mobile */
+            }
+            
+            .section p {
+                margin-bottom: 8px;  /* Match mobile gap */
+            }
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;  /* Center content horizontally */
+            margin-top: auto;
+            padding: 0.5rem 1rem;
+            background-color: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            text-decoration: none;
+            border-radius: 8px;
+            width: 100%;  /* Take full width */
+        }
+
+        .cta-button .material-symbols-rounded {
+            color: inherit;
+            vertical-align: middle;  /* Align icon with text */
+            margin-left: 4px;  /* Space between text and icon */
+        }
+
+        .cta-button:hover {
+            background-color: var(--accent);
+            color: var(--bg-primary);
+        }
+
+        .cta-button:hover .material-symbols-rounded {
+            color: inherit;  /* Inherit hover state color */
+        }
+
+        .accent-switcher {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .accent-btn {
+            width: 24px;                /* Width of the accent button */
+            height: 24px;               /* Height of the accent button */
+            border-radius: 8px;         /* Rounded corners */
+            border: none;               /* No border */
+            cursor: pointer;            /* Pointer cursor on hover */
+            position: relative;         /* Position relative for check icon */
+            display: flex;              /* Use flexbox for centering */
+            justify-content: center;    /* Center content horizontally */
+            align-items: center;        /* Center content vertically */
+        }
+
+        .check-icon {
+            display: none; /* Optional: Hide check icon styles if they exist */
+        }
+
+        /* Dark theme accent colors */
+        .accent-btn[data-color="yellow"] { background-color: #B59E00; }
+        .accent-btn[data-color="green"] { background-color: #2EA043; }
+        .accent-btn[data-color="red"] { background-color: #CF222E; }
+        .accent-btn[data-color="cyan"] { background-color: #0991B2; }
+        .accent-btn[data-color="blue"] { background-color: #2F81F7; }
+        .accent-btn[data-color="mono"] { 
+            background-color: #FFFFFF;
+            border: 1px solid var(--bg-secondary);
+        }
+
+        .theme-toggle {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            padding: 0.5rem 1rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            cursor: pointer;
+            font-family: 'Switzer', sans-serif;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;  /* Center content */
+            transition: transform 0.1s cubic-bezier(0.165, 0.84, 0.44, 1),
+                        background-color 0.15s ease,
+                        border-color 0.15s ease;
+        }
+
+        .material-symbols-rounded {
+            font-variation-settings: 'FILL' 1, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+            margin-left: 4px;
+        }
+
+        /* Tablet (768px and up) */
+        @media (min-width: 768px) {
+            .container {
+                padding: 1.5rem;
+                margin: 0 40px;
+            }
+
+            .project-card {
+                flex: 0 0 240px;  /* Keep fixed width */
+            }
+        }
+
+        /* Laptop (1024px and up) */
+        @media (min-width: 1024px) {
+            .container {
+                padding: 2rem;
+                margin: 0 60px;
+            }
+
+            .project-card {
+                flex: 0 0 240px;  /* Keep fixed width */
+            }
+        }
+
+        /* Desktop (1280px and up) */
+        @media (min-width: 1280px) {
+            .container {
+                margin: 0 auto;
+            }
+        }
+
+        /* Desktop XL (1536px and up) */
+        @media (min-width: 1536px) {
+            .container {
+                max-width: 1400px;
+            }
+        }
+
+        /* Mobile (below 768px) */
+        @media (max-width: 767px) {
+            body {
+                padding: 1rem;
+            }
+
+            .container {
+                margin: 0 16px;  /* Keep only mobile margin */
+            }
+
+            .terminal-body {
+                padding: 0;  /* Remove padding for mobile */
+            }
+
+            .project-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .accent-switcher {
+                flex-direction: column;
+                bottom: 1rem;
+                right: 1rem;
+            }
+        }
+
+        h1 {
+            font-size: 64px;
+            font-family: 'Array', monospace;
+            font-weight: 400;  /* Changed back to regular weight */
+        }
+
+        pre {
+            background: var(--bg-secondary);
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+
+        code {
+            font-family: 'Array', monospace;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        /* Premium Animations and Interactions */
+        .section {
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.25s ease-out, transform 0.25s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Hover effects for project links */
+        .project-link a {
+            position: relative;
+            text-decoration: none;
+            color: var(--accent);
+            transition: all 0.15s ease;
+        }
+
+        .project-link a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -2px;
+            left: 0;
+            background-color: var(--accent);
+            transition: width 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .project-link a:hover::after {
+            width: 100%;
+        }
+
+        /* Smooth popover animation */
+        .project-link a:hover + .popover,
+        .popover:hover {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Button interactions */
+        .theme-toggle:hover,
+        .accent-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .theme-toggle:active,
+        .accent-btn:active {
+            transform: translateY(0);
+        }
+
+        .command::before {
+            content: "$ ";
+            opacity: 0.7;
+        }
+
+        /* Smooth theme transition */
+        body,
+        .container,
+        .terminal-body,
+        .theme-toggle,
+        .accent-btn,
+        .popover {
+            transition: background-color 0.15s ease,
+                        color 0.15s ease,
+                        border-color 0.15s ease;
+        }
+
+        /* Reduce motion if user prefers */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+            
+            .section {
+                opacity: 1;
+                transform: none;
+            }
+            
+            .command::before {
+                animation: none;
+            }
+        }
+
+        /* Smooth theme transition for content */
+        body,
+        .container,
+        .terminal-body,
+        .theme-toggle,
+        .accent-btn,
+        .popover {
+            transition: background-color 0.4s ease,
+                        color 0.4s ease,
+                        border-color 0.4s ease;
+        }
+
+        /* Theme transition ripple */
+        .theme-ripple {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 9999;
+            transform: scale(0);
+            opacity: 0;
+        }
+
+        .theme-ripple.active {
+            animation: theme-ripple 0.5s cubic-bezier(0, 0, 0.2, 1) forwards;
+        }
+
+        @keyframes theme-ripple {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        /* Animated chromatic aberration by default */
+        @keyframes chromaticShift {
+            0% {
+                text-shadow: 
+                    -2.5px 0 2px rgba(255, 0, 0, 0.25),
+                    2.5px 0 2px rgba(0, 255, 255, 0.25);
+            }
+            50% {
+                text-shadow: 
+                    -1.75px 0 2px rgba(255, 0, 0, 0.25),
+                    1.75px 0 2px rgba(0, 255, 255, 0.25);
+            }
+            100% {
+                text-shadow: 
+                    -2.5px 0 2px rgba(255, 0, 0, 0.25),
+                    2.5px 0 2px rgba(0, 255, 255, 0.25);
+            }
+        }
+
+        h1, h4 {
+            animation: chromaticShift 0.15s ease infinite;
+            transition: text-shadow 0.3s ease;
+        }
+
+        h1:hover,
+        h4:hover {
+            animation: none;
+            text-shadow: none;
+        }
+
+        /* Disable for reduced motion preference */
+        @media (prefers-reduced-motion: reduce) {
+            h1, h4 {
+                text-shadow: none;
+                animation: none;
+            }
+        }
+
+        /* Remove contained hover states */
+        p, a {
+            display: initial;  /* Reset to default display */
+            padding: 0;  /* Remove padding */
+        }
+
+        .command {
+            margin-bottom: 1rem;
+            font-size: 20px;
+            font-weight: 500;
+        }
+
+        .popover p {
+            display: block;  /* Keep this as block for proper popover layout */
+        }
+
+        /* Contact section vertical layout */
+        .section p {
+            display: block;
+            line-height: 1.5;
+            margin-bottom: 6px;  /* Updated to 6px */
+        }
+
+        .section p:last-child {
+            margin-bottom: 0;  /* Remove margin from last item */
+        }
+
+        /* Keep existing section spacing */
+        .section {
+            margin-bottom: 2rem;
+        }
+
+        .section:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Tabs styling */
+        .tabs {
+            display: flex;               /* Use flexbox for horizontal layout */
+            overflow-x: auto;           /* Allow horizontal scrolling */
+            white-space: nowrap;        /* Prevent wrapping of tabs */
+            padding: 0;                 /* Remove padding */
+            margin-bottom: 1rem;        /* Space below the tabs */
+            max-width: 100%;            /* Ensure it takes full width of the parent */
+        }
+
+        /* Hide scrollbar for WebKit browsers */
+        .tabs::-webkit-scrollbar {
+            display: none;               /* Hide scrollbar */
+        }
+
+        .tab-btn {
+            flex: 0 0 auto;             /* Prevent flex items from growing or shrinking */
+            padding: 0;                 /* Remove horizontal padding */
+            margin-right: 12px;         /* Add space between tabs */
+            font-size: 18px;            /* Set font size */
+            background: none;           /* No background */
+            border: none;               /* No border */
+            color: var(--accent);       /* Text color */
+            opacity: 0.64;              /* Default opacity for inactive tabs */
+            transition: opacity 0.3s ease; /* Smooth transition for opacity */
+            cursor: pointer;            /* Pointer cursor on hover */
+            position: relative;         /* Position relative for pseudo-element */
+        }
+
+        .tab-btn:last-child {
+            margin-right: 0;            /* Remove margin from the last tab */
+        }
+
+        .tab-btn.active {
+            opacity: 1;                 /* Full opacity for active tab */
+        }
+
+        .tab-btn.active::after {
+            content: '';                /* Create a pseudo-element for the underline */
+            position: absolute;         /* Position it absolutely */
+            left: 0;                   /* Align to the left */
+            right: 0;                  /* Align to the right */
+            bottom: -2px;              /* Position it below the text */
+            height: 2px;               /* Height of the underline */
+            background-color: var(--accent); /* Color of the underline */
+        }
+
+        .tab-content {
+            position: relative;
+        }
+
+        .tab-pane {
+            display: none;
+            line-height: 1.5;
+        }
+
+        .tab-pane.active {
+            display: block;
+        }
+
+        /* Message styling */
+        .message-container {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .message {
+            display: none;
+            line-height: 1.5;
+            transition: opacity 0.3s ease;
+        }
+
+        .message.active {
+            display: block;
+        }
+
+        /* Mobile styles for tabs */
+        @media (max-width: 767px) {
+            .tabs {
+                position: relative;
+                width: 100%;
+            }
+
+            .tab-btn {
+                display: block;  /* Show all tabs by default on mobile */
+                width: auto;     /* Allow normal width */
+                text-align: center; /* Center align text */
+                padding: 12px 0; /* Keep padding */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="terminal-body">
+            <section class="section">
+                <h4 class="command">hello, I'm</h4>
+                <h1>sundhar m</h1>
+                <p>// product designer</p>
+            </section>
+
+            <section class="section">
+                <h4 class="command">and you are..</h4>
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="someone">a user</button>
+                    <button class="tab-btn" data-tab="recruiter">a recruiter</button>
+                    <button class="tab-btn" data-tab="designer">a designer</button>
+                    <button class="tab-btn" data-tab="pm">a product manager</button>
+                    <button class="tab-btn" data-tab="engineer">an engineer</button>
+                </div>
+                <div class="tab-content">
+                    <div class="tab-pane active" data-tab="someone">
+                        <p>// Welcome and thanks for stopping by. I design intuitive, human-centered experiences that connect people and technology.</p>
+                    </div>
+                    <div class="tab-pane" data-tab="recruiter">
+                        <p>// Looking for a designer who combines creative vision with real-world impact? Let's chat—I've got the skills, experience, and drive to boost any team.</p>
+                    </div>
+                    <div class="tab-pane" data-tab="designer">
+                        <p>// Hey fellow creatives! I share your enthusiasm for innovation and pixel-perfect details. I'd love to swap ideas and craft amazing experiences together.</p>
+                    </div>
+                    <div class="tab-pane" data-tab="pm">
+                        <p>// I understand the art of balancing user needs with business goals. My process is collaborative, helping your vision turn into user delights.</p>
+                    </div>
+                    <div class="tab-pane" data-tab="engineer">
+                        <p>// I value your expertise in bringing designs to life. Let's work closely to ensure our ideas transform seamlessly into functional, sleek products.<br>// Let's build something remarkable together!</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <h4 class="command">cat about.txt</h4>
+                <p>// hello! I'm a product designer with 5+ years of experience crafting digital experiences that users love. my approach combines user-centered design principles with a deep understanding of business goals.</p>
+            </section>
+
+            <section class="section">
+                <h4 class="command">ls projects/</h4>
+                <div class="project-grid">
+                    <div class="project-link">
+                        <a href="#">ecommerce_redesign</a>
+                        <div class="popover">
+                            <img src="https://placehold.co/400x300" alt="e-commerce redesign preview">
+                            <p>// increased conversion rate by 45% through intuitive navigation and streamlined checkout process.</p>
+                        </div>
+                    </div>
+                    <div class="project-link">
+                        <a href="#">health_app_ui</a>
+                        <div class="popover">
+                            <img src="https://placehold.co/400x300" alt="health app ui preview">
+                            <p>// designed a user-friendly interface for tracking daily health metrics and medication schedules.</p>
+                        </div>
+                    </div>
+                    <div class="project-link">
+                        <a href="#">banking_dashboard</a>
+                        <div class="popover">
+                            <img src="https://placehold.co/400x300" alt="banking dashboard preview">
+                            <p>// created an accessible and secure dashboard for managing financial transactions.</p>
+                        </div>
+                    </div>
+                    <div class="project-link">
+                        <a href="#">travel_booking_platform</a>
+                        <div class="popover">
+                            <img src="https://placehold.co/400x300" alt="travel booking platform preview">
+                            <p>// redesigned the booking flow resulting in 60% reduction in booking abandonment rate.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <h4 class="command">cat contact.txt</h4>
+                <p>// email: jane@example.com</p>
+                <p>// linkedin: linkedin.com/in/janedoe</p>
+                <p>// twitter: @janedoedesigns</p>
+            </section>
+        </div>
+    </div>
+
+    <div class="accent-switcher">
+        <button class="accent-btn" data-color="mono" aria-label="Switch to monochrome accent color"></button>
+        <button class="accent-btn" data-color="yellow" aria-label="Switch to yellow accent color"></button>
+        <button class="accent-btn" data-color="green" aria-label="Switch to green accent color"></button>
+        <button class="accent-btn" data-color="red" aria-label="Switch to red accent color"></button>
+        <button class="accent-btn" data-color="cyan" aria-label="Switch to cyan accent color"></button>
+        <button class="accent-btn" data-color="blue" aria-label="Switch to blue accent color"></button>
+    </div>
+    <button class="theme-toggle">
+        Toggle Theme
+        <span class="material-symbols-rounded">light_mode</span>
+    </button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Intersection Observer for scroll animations
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.section').forEach(section => {
+                observer.observe(section);
+            });
+
+            // Tab switching functionality - fixed version
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            const tabPanes = document.querySelectorAll('.tab-pane');
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Remove active class from all buttons and panes
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    tabPanes.forEach(pane => pane.classList.remove('active'));
+                    
+                    // Add active class to clicked button and corresponding pane
+                    button.classList.add('active');
+                    const tabName = button.dataset.tab;
+                    document.querySelector(`.tab-pane[data-tab="${tabName}"]`).classList.add('active');
+                });
+            });
+
+            // Update JavaScript for theme-aware colors
+            const colorMap = {
+                dark: {
+                    'yellow': {
+                        color: '#B59E00'
+                    },
+                    'green': {
+                        color: '#2EA043'
+                    },
+                    'red': {
+                        color: '#CF222E'
+                    },
+                    'cyan': {
+                        color: '#0991B2'
+                    },
+                    'blue': {
+                        color: '#2F81F7'
+                    },
+                    'mono': {
+                        color: '#FFFFFF'
+                    }
+                },
+                light: {
+                    'yellow': {
+                        color: '#826F00'
+                    },
+                    'green': {
+                        color: '#2EA043'
+                    },
+                    'red': {
+                        color: '#CF222E'
+                    },
+                    'cyan': {
+                        color: '#0991B2'
+                    },
+                    'blue': {
+                        color: '#2F81F7'
+                    },
+                    'mono': {
+                        color: '#000000'
+                    }
+                }
+            };
+
+            document.querySelectorAll('.accent-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const theme = document.documentElement.getAttribute('data-theme') || 'dark';
+                    const colorScheme = colorMap[theme][btn.dataset.color];
+                    document.documentElement.style.setProperty('--accent', colorScheme.color);
+
+                    // Remove active class from all buttons and add to the clicked one
+                    document.querySelectorAll('.accent-btn').forEach(button => {
+                        button.classList.remove('active');
+                    });
+                    btn.classList.add('active'); // Add active class to the clicked button
+                });
+            });
+
+            const checkOverflow = () => {
+                document.body.style.overflow = 
+                    document.documentElement.scrollHeight > window.innerHeight 
+                    ? 'auto' 
+                    : 'hidden';
+            };
+
+            // Check on load and resize
+            window.addEventListener('load', checkOverflow);
+            window.addEventListener('resize', checkOverflow);
+
+            // Update theme toggle to handle chromatic colors
+            const themeToggle = document.querySelector('.theme-toggle');
+
+            // Function to get system theme preference
+            const getSystemTheme = () => {
+                return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            };
+
+            // Function to set theme
+            const setTheme = (theme) => {
+                document.documentElement.setAttribute('data-theme', theme);
+                const icon = themeToggle.querySelector('.material-symbols-rounded');
+                icon.textContent = theme === 'light' ? 'dark_mode' : 'light_mode';
+            };
+
+            // Initialize theme based on system preference
+            window.addEventListener('load', () => {
+                // Check if user has previously set a theme preference
+                const savedTheme = localStorage.getItem('theme');
+                
+                if (savedTheme) {
+                    // Use saved theme if it exists
+                    setTheme(savedTheme);
+                } else {
+                    // Use system theme if no saved preference
+                    setTheme(getSystemTheme());
+                }
+            });
+
+            // Listen for system theme changes
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+                // Only update if user hasn't set a manual preference
+                if (!localStorage.getItem('theme')) {
+                    setTheme(e.matches ? 'dark' : 'light');
+                }
+            });
+
+            // Update theme toggle to save preference
+            themeToggle.addEventListener('click', () => {
+                const currentTheme = document.documentElement.getAttribute('data-theme');
+                const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+                
+                // Save user preference
+                localStorage.setItem('theme', newTheme);
+                
+                setTheme(newTheme);
+                
+                // Handle accent colors
+                const currentColor = document.documentElement.style.getPropertyValue('--accent');
+                const colorName = Object.keys(colorMap.dark).find(key => 
+                    colorMap.dark[key].color === currentColor || colorMap.light[key].color === currentColor
+                );
+                if (colorName) {
+                    const colorScheme = colorMap[newTheme][colorName];
+                    document.documentElement.style.setProperty('--accent', colorScheme.color);
+                }
+            });
+
+            // Message cycling functionality
+            const messageContainer = document.querySelector('.message-container');
+            const messages = document.querySelectorAll('.message');
+            let currentIndex = 0;
+
+            messageContainer.addEventListener('click', () => {
+                // Hide current message
+                messages[currentIndex].classList.remove('active');
+                
+                // Move to next message (cycle back to start if at end)
+                currentIndex = (currentIndex + 1) % messages.length;
+                
+                // Show new message
+                messages[currentIndex].classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
+
