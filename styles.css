@@ -321,6 +321,7 @@ body {
 
     .container {
         margin: 0 16px;  /* Keep only mobile margin */
+        padding-bottom: 72px;
     }
 
     .terminal-body {
