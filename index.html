@@ -1,18 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="sundhar m — product designer with 5+ years crafting intuitive, human-centered digital experiences.">
     <title>sundhar m | product designer</title>
     <link href="https://api.fontshare.com/v2/css?f[]=switzer@400,500&display=swap" rel="stylesheet">
     <link href="https://api.fontshare.com/v2/css?f[]=array@400,500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <!-- External Stylesheet -->
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <a class="skip-link" href="#main">Skip to main content</a>
+
     <div class="container">
-        <div class="terminal-body">
+        <main id="main" class="terminal-body">
+
             <section class="section">
                 <h4 class="command">hello, I'm</h4>
                 <h1>sundhar m</h1>
@@ -20,29 +23,29 @@
             </section>
 
             <section class="section">
-                <h4 class="command">and you are..</h4>
-                <div class="tabs">
-                    <button class="tab-btn active" data-tab="someone">a user</button>
-                    <button class="tab-btn" data-tab="recruiter">a recruiter</button>
-                    <button class="tab-btn" data-tab="designer">a designer</button>
-                    <button class="tab-btn" data-tab="pm">a product manager</button>
-                    <button class="tab-btn" data-tab="engineer">an engineer</button>
+                <h4 class="command" id="audience-label">and you are..</h4>
+                <div class="tabs" role="tablist" aria-labelledby="audience-label">
+                    <button class="tab-btn active" role="tab" aria-selected="true"  aria-controls="panel-someone"  id="tab-someone"  data-tab="someone">a user</button>
+                    <button class="tab-btn"        role="tab" aria-selected="false" aria-controls="panel-recruiter" id="tab-recruiter" data-tab="recruiter">a recruiter</button>
+                    <button class="tab-btn"        role="tab" aria-selected="false" aria-controls="panel-designer"  id="tab-designer"  data-tab="designer">a designer</button>
+                    <button class="tab-btn"        role="tab" aria-selected="false" aria-controls="panel-pm"        id="tab-pm"        data-tab="pm">a product manager</button>
+                    <button class="tab-btn"        role="tab" aria-selected="false" aria-controls="panel-engineer"  id="tab-engineer"  data-tab="engineer">an engineer</button>
                 </div>
                 <div class="tab-content">
-                    <div class="tab-pane active" data-tab="someone">
+                    <div class="tab-pane active" role="tabpanel" id="panel-someone"   aria-labelledby="tab-someone"   data-tab="someone">
                         <p>// Welcome and thanks for stopping by :-) I design intuitive, human-centered experiences that connect people and technology.</p>
                     </div>
-                    <div class="tab-pane" data-tab="recruiter">
+                    <div class="tab-pane" role="tabpanel" id="panel-recruiter" aria-labelledby="tab-recruiter" data-tab="recruiter" hidden>
                         <p>// Looking for a designer who combines creative vision with real-world impact? Let's chat. I've got the skills, experience, and drive to boost any team.</p>
                     </div>
-                    <div class="tab-pane" data-tab="designer">
+                    <div class="tab-pane" role="tabpanel" id="panel-designer"  aria-labelledby="tab-designer"  data-tab="designer" hidden>
                         <p>// Hey fellow creatives! I share your enthusiasm for innovation and pixel-perfect details. I'd love to swap ideas and craft amazing experiences together. :P</p>
                     </div>
-                    <div class="tab-pane" data-tab="pm">
+                    <div class="tab-pane" role="tabpanel" id="panel-pm"        aria-labelledby="tab-pm"        data-tab="pm" hidden>
                         <p>// I understand the art of balancing user needs with business goals. My process is collaborative, helping your vision turn into user delights. :-)</p>
                     </div>
-                    <div class="tab-pane" data-tab="engineer">
-                        <p>// I value your expertise in bringing designs to life. Let's work closely to ensure our ideas transform seamlessly into functional, sleek products.Let's build something remarkable together! :-)</p>
+                    <div class="tab-pane" role="tabpanel" id="panel-engineer"  aria-labelledby="tab-engineer"  data-tab="engineer" hidden>
+                        <p>// I value your expertise in bringing designs to life. Let's work closely to ensure our ideas transform seamlessly into functional, sleek products. Let's build something remarkable together! :-)</p>
                     </div>
                 </div>
             </section>
@@ -52,7 +55,6 @@
                 <p>// hello! I'm a product designer with 5+ years of experience crafting digital experiences that users love. my approach combines user-centered design principles with a deep understanding of business goals. :-)</p>
             </section>
 
-            <!-- New Values Section -->
             <section class="section">
                 <h4 class="command">cat values.txt</h4>
                 <h2 class="terminal-value">usable</h2>
@@ -67,23 +69,23 @@
                 <h4 class="command">ls works/</h4>
                 <div class="project-grid">
                     <div class="project-link">
-                        <a href="#">// senior product designer @ Wall Street English</a>
-                        <div class="popover">
-                            <img src="https://placehold.co/400x300" alt="Wall Street English preview">
+                        <a href="#" aria-describedby="desc-wse">// senior product designer @ Wall Street English</a>
+                        <div class="popover" id="desc-wse" role="tooltip">
+                            <img src="https://placehold.co/400x300" alt="Wall Street English product preview">
                             <p>// reimagined the product experience to boost engagement and revenue with intuitive design solutions. :-)</p>
                         </div>
                     </div>
                     <div class="project-link">
-                        <a href="#">// ui/ux designer @ InstaSafe</a>
-                        <div class="popover">
-                            <img src="https://placehold.co/400x300" alt="InstaSafe preview">
+                        <a href="#" aria-describedby="desc-is">// ui/ux designer @ InstaSafe</a>
+                        <div class="popover" id="desc-is" role="tooltip">
+                            <img src="https://placehold.co/400x300" alt="InstaSafe interface preview">
                             <p>// optimized the interface design, leading to enhanced usability and increased user adoption and satisfaction. :-)</p>
                         </div>
                     </div>
                     <div class="project-link">
-                        <a href="#">// creative visual designer @ freelancing :)</a>
-                        <div class="popover">
-                            <img src="https://placehold.co/400x300" alt="Freelancing preview">
+                        <a href="#" aria-describedby="desc-fl">// creative visual designer @ freelancing :)</a>
+                        <div class="popover" id="desc-fl" role="tooltip">
+                            <img src="https://placehold.co/400x300" alt="Freelancing work preview">
                             <p>// crafted engaging visual narratives and branding that elevated client success and market impact. :-)</p>
                         </div>
                     </div>
@@ -96,26 +98,27 @@
                 <p>// linkedin: <a href="https://linkedin.com/in/sundharm" target="_blank" rel="noopener noreferrer">linkedin.com/in/sundharm</a> :-)</p>
                 <p>// behance: <a href="https://www.behance.net/sundhardesigns" target="_blank" rel="noopener noreferrer">behance.net/sundhardesigns</a> :-)</p>
             </section>
-        </div>
 
-
+        </main>
     </div>
 
-    <div class="accent-switcher">
-        <button class="accent-btn" data-color="mono" aria-label="Switch to monochrome accent color"></button>
-        <button class="accent-btn" data-color="yellow" aria-label="Switch to yellow accent color"></button>
-        <button class="accent-btn" data-color="green" aria-label="Switch to green accent color"></button>
-        <button class="accent-btn" data-color="red" aria-label="Switch to red accent color"></button>
-        <button class="accent-btn" data-color="cyan" aria-label="Switch to cyan accent color"></button>
-        <button class="accent-btn" data-color="blue" aria-label="Switch to blue accent color"></button>
+    <!-- Theme transition overlay -->
+    <div class="theme-overlay" aria-hidden="true"></div>
+
+    <div class="accent-switcher" role="group" aria-label="Accent color selector">
+        <button class="accent-btn active" data-color="mono"   aria-label="Monochrome accent" aria-pressed="true"></button>
+        <button class="accent-btn"        data-color="yellow" aria-label="Yellow accent"      aria-pressed="false"></button>
+        <button class="accent-btn"        data-color="green"  aria-label="Green accent"       aria-pressed="false"></button>
+        <button class="accent-btn"        data-color="red"    aria-label="Red accent"         aria-pressed="false"></button>
+        <button class="accent-btn"        data-color="cyan"   aria-label="Cyan accent"        aria-pressed="false"></button>
+        <button class="accent-btn"        data-color="blue"   aria-label="Blue accent"        aria-pressed="false"></button>
     </div>
-    <button class="theme-toggle">
+
+    <button class="theme-toggle" id="theme-toggle" aria-label="Switch to light mode" aria-pressed="false">
         Toggle Theme
-        <span class="material-symbols-rounded">light_mode</span>
+        <span class="material-symbols-rounded" aria-hidden="true">light_mode</span>
     </button>
 
-    <!-- External Script -->
     <script src="scripts.js"></script>
 </body>
 </html>
-
