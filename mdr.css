@@ -1,0 +1,138 @@
+/* MDR Refinement Game Styles */
+#mdr-container {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: var(--bg-primary);
+    z-index: 9997; /* Under CRT and Interlace */
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    color: var(--accent);
+    font-family: var(--font-mono);
+}
+
+#mdr-container.active {
+    display: flex;
+}
+
+#mdr-grid {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    margin-bottom: 5vh;
+    transform-style: preserve-3d;
+}
+
+.mdr-cell {
+    position: absolute;
+    top: 0; left: 0;
+    width: 3.33vw; /* approx 100vw / 30 */
+    height: 5vh; /* approx 100vh / 20 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5vw;
+    font-weight: 700;
+    user-select: none;
+    cursor: default;
+    opacity: 0.8;
+}
+
+.mdr-cell-inner {
+    transition: color 0.3s ease;
+    animation: drift 4s infinite alternate ease-in-out;
+}
+
+@keyframes drift {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(2px, -2px); }
+}
+
+.mdr-cell.mdr-active .mdr-cell-inner {
+    opacity: 1;
+    animation: jitter 0.2s infinite;
+    cursor: pointer;
+}
+
+.mdr-cell.mdr-super-active .mdr-cell-inner {
+    animation: jitter-fast 0.05s infinite;
+    transform: scale(1.5);
+}
+
+@keyframes jitter {
+    0% { transform: translate(1px, 1px) scale(1.1); }
+    50% { transform: translate(-1px, -1px) scale(1.1); }
+    100% { transform: translate(1px, -1px) scale(1.1); }
+}
+
+@keyframes jitter-fast {
+    0% { transform: translate(2px, 2px) scale(1.5) rotate(2deg); }
+    50% { transform: translate(-2px, -2px) scale(1.5) rotate(-2deg); }
+    100% { transform: translate(2px, -2px) scale(1.5) rotate(0deg); }
+}
+
+#mdr-bins {
+    display: flex;
+    gap: 2vw;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    justify-content: center;
+    background-color: var(--bg-primary);
+    padding: 2vw 0;
+    border-top: 2px solid var(--accent);
+    z-index: 10;
+}
+
+.mdr-bin {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 8vw;
+}
+
+.mdr-bin-box {
+    border: 2px solid var(--accent);
+    width: 100%;
+    padding: 0.5vw;
+    text-align: center;
+    font-size: 1.2vw;
+    margin-bottom: 0.5vw;
+}
+
+.mdr-bin-progress {
+    border: 1px solid var(--accent);
+    width: 100%;
+    height: 1.5vw;
+    position: relative;
+    padding: 2px;
+}
+
+.mdr-bin-fill {
+    background-color: var(--accent);
+    height: 100%;
+    width: 0%;
+    transition: width 0.5s ease-out;
+}
+
+.mdr-bin-label {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.8vw;
+    color: var(--text-primary);
+    font-weight: bold;
+    text-shadow: 1px 1px 0px var(--bg-primary), 
+                 -1px -1px 0px var(--bg-primary), 
+                 1px -1px 0px var(--bg-primary), 
+                 -1px 1px 0px var(--bg-primary);
+}
+
+.mdr-cell.animating {
+    position: fixed;
+    z-index: 10000;
+    transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    color: var(--accent);
+}

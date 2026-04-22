@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumon MDR</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="mdr.css">
+    <style>
+        body { margin: 0; padding: 0; overflow: hidden; }
+        .mdr-controls {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            z-index: 10001;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            align-items: flex-start;
+        }
+    </style>
+</head>
+<body class="crt-enabled text-interlace-enabled">
+    <div class="mdr-controls">
+        <button id="mdr-exit" class="effect-btn">[ EXIT ]</button>
+        <button id="crt-toggle" class="effect-btn active">[ CRT: ON ]</button>
+        <button id="interlace-toggle" class="effect-btn active">[ TEXT FX: ON ]</button>
+        <button id="screensaver-toggle" class="effect-btn">[ SCREENSAVER ]</button>
+    </div>
+
+    <div id="mdr-container" class="active" style="display: flex;">
+        <div id="mdr-grid"></div>
+        <div id="mdr-bins">
+            <div class="mdr-bin">
+                <div class="mdr-bin-box">01</div>
+                <div class="mdr-bin-progress"><div class="mdr-bin-fill"></div><div class="mdr-bin-label">0%</div></div>
+            </div>
+            <div class="mdr-bin">
+                <div class="mdr-bin-box">02</div>
+                <div class="mdr-bin-progress"><div class="mdr-bin-fill"></div><div class="mdr-bin-label">0%</div></div>
+            </div>
+            <div class="mdr-bin">
+                <div class="mdr-bin-box">03</div>
+                <div class="mdr-bin-progress"><div class="mdr-bin-fill"></div><div class="mdr-bin-label">0%</div></div>
+            </div>
+            <div class="mdr-bin">
+                <div class="mdr-bin-box">04</div>
+                <div class="mdr-bin-progress"><div class="mdr-bin-fill"></div><div class="mdr-bin-label">0%</div></div>
+            </div>
+            <div class="mdr-bin">
+                <div class="mdr-bin-box">05</div>
+                <div class="mdr-bin-progress"><div class="mdr-bin-fill"></div><div class="mdr-bin-label">0%</div></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Screensaver Container -->
+    <div id="screensaver" class="hidden">
+        <div id="screensaver-logo"></div>
+    </div>
+
+    <script src="scripts.js"></script>
+    <script src="mdr.js"></script>
+</body>
+</html>

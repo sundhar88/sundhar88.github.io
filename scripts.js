@@ -77,19 +77,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const colorMap = {
         dark: {
             mono:   '#FFFFFF',
-            yellow: '#B59E00',
-            green:  '#2EA043',
-            red:    '#CF222E',
-            cyan:   '#0991B2',
-            blue:   '#2F81F7',
+            yellow: '#FFB000',
+            green:  '#00FF41',
+            red:    '#FF4D4D',
+            cyan:   '#00FFFF',
+            blue:   '#6699FF',
         },
         light: {
             mono:   '#000000',
-            yellow: '#826F00',
-            green:  '#2EA043',
-            red:    '#CF222E',
-            cyan:   '#0991B2',
-            blue:   '#2F81F7',
+            yellow: '#8C6600',
+            green:  '#00661A',
+            red:    '#B30000',
+            cyan:   '#006666',
+            blue:   '#0033CC',
         }
     };
 
@@ -178,6 +178,122 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    /* ============================================================
+       Effects Toggles (CRT & Interlace)
+       ============================================================ */
+    const crtBtn = document.getElementById('crt-toggle');
+    const interlaceBtn = document.getElementById('interlace-toggle');
+
+    function updateEffect(effectName, btnEl, isEnabled) {
+        if (isEnabled) {
+            document.body.classList.add(`${effectName}-enabled`);
+            if (btnEl) {
+                btnEl.classList.add('active');
+                btnEl.textContent = `[ ${effectName === 'crt' ? 'CRT' : 'TEXT FX'}: ON ]`;
+            }
+            localStorage.setItem(`${effectName}Enabled`, 'true');
+        } else {
+            document.body.classList.remove(`${effectName}-enabled`);
+            if (btnEl) {
+                btnEl.classList.remove('active');
+                btnEl.textContent = `[ ${effectName === 'crt' ? 'CRT' : 'TEXT FX'}: OFF ]`;
+            }
+            localStorage.setItem(`${effectName}Enabled`, 'false');
+        }
+    }
+
+    // Initialize effects
+    const isCrtEnabled = localStorage.getItem('crtEnabled') !== 'false';
+    const isInterlaceEnabled = localStorage.getItem('interlaceEnabled') !== 'false';
+    
+    updateEffect('crt', crtBtn, isCrtEnabled);
+    updateEffect('text-interlace', interlaceBtn, isInterlaceEnabled);
+
+    crtBtn?.addEventListener('click', () => {
+        const currentlyEnabled = document.body.classList.contains('crt-enabled');
+        updateEffect('crt', crtBtn, !currentlyEnabled);
+    });
+
+    interlaceBtn?.addEventListener('click', () => {
+        const currentlyEnabled = document.body.classList.contains('text-interlace-enabled');
+        updateEffect('text-interlace', interlaceBtn, !currentlyEnabled);
+    });
+
+
+    /* ============================================================
+       Screensaver Logic (DVD Bounce)
+       ============================================================ */
+    const screensaverBtn = document.getElementById('screensaver-toggle');
+    const screensaver = document.getElementById('screensaver');
+    const screensaverLogo = document.getElementById('screensaver-logo');
+    
+    let ssAnimationId;
+    let ssX = 0, ssY = 0;
+    let ssDX = 2.5, ssDY = 2.5;
+
+    function startScreensaver() {
+        if (!screensaver || !screensaverLogo) return;
+        
+        // Always use dark mode accent color for screensaver
+        const colorKey = sessionStorage.getItem('accentColor') || 'mono';
+        const darkColor = colorMap['dark'][colorKey];
+        screensaverLogo.style.backgroundColor = darkColor;
+        document.body.style.setProperty('--ss-accent', darkColor);
+
+        screensaver.classList.add('active');
+        
+        // Initial random position
+        const maxW = window.innerWidth - screensaverLogo.offsetWidth;
+        const maxH = window.innerHeight - screensaverLogo.offsetHeight;
+        ssX = Math.random() * Math.max(0, maxW);
+        ssY = Math.random() * Math.max(0, maxH);
+        
+        // Randomize initial direction
+        ssDX = (Math.random() > 0.5 ? 1 : -1) * 2.5;
+        ssDY = (Math.random() > 0.5 ? 1 : -1) * 2.5;
+        
+        function animate() {
+            if (!screensaver.classList.contains('active')) return;
+            
+            const rect = screensaverLogo.getBoundingClientRect();
+            
+            ssX += ssDX;
+            ssY += ssDY;
+            
+            if (ssX <= 0 || ssX + rect.width >= window.innerWidth) {
+                ssDX *= -1;
+                ssX = ssX <= 0 ? 0 : window.innerWidth - rect.width;
+            }
+            if (ssY <= 0 || ssY + rect.height >= window.innerHeight) {
+                ssDY *= -1;
+                ssY = ssY <= 0 ? 0 : window.innerHeight - rect.height;
+            }
+            
+            screensaverLogo.style.transform = `translate(${ssX}px, ${ssY}px)`;
+            ssAnimationId = requestAnimationFrame(animate);
+        }
+        
+        if (ssAnimationId) cancelAnimationFrame(ssAnimationId);
+        animate();
+    }
+
+    function stopScreensaver() {
+        if (screensaver) {
+            screensaver.classList.remove('active');
+            if (ssAnimationId) cancelAnimationFrame(ssAnimationId);
+        }
+    }
+
+    screensaverBtn?.addEventListener('click', startScreensaver);
+    screensaver?.addEventListener('click', stopScreensaver);
+
+    /* ============================================================
+       Navigation Logic
+       ============================================================ */
+    const refinementToggleBtn = document.getElementById('refinement-toggle');
+    refinementToggleBtn?.addEventListener('click', () => {
+        window.location.href = 'mdr.html';
+    });
 
     /* ============================================================
        Dynamic overflow guard
