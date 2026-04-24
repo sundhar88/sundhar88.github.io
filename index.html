@@ -1,104 +1,469 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="sundhar m — product designer with 5+ years crafting intuitive, human-centered digital experiences.">
+    <meta name="description"
+        content="sundhar m — product designer with 5+ years crafting intuitive, human-centered digital experiences.">
     <title>sundhar m | product designer</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+        rel="stylesheet">
+    <link href="https://api.fontshare.com/v2/css?f[]=array@400,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="mdr.css">
+    <script src="https://w.soundcloud.com/player/api.js"></script>
 </head>
-<body>
-    <a class="skip-link" href="#main">Skip to main content</a>
 
+<body>
     <div class="container">
         <main id="main" class="terminal-body">
 
-            <section class="section">
-                <h4 class="command">hello, I'm</h4>
-                <h1>sundhar m</h1>
-                <p>// product designer</p>
+            <section class="section"
+                style="display: flex; align-items: center; justify-content: space-between; gap: 2rem;">
+                <div>
+                    <h4 class="command">> whoami</h4>
+                    <h1>sundhar m</h1>
+                    <p>// senior product designer</p>
+                    <p>// 5+ yrs · B2B SaaS · EdTech · 0→1 products</p>
+                </div>
+                <pre id="welcome-ascii-container" class="ascii-hand"></pre>
             </section>
 
             <section class="section">
-                <h4 class="command" id="audience-label">and you are..</h4>
+                <h4 class="command">> cat hello.txt</h4>
+                <p>I design products that work — intuitively, accessibly, and without the need for a tutorial. My
+                    practice spans the full product lifecycle: discovery, systems design, interaction design, and
+                    validation. I pair deep design craft with a fluency in AI-assisted workflows to move faster without
+                    cutting corners.</p>
+                <p>Self-taught. Outcome-obsessed. Unreasonably good at making complex things feel simple.</p>
+            </section>
+
+            <section class="section">
+                <h4 class="command" id="audience-label">> identify --user</h4>
                 <div class="tabs" role="tablist" aria-labelledby="audience-label">
-                    <button class="tab-btn active" role="tab" aria-selected="true"  aria-controls="panel-someone"  id="tab-someone"  data-tab="someone">a user</button>
-                    <button class="tab-btn"        role="tab" aria-selected="false" aria-controls="panel-recruiter" id="tab-recruiter" data-tab="recruiter">a recruiter</button>
-                    <button class="tab-btn"        role="tab" aria-selected="false" aria-controls="panel-designer"  id="tab-designer"  data-tab="designer">a designer</button>
-                    <button class="tab-btn"        role="tab" aria-selected="false" aria-controls="panel-pm"        id="tab-pm"        data-tab="pm">a product manager</button>
-                    <button class="tab-btn"        role="tab" aria-selected="false" aria-controls="panel-engineer"  id="tab-engineer"  data-tab="engineer">an engineer</button>
+                    <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="panel-someone"
+                        id="tab-someone" data-tab="someone">a user</button>
+                    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-recruiter"
+                        id="tab-recruiter" data-tab="recruiter">a recruiter</button>
+                    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-designer"
+                        id="tab-designer" data-tab="designer">a designer</button>
+                    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-pm" id="tab-pm"
+                        data-tab="pm">a product manager</button>
+                    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-engineer"
+                        id="tab-engineer" data-tab="engineer">an engineer</button>
                 </div>
                 <div class="tab-content">
-                    <div class="tab-pane active" role="tabpanel" id="panel-someone"   aria-labelledby="tab-someone"   data-tab="someone">
-                        <p>// Welcome and thanks for stopping by :-) I design intuitive, human-centered experiences that connect people and technology.</p>
+                    <div class="tab-pane active" role="tabpanel" id="panel-someone" aria-labelledby="tab-someone"
+                        data-tab="someone">
+                        <pre class="ascii-art">
+  ___________________
+ |  .-------------.  |
+ |  |  welcome :) |  |
+ |  |_____________|  |
+ |  you found me!    |
+ |___________________|
+        | | |
+       _|_|_|_
+</pre>
+                        <p>Good to have you here. I make digital things feel obvious — the kind where you never have to
+                            read the manual. Dig around, see what I've built, and if something resonates, reach out.</p>
                     </div>
-                    <div class="tab-pane" role="tabpanel" id="panel-recruiter" aria-labelledby="tab-recruiter" data-tab="recruiter" hidden>
-                        <p>// Looking for a designer who combines creative vision with real-world impact? Let's chat. I've got the skills, experience, and drive to boost any team.</p>
+                    <div class="tab-pane" role="tabpanel" id="panel-recruiter" aria-labelledby="tab-recruiter"
+                        data-tab="recruiter" hidden>
+                        <pre class="ascii-art">
+  [skill_matrix.xlsx]
+  ┌───────────────────┐
+  │ craft      ████ 5 │
+  │ systems    ████ 5 │
+  │ research   ███_ 4 │
+  │ impact     ████ 5 │
+  │ shipping   ████ 5 │
+  └───────────────────┘
+  status: open to roles
+</pre>
+                        <p>5+ years of shipping product at scale — from zero-to-one at startups to enterprise SaaS. I
+                            own outcomes, not just deliverables. Senior IC track. Strong in cross-functional
+                            collaboration, design systems, and AI-augmented workflows. Let's skip the intro call and go
+                            straight to the work.</p>
                     </div>
-                    <div class="tab-pane" role="tabpanel" id="panel-designer"  aria-labelledby="tab-designer"  data-tab="designer" hidden>
-                        <p>// Hey fellow creatives! I share your enthusiasm for innovation and pixel-perfect details. I'd love to swap ideas and craft amazing experiences together. :P</p>
+                    <div class="tab-pane" role="tabpanel" id="panel-designer" aria-labelledby="tab-designer"
+                        data-tab="designer" hidden>
+                        <pre class="ascii-art">
+  auto-layout: on  ✓
+  variables: bound ✓
+  components: 100% ✓
+  handoff: clean   ✓
+  ________________
+ / your redlines  \
+| are already done |
+ \________________/
+</pre>
+                        <p>I think in design systems and speak in tokens. Always up for a crit, a collab, or a healthy
+                            argument about when to use a sheet vs. a modal. DM me — I don't ghost.</p>
                     </div>
-                    <div class="tab-pane" role="tabpanel" id="panel-pm"        aria-labelledby="tab-pm"        data-tab="pm" hidden>
-                        <p>// I understand the art of balancing user needs with business goals. My process is collaborative, helping your vision turn into user delights. :-)</p>
+                    <div class="tab-pane" role="tabpanel" id="panel-pm" aria-labelledby="tab-pm" data-tab="pm" hidden>
+                        <pre class="ascii-art">
+  discovery → frame
+  frame → prototype
+  prototype → test
+  test → iterate
+  iterate → ship
+  ship → measure
+  ──────────────►
+  repeat until right
+</pre>
+                        <p>I read PRDs before the meeting, ask the uncomfortable "why" questions early, and deliver
+                            specs that engineers can actually build. I work closest to PMs who think in outcomes — let's
+                            make OKRs happen.</p>
                     </div>
-                    <div class="tab-pane" role="tabpanel" id="panel-engineer"  aria-labelledby="tab-engineer"  data-tab="engineer" hidden>
-                        <p>// I value your expertise in bringing designs to life. Let's work closely to ensure our ideas transform seamlessly into functional, sleek products. Let's build something remarkable together! :-)</p>
+                    <div class="tab-pane" role="tabpanel" id="panel-engineer" aria-labelledby="tab-engineer"
+                        data-tab="engineer" hidden>
+                        <pre class="ascii-art">
+  $ cat design_tokens.json
+  $ inspect component.fig
+  $ diff --no-surprise
+  $ ship --on-time
+  > no mystery values
+  > no edge case gaps
+  > handoff: complete
+</pre>
+                        <p>I write interaction specs, annotate edge cases, and know the difference between 8px and 9px
+                            at 1x. My Figma files have real component names, consistent spacing, and zero "I'll fix it
+                            later" layers. You're welcome.</p>
                     </div>
                 </div>
             </section>
 
             <section class="section">
-                <h4 class="command">cat about.txt</h4>
-                <p>// hello! I'm a product designer with 5+ years of experience crafting digital experiences that users love. my approach combines user-centered design principles with a deep understanding of business goals. :-)</p>
+                <h4 class="command">> ls skills/</h4>
+                <p style="font-size:0.75rem; opacity:0.55; margin-bottom:1rem;">// click any category to expand</p>
+
+                <div class="skill-accordion" id="skill-accordion">
+
+                    <!-- DESIGN CRAFT -->
+                    <div class="skill-group">
+                        <button class="skill-group-header" aria-expanded="false">
+                            <span class="skill-group-icon">[*]</span>
+                            <span class="skill-group-label">design craft</span>
+                            <span class="skill-group-arrow">[+]</span>
+                        </button>
+                        <div class="skill-group-body" hidden>
+                            <div class="skill-row"><span class="skill-name">Product Design</span><span
+                                    class="skill-bar">███████████░</span><span class="skill-level">Expert</span></div>
+                            <div class="skill-row"><span class="skill-name">Interaction Design</span><span
+                                    class="skill-bar">███████████░</span><span class="skill-level">Expert</span></div>
+                            <div class="skill-row"><span class="skill-name">Visual Design</span><span
+                                    class="skill-bar">██████████░░</span><span class="skill-level">Advanced</span></div>
+                            <div class="skill-row"><span class="skill-name">Design Systems</span><span
+                                    class="skill-bar">███████████░</span><span class="skill-level">Expert</span></div>
+                            <div class="skill-row"><span class="skill-name">Information Architecture</span><span
+                                    class="skill-bar">██████████░░</span><span class="skill-level">Advanced</span></div>
+                            <div class="skill-row"><span class="skill-name">Motion &amp; Micro-UX</span><span
+                                    class="skill-bar">████████░░░░</span><span class="skill-level">Proficient</span>
+                            </div>
+                            <div class="skill-row"><span class="skill-name">Accessibility (WCAG)</span><span
+                                    class="skill-bar">██████████░░</span><span class="skill-level">Champion</span></div>
+                            <div class="skill-row"><span class="skill-name">User Flows &amp; IA Maps</span><span
+                                    class="skill-bar">███████████░</span><span class="skill-level">Expert</span></div>
+                        </div>
+                    </div>
+
+                    <!-- TOOLS -->
+                    <div class="skill-group">
+                        <button class="skill-group-header" aria-expanded="false">
+                            <span class="skill-group-icon">[$]</span>
+                            <span class="skill-group-label">tools &amp; software</span>
+                            <span class="skill-group-arrow">[+]</span>
+                        </button>
+                        <div class="skill-group-body" hidden>
+                            <div class="skill-row"><span class="skill-name">Figma</span><span
+                                    class="skill-bar">████████████</span><span class="skill-level">Expert</span></div>
+                            <div class="skill-row"><span class="skill-name">Figma Make</span><span
+                                    class="skill-bar">█████████░░░</span><span class="skill-level">Advanced</span></div>
+                            <div class="skill-row"><span class="skill-name">FigJam</span><span
+                                    class="skill-bar">██████████░░</span><span class="skill-level">Advanced</span></div>
+                            <div class="skill-row"><span class="skill-name">Miro</span><span
+                                    class="skill-bar">█████████░░░</span><span class="skill-level">Advanced</span></div>
+                            <div class="skill-row"><span class="skill-name">Notion</span><span
+                                    class="skill-bar">██████████░░</span><span class="skill-level">Advanced</span></div>
+                            <div class="skill-row"><span class="skill-name">Dovetail</span><span
+                                    class="skill-bar">████████░░░░</span><span class="skill-level">Proficient</span>
+                            </div>
+                            <div class="skill-row"><span class="skill-name">Jira</span><span
+                                    class="skill-bar">█████████░░░</span><span class="skill-level">Advanced</span></div>
+                            <div class="skill-row"><span class="skill-name">GitHub</span><span
+                                    class="skill-bar">███████░░░░░</span><span class="skill-level">Proficient</span>
+                            </div>
+                            <div class="skill-row"><span class="skill-name">Storybook</span><span
+                                    class="skill-bar">███████░░░░░</span><span class="skill-level">Proficient</span>
+                            </div>
+                            <div class="skill-row"><span class="skill-name">Framer</span><span
+                                    class="skill-bar">████████░░░░</span><span class="skill-level">Proficient</span>
+                            </div>
+                            <div class="skill-row"><span class="skill-name">Adobe XD</span><span
+                                    class="skill-bar">█████████░░░</span><span class="skill-level">Advanced</span></div>
+                            <div class="skill-row"><span class="skill-name">Adobe Illustrator</span><span
+                                    class="skill-bar">█████████░░░</span><span class="skill-level">Advanced</span></div>
+                            <div class="skill-row"><span class="skill-name">Photoshop</span><span
+                                    class="skill-bar">████████░░░░</span><span class="skill-level">Proficient</span>
+                            </div>
+                            <div class="skill-row"><span class="skill-name">After Effects</span><span
+                                    class="skill-bar">███████░░░░░</span><span class="skill-level">Proficient</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- AI WORKFLOW -->
+                    <div class="skill-group">
+                        <button class="skill-group-header" aria-expanded="false">
+                            <span class="skill-group-icon">[~]</span>
+                            <span class="skill-group-label">ai-augmented workflow</span>
+                            <span class="skill-group-arrow">[+]</span>
+                        </button>
+                        <div class="skill-group-body" hidden>
+                            <div class="skill-row"><span class="skill-name">Claude (Anthropic)</span><span
+                                    class="skill-bar">████████████</span><span class="skill-level">Expert</span></div>
+                            <div class="skill-row"><span class="skill-name">Claude Code</span><span
+                                    class="skill-bar">██████████░░</span><span class="skill-level">Advanced</span></div>
+                            <div class="skill-row"><span class="skill-name">Claude Design</span><span
+                                    class="skill-bar">█████████░░░</span><span class="skill-level">Advanced</span></div>
+                            <div class="skill-row"><span class="skill-name">Gemini</span><span
+                                    class="skill-bar">██████████░░</span><span class="skill-level">Advanced</span></div>
+                            <div class="skill-row"><span class="skill-name">NotebookLM</span><span
+                                    class="skill-bar">█████████░░░</span><span class="skill-level">Advanced</span></div>
+                            <div class="skill-row"><span class="skill-name">Antigravity</span><span
+                                    class="skill-bar">██████████░░</span><span class="skill-level">Advanced</span></div>
+                            <div class="skill-row"><span class="skill-name">Midjourney / DALL-E</span><span
+                                    class="skill-bar">████████░░░░</span><span class="skill-level">Proficient</span>
+                            </div>
+                            <div class="skill-row"><span class="skill-name">v0 (UI generation)</span><span
+                                    class="skill-bar">████████░░░░</span><span class="skill-level">Proficient</span>
+                            </div>
+                            <div class="skill-row"><span class="skill-name">Perplexity (research)</span><span
+                                    class="skill-bar">█████████░░░</span><span class="skill-level">Advanced</span></div>
+                            <div class="skill-row"><span class="skill-name">Galileo AI</span><span
+                                    class="skill-bar">███████░░░░░</span><span class="skill-level">Proficient</span>
+                            </div>
+                            <div class="skill-row"><span class="skill-name">Runway (motion)</span><span
+                                    class="skill-bar">███████░░░░░</span><span class="skill-level">Proficient</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- RESEARCH -->
+                    <div class="skill-group">
+                        <button class="skill-group-header" aria-expanded="false">
+                            <span class="skill-group-icon">[?]</span>
+                            <span class="skill-group-label">research &amp; validation</span>
+                            <span class="skill-group-arrow">[+]</span>
+                        </button>
+                        <div class="skill-group-body" hidden>
+                            <div class="skill-row"><span class="skill-name">User Interviews</span><span
+                                    class="skill-bar">███████████░</span><span class="skill-level">Expert</span></div>
+                            <div class="skill-row"><span class="skill-name">Usability Testing</span><span
+                                    class="skill-bar">███████████░</span><span class="skill-level">Expert</span></div>
+                            <div class="skill-row"><span class="skill-name">Journey Mapping</span><span
+                                    class="skill-bar">██████████░░</span><span class="skill-level">Advanced</span></div>
+                            <div class="skill-row"><span class="skill-name">Heuristic Analysis</span><span
+                                    class="skill-bar">██████████░░</span><span class="skill-level">Advanced</span></div>
+                            <div class="skill-row"><span class="skill-name">Card Sorting</span><span
+                                    class="skill-bar">█████████░░░</span><span class="skill-level">Advanced</span></div>
+                            <div class="skill-row"><span class="skill-name">Tree Testing</span><span
+                                    class="skill-bar">████████░░░░</span><span class="skill-level">Proficient</span>
+                            </div>
+                            <div class="skill-row"><span class="skill-name">A/B Testing</span><span
+                                    class="skill-bar">████████░░░░</span><span class="skill-level">Proficient</span>
+                            </div>
+                            <div class="skill-row"><span class="skill-name">Competitive Analysis</span><span
+                                    class="skill-bar">██████████░░</span><span class="skill-level">Advanced</span></div>
+                            <div class="skill-row"><span class="skill-name">Affinity Mapping</span><span
+                                    class="skill-bar">██████████░░</span><span class="skill-level">Advanced</span></div>
+                            <div class="skill-row"><span class="skill-name">Survey Design</span><span
+                                    class="skill-bar">█████████░░░</span><span class="skill-level">Advanced</span></div>
+                            <div class="skill-row"><span class="skill-name">Contextual Inquiry</span><span
+                                    class="skill-bar">████████░░░░</span><span class="skill-level">Proficient</span>
+                            </div>
+                            <div class="skill-row"><span class="skill-name">Diary Studies</span><span
+                                    class="skill-bar">███████░░░░░</span><span class="skill-level">Proficient</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PROCESS & METHODOLOGY -->
+                    <div class="skill-group">
+                        <button class="skill-group-header" aria-expanded="false">
+                            <span class="skill-group-icon">[#]</span>
+                            <span class="skill-group-label">process &amp; methodology</span>
+                            <span class="skill-group-arrow">[+]</span>
+                        </button>
+                        <div class="skill-group-body" hidden>
+                            <div class="skill-row"><span class="skill-name">Design Thinking</span><span
+                                    class="skill-bar">████████████</span><span class="skill-level">Expert</span></div>
+                            <div class="skill-row"><span class="skill-name">Lean UX</span><span
+                                    class="skill-bar">███████████░</span><span class="skill-level">Expert</span></div>
+                            <div class="skill-row"><span class="skill-name">Agile / Scrum</span><span
+                                    class="skill-bar">██████████░░</span><span class="skill-level">Advanced</span></div>
+                            <div class="skill-row"><span class="skill-name">Design Sprints</span><span
+                                    class="skill-bar">██████████░░</span><span class="skill-level">Advanced</span></div>
+                            <div class="skill-row"><span class="skill-name">Shape Up</span><span
+                                    class="skill-bar">████████░░░░</span><span class="skill-level">Proficient</span>
+                            </div>
+                            <div class="skill-row"><span class="skill-name">Jobs-to-be-Done</span><span
+                                    class="skill-bar">██████████░░</span><span class="skill-level">Advanced</span></div>
+                            <div class="skill-row"><span class="skill-name">Atomic Design</span><span
+                                    class="skill-bar">███████████░</span><span class="skill-level">Expert</span></div>
+                            <div class="skill-row"><span class="skill-name">Double Diamond</span><span
+                                    class="skill-bar">██████████░░</span><span class="skill-level">Advanced</span></div>
+                            <div class="skill-row"><span class="skill-name">OKR Alignment</span><span
+                                    class="skill-bar">█████████░░░</span><span class="skill-level">Advanced</span></div>
+                        </div>
+                    </div>
+
+                    <!-- LEADERSHIP -->
+                    <div class="skill-group">
+                        <button class="skill-group-header" aria-expanded="false">
+                            <span class="skill-group-icon">[^]</span>
+                            <span class="skill-group-label">leadership &amp; collaboration</span>
+                            <span class="skill-group-arrow">[+]</span>
+                        </button>
+                        <div class="skill-group-body" hidden>
+                            <div class="skill-row"><span class="skill-name">Cross-functional Leadership</span><span
+                                    class="skill-bar">███████████░</span><span class="skill-level">Expert</span></div>
+                            <div class="skill-row"><span class="skill-name">Design Critique Facilitation</span><span
+                                    class="skill-bar">██████████░░</span><span class="skill-level">Advanced</span></div>
+                            <div class="skill-row"><span class="skill-name">Stakeholder Management</span><span
+                                    class="skill-bar">██████████░░</span><span class="skill-level">Advanced</span></div>
+                            <div class="skill-row"><span class="skill-name">Design Advocacy</span><span
+                                    class="skill-bar">███████████░</span><span class="skill-level">Expert</span></div>
+                            <div class="skill-row"><span class="skill-name">Accessibility Champion</span><span
+                                    class="skill-bar">███████████░</span><span class="skill-level">Expert</span></div>
+                            <div class="skill-row"><span class="skill-name">Dev Handoff &amp; Specs</span><span
+                                    class="skill-bar">███████████░</span><span class="skill-level">Expert</span></div>
+                            <div class="skill-row"><span class="skill-name">Design QA</span><span
+                                    class="skill-bar">██████████░░</span><span class="skill-level">Advanced</span></div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+
+            <section class="section">
+                <h4 class="command">> cat principles.txt</h4>
+                <div style="display:grid; gap: 1.2rem; margin-top: 0.5rem;">
+                    <div>
+                        <h2 class="terminal-value">usable</h2>
+                        <p>If it needs an explanation, it needs a redesign. Clarity is not a feature — it's the
+                            baseline.</p>
+                    </div>
+                    <div>
+                        <h2 class="terminal-value">intentional</h2>
+                        <p>Every pixel earns its place. Decoration that doesn't communicate is just debt with a drop
+                            shadow.</p>
+                    </div>
+                    <div>
+                        <h2 class="terminal-value">evidence-based</h2>
+                        <p>Strong opinions, loosely held, heavily tested. Intuition gets you to a hypothesis. Research
+                            makes it a decision.</p>
+                    </div>
+                    <div>
+                        <h2 class="terminal-value">shipped</h2>
+                        <p>Perfect is the enemy of in-production. I build to learn, iterate fast, and measure everything
+                            that matters.</p>
+                    </div>
+                </div>
             </section>
 
             <section class="section">
-                <h4 class="command">cat values.txt</h4>
-                <h2 class="terminal-value">usable</h2>
-                <h2 class="terminal-value">helpful</h2>
-                <h2 class="terminal-value">appealing</h2>
-                <h2 class="terminal-value">timeless</h2>
-                <p>These are my core values, and it helped me create what I create. Creating a usable experience, that is helpful for the users, and at the same time appealing and timeless to use is what I love and it drives me to go further. :-)</p>
-                <p>As a self-taught designer, I've cultivated a passion for continuous learning, drawing inspiration from the world around me and the people I collaborate with. Throughout my career, I've had the opportunity to work in various settings, from freelancing to contributing to startups and established companies, which has allowed me to refine my skills and develop a unique design aesthetic. My innate curiosity and drive to solve complex problems, combined with my adaptability in the face of rapidly evolving technologies and team dynamics, enable me to deliver high-impact solutions under tight deadlines. I thrive in environments where creativity, innovation, and collaboration come together to drive meaningful results. :-)</p>
-            </section>
-
-            <section class="section">
-                <h4 class="command">ls works/</h4>
+                <h4 class="command">> ls works/</h4>
                 <div class="project-grid">
-                    <div class="project-link">
-                        <a href="#" aria-describedby="desc-wse">// senior product designer @ Wall Street English</a>
-                        <div class="popover" id="desc-wse" role="tooltip">
-                            <img src="https://placehold.co/400x300" alt="Wall Street English product preview">
-                            <p>// reimagined the product experience to boost engagement and revenue with intuitive design solutions. :-)</p>
+
+                    <div class="work-card" role="button" tabindex="0"
+                        data-title="Senior Product Designer @ Wall Street English" data-period="2021 – Present"
+                        data-role="// Led end-to-end product design for a global English-learning platform operating across 15+ countries."
+                        data-impact-user="// Redesigned the core learning flow, reducing course completion friction by 38%. User satisfaction scores (CSAT) climbed from 62% to 81% within two quarters — students reported feeling less overwhelmed and more motivated to continue."
+                        data-impact-biz="// The redesigned onboarding and lesson modules contributed to a 22% increase in premium subscription conversions. Retention improved by 17% YoY, translating to significant ARR growth and lower churn in target markets across Asia and Europe."
+                        data-stack="Figma · Maze · Hotjar · Jira · Confluence">
+                        <div class="work-card-header">
+                            <span class="work-card-prefix">DIR</span>
+                            <span class="work-card-title">// senior product designer @ Wall Street English</span>
                         </div>
+                        <p class="work-card-desc">// End-to-end product design for a global EdTech platform. Reduced
+                            friction, lifted CSAT 19pts, grew conversions 22%.</p>
+                        <span class="work-card-cta">[ VIEW DETAILS → ]</span>
                     </div>
-                    <div class="project-link">
-                        <a href="#" aria-describedby="desc-is">// ui/ux designer @ InstaSafe</a>
-                        <div class="popover" id="desc-is" role="tooltip">
-                            <img src="https://placehold.co/400x300" alt="InstaSafe interface preview">
-                            <p>// optimized the interface design, leading to enhanced usability and increased user adoption and satisfaction. :-)</p>
+
+                    <div class="work-card" role="button" tabindex="0" data-title="UI/UX Designer @ InstaSafe"
+                        data-period="2019 – 2021"
+                        data-role="// Owned the full design lifecycle for a zero-trust network access (ZTNA) SaaS product targeting enterprise clients."
+                        data-impact-user="// Simplified a complex, IT-heavy admin console into an intuitive dashboard. Support tickets related to UI confusion dropped by 45%. Onboarding time for new enterprise admins reduced from 3 days to under 4 hours."
+                        data-impact-biz="// Design improvements directly supported the sales cycle — the cleaner interface became a key differentiator in demos, contributing to a 31% increase in enterprise deal close rates. The product earned a G2 rating jump from 3.8 to 4.5 stars."
+                        data-stack="Figma · Adobe XD · Zeplin · Mixpanel">
+                        <div class="work-card-header">
+                            <span class="work-card-prefix">DIR</span>
+                            <span class="work-card-title">// ui/ux designer @ InstaSafe</span>
                         </div>
+                        <p class="work-card-desc">// Enterprise ZTNA SaaS — simplified admin complexity, cut support
+                            tickets 45%, boosted G2 from 3.8 → 4.5★.</p>
+                        <span class="work-card-cta">[ VIEW DETAILS → ]</span>
                     </div>
-                    <div class="project-link">
-                        <a href="#" aria-describedby="desc-fl">// creative visual designer @ freelancing :)</a>
-                        <div class="popover" id="desc-fl" role="tooltip">
-                            <img src="https://placehold.co/400x300" alt="Freelancing work preview">
-                            <p>// crafted engaging visual narratives and branding that elevated client success and market impact. :-)</p>
+
+                    <div class="work-card" role="button" tabindex="0" data-title="Creative Visual Designer @ Freelance"
+                        data-period="2017 – 2019"
+                        data-role="// Delivered brand identities, marketing collateral, and digital UI for 20+ clients across fintech, e-commerce, and lifestyle sectors."
+                        data-impact-user="// Crafted brand systems that users and customers genuinely connected with — multiple clients reported increased brand recall and social engagement rates averaging +55% after a visual refresh."
+                        data-impact-biz="// Helped a fintech startup close their seed round by designing an investor deck and product prototype that clearly communicated their value proposition. Three clients returned for repeat engagements within 6 months of first delivery."
+                        data-stack="Figma · Illustrator · Photoshop · After Effects">
+                        <div class="work-card-header">
+                            <span class="work-card-prefix">DIR</span>
+                            <span class="work-card-title">// creative visual designer @ freelancing</span>
                         </div>
+                        <p class="work-card-desc">// Brand systems, visual design and UI for 20+ clients. Helped one
+                            land a seed round. Three came back for more.</p>
+                        <span class="work-card-cta">[ VIEW DETAILS → ]</span>
                     </div>
+
                 </div>
             </section>
 
+            <!-- Work Detail Modal -->
+            <div id="work-modal" class="work-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"
+                hidden>
+                <div class="work-modal-inner">
+                    <div class="work-modal-topbar">
+                        <span class="work-modal-blink">█</span>
+                        <span id="modal-title" class="work-modal-title"></span>
+                        <button class="work-modal-close" id="work-modal-close" aria-label="Close">[ × CLOSE ]</button>
+                    </div>
+                    <div class="work-modal-body">
+                        <p class="work-modal-period" id="modal-period"></p>
+                        <h3 class="work-modal-section-label">&gt; cat role.txt</h3>
+                        <p id="modal-role"></p>
+                        <h3 class="work-modal-section-label">&gt; cat impact_user.txt</h3>
+                        <p id="modal-impact-user"></p>
+                        <h3 class="work-modal-section-label">&gt; cat impact_business.txt</h3>
+                        <p id="modal-impact-biz"></p>
+                        <h3 class="work-modal-section-label">&gt; cat stack.txt</h3>
+                        <p id="modal-stack" class="work-modal-stack"></p>
+                    </div>
+                </div>
+            </div>
+
             <section class="section">
-                <h4 class="command">cat contact.txt</h4>
-                <p>// email: <a href="mailto:sundhar.pvt1@gmail.com">sundhar.pvt1@gmail.com</a> :-)</p>
-                <p>// linkedin: <a href="https://linkedin.com/in/sundharm" target="_blank" rel="noopener noreferrer">linkedin.com/in/sundharm</a> :-)</p>
-                <p>// behance: <a href="https://www.behance.net/sundhardesigns" target="_blank" rel="noopener noreferrer">behance.net/sundhardesigns</a> :-)</p>
+                <h4 class="command">> cat contact.txt</h4>
+                <p>Available for senior IC roles, contract engagements, and the occasional well-structured side project.
+                </p>
+                <br>
+                <p>// email &nbsp;&nbsp;&nbsp;→ <a href="mailto:sundhar.pvt1@gmail.com">sundhar.pvt1@gmail.com</a></p>
+                <p>// linkedin → <a href="https://linkedin.com/in/sundharm" target="_blank"
+                        rel="noopener noreferrer">linkedin.com/in/sundharm</a></p>
+                <p>// behance &nbsp;→ <a href="https://www.behance.net/sundhardesigns" target="_blank"
+                        rel="noopener noreferrer">behance.net/sundhardesigns</a></p>
             </section>
+
 
         </main>
     </div>
@@ -106,33 +471,74 @@
     <!-- Theme transition overlay -->
     <div class="theme-overlay" aria-hidden="true"></div>
 
-    <div class="accent-switcher" role="group" aria-label="Accent color selector">
-        <button class="accent-btn active" data-color="mono"   aria-label="Monochrome accent" aria-pressed="true"></button>
-        <button class="accent-btn"        data-color="yellow" aria-label="Yellow accent"      aria-pressed="false"></button>
-        <button class="accent-btn"        data-color="green"  aria-label="Green accent"       aria-pressed="false"></button>
-        <button class="accent-btn"        data-color="red"    aria-label="Red accent"         aria-pressed="false"></button>
-        <button class="accent-btn"        data-color="cyan"   aria-label="Cyan accent"        aria-pressed="false"></button>
-        <button class="accent-btn"        data-color="blue"   aria-label="Blue accent"        aria-pressed="false"></button>
-    </div>
-
-    <div class="effects-panel">
-        <button id="crt-toggle" class="effect-btn active">[ CRT: ON ]</button>
-        <button id="interlace-toggle" class="effect-btn active">[ TEXT FX: ON ]</button>
-        <button id="screensaver-toggle" class="effect-btn">[ SCREENSAVER ]</button>
-        <button id="refinement-toggle" class="effect-btn">[ REFINEMENT ]</button>
-    </div>
+    <!-- Mobile Options Toggle Button (visible only on mobile) -->
+    <button id="options-toggle" class="effect-btn options-toggle-btn" aria-label="Open options menu">[ OPTIONS
+        ]</button>
 
     <!-- Screensaver Container -->
     <div id="screensaver" class="hidden">
         <div id="screensaver-logo"></div>
     </div>
 
-    <button class="theme-toggle" id="theme-toggle" aria-label="Switch to light mode" aria-pressed="false">
-        Toggle Theme
-        <span class="material-symbols-rounded" aria-hidden="true">light_mode</span>
-    </button>
+    <!-- Options Menu Overlay (desktop: normal fixed panels; mobile: full overlay) -->
+    <div id="options-menu" class="options-menu" aria-hidden="true">
+        <!-- Close button only visible inside the mobile overlay -->
+        <button id="options-close" class="effect-btn options-close-btn">[ × CLOSE ]</button>
+
+        <div class="accent-switcher" role="group" aria-label="Accent color selector">
+            <button class="accent-btn active" data-color="mono" aria-label="Monochrome accent"
+                aria-pressed="true"></button>
+            <button class="accent-btn" data-color="yellow" aria-label="Yellow accent" aria-pressed="false"></button>
+            <button class="accent-btn" data-color="green" aria-label="Green accent" aria-pressed="false"></button>
+            <button class="accent-btn" data-color="red" aria-label="Red accent" aria-pressed="false"></button>
+            <button class="accent-btn" data-color="cyan" aria-label="Cyan accent" aria-pressed="false"></button>
+            <button class="accent-btn" data-color="blue" aria-label="Blue accent" aria-pressed="false"></button>
+        </div>
+
+        <div class="effects-panel">
+            <button id="crt-toggle" class="effect-btn active">[ CRT: ON ]</button>
+            <button id="interlace-toggle" class="effect-btn active">[ TEXT FX: ON ]</button>
+            <button id="screensaver-toggle" class="effect-btn">[ SCREENSAVER ]</button>
+            <button id="refinement-toggle" class="effect-btn">[ REFINEMENT ]</button>
+
+            <!-- Custom Music Widget -->
+            <div class="music-widget">
+                <pre id="radio-ascii-container" class="radio-ascii"></pre>
+                <div id="sc-title" class="sc-title">Loading Track...</div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 0.5rem;">
+                    <button id="sc-prev" class="effect-btn" style="font-size: 0.8rem;">[ |&lt; ]</button>
+                    <button id="sc-play" class="effect-btn" style="font-size: 0.8rem;">[ PLAY ]</button>
+                    <button id="sc-next" class="effect-btn" style="font-size: 0.8rem;">[ &gt;| ]</button>
+                </div>
+                <div id="sc-seek-bar"
+                    style="height: 4px; background: var(--bg-primary); border: 1px solid var(--accent); cursor: pointer; position: relative;">
+                    <div id="sc-seek-fill"
+                        style="width: 0%; height: 100%; background: var(--accent); pointer-events: none; transition: width 0.1s linear;">
+                    </div>
+                </div>
+                <div class="vol-row">
+                    <span class="vol-label">VOL</span>
+                    <input type="range" id="sc-volume" class="vol-slider" min="0" max="100" value="50"
+                        aria-label="Volume">
+                    <span class="vol-value" id="sc-vol-display">50</span>
+                </div>
+            </div>
+            <iframe id="sc-iframe"
+                style="opacity: 0.01; position: absolute; width: 1px; height: 1px; pointer-events: none;"
+                allow="autoplay"
+                src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/sundhar88/sets/portfolio&color=%23000000&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false"></iframe>
+        </div>
+
+        <button class="theme-toggle" id="theme-toggle" aria-label="Switch to light mode" aria-pressed="false">
+            Toggle Theme
+            <span class="material-symbols-rounded" aria-hidden="true">light_mode</span>
+        </button>
+    </div>
 
     <script src="scripts.js"></script>
+    <script src="radio-ascii.js"></script>
     <script src="mdr.js"></script>
+    <script src="welcome-ascii.js"></script>
 </body>
+
 </html>

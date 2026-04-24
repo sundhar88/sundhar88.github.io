@@ -242,11 +242,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         screensaver.classList.add('active');
         
-        // Initial random position
-        const maxW = window.innerWidth - screensaverLogo.offsetWidth;
-        const maxH = window.innerHeight - screensaverLogo.offsetHeight;
-        ssX = Math.random() * Math.max(0, maxW);
-        ssY = Math.random() * Math.max(0, maxH);
+        // Use layout dimensions — offsetWidth/Height are unaffected by CSS transform
+        const logoW = screensaverLogo.offsetWidth;
+        const logoH = screensaverLogo.offsetHeight;
+        const vW = window.innerWidth;
+        const vH = window.innerHeight;
+
+        // Initial random position within bounds
+        ssX = Math.random() * Math.max(0, vW - logoW);
+        ssY = Math.random() * Math.max(0, vH - logoH);
         
         // Randomize initial direction
         ssDX = (Math.random() > 0.5 ? 1 : -1) * 2.5;
@@ -255,18 +259,31 @@ document.addEventListener('DOMContentLoaded', () => {
         function animate() {
             if (!screensaver.classList.contains('active')) return;
             
-            const rect = screensaverLogo.getBoundingClientRect();
-            
+            // Re-read viewport on each frame to handle resize
+            const vw = window.innerWidth;
+            const vh = window.innerHeight;
+            const lw = screensaverLogo.offsetWidth;
+            const lh = screensaverLogo.offsetHeight;
+
             ssX += ssDX;
             ssY += ssDY;
             
-            if (ssX <= 0 || ssX + rect.width >= window.innerWidth) {
-                ssDX *= -1;
-                ssX = ssX <= 0 ? 0 : window.innerWidth - rect.width;
+            // Clamp and bounce on X axis
+            if (ssX <= 0) {
+                ssX = 0;
+                ssDX = Math.abs(ssDX);
+            } else if (ssX + lw >= vw) {
+                ssX = vw - lw;
+                ssDX = -Math.abs(ssDX);
             }
-            if (ssY <= 0 || ssY + rect.height >= window.innerHeight) {
-                ssDY *= -1;
-                ssY = ssY <= 0 ? 0 : window.innerHeight - rect.height;
+
+            // Clamp and bounce on Y axis
+            if (ssY <= 0) {
+                ssY = 0;
+                ssDY = Math.abs(ssDY);
+            } else if (ssY + lh >= vh) {
+                ssY = vh - lh;
+                ssDY = -Math.abs(ssDY);
             }
             
             screensaverLogo.style.transform = `translate(${ssX}px, ${ssY}px)`;
@@ -296,8 +313,154 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     /* ============================================================
+       Music Widget Logic
+       ============================================================ */
+    const scIframe = document.getElementById('sc-iframe');
+    const scPlayBtn = document.getElementById('sc-play');
+    const scPrevBtn = document.getElementById('sc-prev');
+    const scNextBtn = document.getElementById('sc-next');
+    const scSeekBar = document.getElementById('sc-seek-bar');
+    const scSeekFill = document.getElementById('sc-seek-fill');
+    const scTitle = document.getElementById('sc-title');
+
+    if (scIframe && window.SC) {
+        const widget = SC.Widget(scIframe);
+        let trackDuration = 1;
+        let isSeeking = false;
+
+        widget.bind(SC.Widget.Events.READY, () => {
+            const savedVol = Number(sessionStorage.getItem('scVolume') ?? 50) || 50;
+            widget.setVolume(savedVol);
+
+            const volSlider  = document.getElementById('sc-volume');
+            const volDisplay = document.getElementById('sc-vol-display');
+
+            function applyVolume(val) {
+                const v = Number(val);
+                widget.setVolume(v);
+                sessionStorage.setItem('scVolume', v);
+                if (volDisplay) volDisplay.textContent = v;
+            }
+
+            if (volSlider) {
+                volSlider.value = savedVol;
+                if (volDisplay) volDisplay.textContent = savedVol;
+
+                volSlider.addEventListener('input', (e) => applyVolume(e.target.value));
+                volSlider.addEventListener('change', (e) => applyVolume(e.target.value));
+            }
+
+            function updateTitle() {
+                widget.getCurrentSound((sound) => {
+                    if (scTitle && sound) {
+                        const title = sound.title || 'Unknown Track';
+                        scTitle.innerHTML = `<span>${title}</span>`;
+                        const span = scTitle.querySelector('span');
+                        if (span.offsetWidth > scTitle.offsetWidth) {
+                            span.innerHTML = `${title} &nbsp;&nbsp;&nbsp; ${title} &nbsp;&nbsp;&nbsp;`;
+                            scTitle.classList.add('marquee');
+                        } else {
+                            scTitle.classList.remove('marquee');
+                        }
+                    }
+                });
+            }
+
+            widget.getDuration((duration) => {
+                trackDuration = duration;
+            });
+            
+            updateTitle();
+
+            const savedPos = sessionStorage.getItem('sc_position');
+            const wasPlaying = sessionStorage.getItem('sc_playing') === 'true';
+            
+            if (savedPos) {
+                widget.seekTo(parseInt(savedPos, 10));
+            }
+            if (wasPlaying) {
+                widget.play();
+            }
+
+            // Events inside READY to share scope
+            widget.bind(SC.Widget.Events.PLAY, () => {
+                if(scPlayBtn) scPlayBtn.textContent = '[ PAUSE ]';
+                sessionStorage.setItem('sc_playing', 'true');
+                updateTitle(); 
+            });
+
+            widget.bind(SC.Widget.Events.PAUSE, () => {
+                if(scPlayBtn) scPlayBtn.textContent = '[ PLAY ]';
+                sessionStorage.setItem('sc_playing', 'false');
+            });
+
+            widget.bind(SC.Widget.Events.PLAY_PROGRESS, (e) => {
+                if (!isSeeking) {
+                    sessionStorage.setItem('sc_position', e.currentPosition);
+                    if(scSeekFill) {
+                        const percent = (e.currentPosition / trackDuration) * 100;
+                        scSeekFill.style.width = `${percent}%`;
+                    }
+                }
+            });
+
+            scPlayBtn?.addEventListener('click', () => widget.toggle());
+            scPrevBtn?.addEventListener('click', () => widget.prev());
+            scNextBtn?.addEventListener('click', () => widget.next());
+
+            scSeekBar?.addEventListener('click', (e) => {
+                isSeeking = true;
+                const rect = scSeekBar.getBoundingClientRect();
+                const clickX = e.clientX - rect.left;
+                const percent = clickX / rect.width;
+                const targetPos = percent * trackDuration;
+                if(scSeekFill) scSeekFill.style.width = `${percent * 100}%`;
+                sessionStorage.setItem('sc_position', targetPos);
+                widget.seekTo(targetPos);
+                setTimeout(() => { isSeeking = false; }, 200);
+            });
+        });
+    }
+
+    /* ============================================================
+       Skill Accordion
+       ============================================================ */
+    document.querySelectorAll('.skill-group-header').forEach(header => {
+        header.addEventListener('click', () => {
+            const group  = header.closest('.skill-group');
+            const body   = group.querySelector('.skill-group-body');
+            const arrow  = header.querySelector('.skill-group-arrow');
+            const isOpen = group.hasAttribute('data-open');
+
+            // Close all other open groups (single-open accordion)
+            document.querySelectorAll('.skill-group[data-open]').forEach(openGroup => {
+                if (openGroup !== group) {
+                    openGroup.removeAttribute('data-open');
+                    openGroup.querySelector('.skill-group-body').hidden = true;
+                    openGroup.querySelector('.skill-group-header').setAttribute('aria-expanded', 'false');
+                    const a = openGroup.querySelector('.skill-group-arrow');
+                    if (a) a.textContent = '[+]';
+                }
+            });
+
+            if (isOpen) {
+                group.removeAttribute('data-open');
+                body.hidden = true;
+                header.setAttribute('aria-expanded', 'false');
+                if (arrow) arrow.textContent = '[+]';
+            } else {
+                group.setAttribute('data-open', '');
+                body.hidden = false;
+                header.setAttribute('aria-expanded', 'true');
+                if (arrow) arrow.textContent = '[-]';
+            }
+        });
+    });
+
+    /* ============================================================
        Dynamic overflow guard
        ============================================================ */
+
     function checkOverflow() {
         document.body.style.overflowY =
             document.documentElement.scrollHeight > window.innerHeight ? 'auto' : 'hidden';
@@ -305,5 +468,90 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.addEventListener('load',   checkOverflow);
     window.addEventListener('resize', checkOverflow);
+
+
+
+    /* ============================================================
+       Mobile Options Menu Toggle
+       ============================================================ */
+    const optionsToggleBtn = document.getElementById('options-toggle');
+    const optionsCloseBtn  = document.getElementById('options-close');
+    const optionsMenu      = document.getElementById('options-menu');
+
+    function openOptionsMenu() {
+        if (!optionsMenu) return;
+        optionsMenu.classList.add('open');
+        optionsMenu.removeAttribute('aria-hidden');
+        // Hide the toggle button while menu is open so it doesn't overlap the close button
+        if (optionsToggleBtn) optionsToggleBtn.style.display = 'none';
+    }
+
+    function closeOptionsMenu() {
+        if (!optionsMenu) return;
+        optionsMenu.classList.remove('open');
+        optionsMenu.setAttribute('aria-hidden', 'true');
+        // Restore toggle button visibility
+        if (optionsToggleBtn) optionsToggleBtn.style.display = '';
+    }
+
+    optionsToggleBtn?.addEventListener('click', openOptionsMenu);
+    optionsCloseBtn?.addEventListener('click', closeOptionsMenu);
+
+    // Close when clicking directly on the overlay backdrop (not its children)
+    optionsMenu?.addEventListener('click', (e) => {
+        if (e.target === optionsMenu) closeOptionsMenu();
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeOptionsMenu();
+    });
+
+
+    /* ============================================================
+       Work Card → Modal
+       ============================================================ */
+    const workModal       = document.getElementById('work-modal');
+    const workModalClose  = document.getElementById('work-modal-close');
+
+    function openWorkModal(card) {
+        if (!workModal) return;
+        document.getElementById('modal-title').textContent       = card.dataset.title       || '';
+        document.getElementById('modal-period').textContent      = card.dataset.period      || '';
+        document.getElementById('modal-role').textContent        = card.dataset.role        || '';
+        document.getElementById('modal-impact-user').textContent = card.dataset.impactUser  || '';
+        document.getElementById('modal-impact-biz').textContent  = card.dataset.impactBiz   || '';
+        document.getElementById('modal-stack').textContent       = card.dataset.stack       || '';
+        workModal.removeAttribute('hidden');
+        workModalClose?.focus();
+    }
+
+    function closeWorkModal() {
+        workModal?.setAttribute('hidden', '');
+    }
+
+    document.querySelectorAll('.work-card').forEach(card => {
+        card.addEventListener('click', () => openWorkModal(card));
+        card.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                openWorkModal(card);
+            }
+        });
+    });
+
+    workModalClose?.addEventListener('click', closeWorkModal);
+
+    // Close modal on backdrop click
+    workModal?.addEventListener('click', (e) => {
+        if (e.target === workModal) closeWorkModal();
+    });
+
+    // Close modal on Escape
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && workModal && !workModal.hasAttribute('hidden')) {
+            closeWorkModal();
+        }
+    });
 
 });

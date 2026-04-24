@@ -1,27 +1,30 @@
 /* ================================================================
-   PORTFOLIO — styles.css
+   PORTFOLIO â€” styles.css
    Lumon Terminal Pro Aesthetic
    ================================================================ */
 
 :root {
-    --accent:            #00ff41; /* Terminal Green */
-    --bg-primary:        #000000;
-    --bg-secondary:      #0a1a0a;
-    --bg-secondary-rgb:  10, 26, 10;
-    
-    --c-mono:   #FFFFFF;
+    --accent: #00ff41;
+    /* Terminal Green */
+    --bg-primary: #000000;
+    --bg-primary-rgb: 0, 0, 0;
+    --bg-secondary: #0a1a0a;
+    --bg-secondary-rgb: 10, 26, 10;
+
+    --c-mono: #FFFFFF;
     --c-yellow: #FFB000;
-    --c-green:  #00FF41;
-    --c-red:    #FF4D4D;
-    --c-cyan:   #00FFFF;
-    --c-blue:   #6699FF;
+    --c-green: #00FF41;
+    --c-red: #FF4D4D;
+    --c-cyan: #00FFFF;
+    --c-blue: #6699FF;
 
     --font-mono: 'Space Mono', monospace;
+    --font-display: 'Array', 'Space Mono', monospace;
 
-    --speed-fast:   0ms;
-    --speed-base:   0ms;
-    --speed-slow:   0ms;
-    --ease-theme:   linear;
+    --speed-fast: 0ms;
+    --speed-base: 0ms;
+    --speed-slow: 0ms;
+    --ease-theme: linear;
 
     --space-xs: 0.5rem;
     --space-sm: 1rem;
@@ -34,23 +37,26 @@
 }
 
 :root[data-theme="light"] {
-    --accent:           #000000;
-    --bg-primary:       #e0e0e0;
-    --bg-secondary:     #cccccc;
+    --accent: #000000;
+    --bg-primary: #e0e0e0;
+    --bg-primary-rgb: 224, 224, 224;
+    --bg-secondary: #cccccc;
     --bg-secondary-rgb: 204, 204, 204;
 
-    --c-mono:   #000000;
+    --c-mono: #000000;
     --c-yellow: #8C6600;
-    --c-green:  #00661A;
-    --c-red:    #B30000;
-    --c-cyan:   #006666;
-    --c-blue:   #0033CC;
+    --c-green: #00661A;
+    --c-red: #B30000;
+    --c-cyan: #006666;
+    --c-blue: #0033CC;
 }
 
 /* ----------------------------------------------------------------
    Reset & Base
    ---------------------------------------------------------------- */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -58,7 +64,8 @@
 
 html {
     font-size: 16px;
-    scroll-behavior: auto; /* Remove smooth scroll for retro feel */
+    scroll-behavior: auto;
+    /* Remove smooth scroll for retro feel */
 }
 
 body {
@@ -71,9 +78,21 @@ body {
 }
 
 body.crt-enabled {
-    /* Add a subtle radial gradient to the body background to simulate the screen tube, making scanlines visible in dark mode */
     background-image: radial-gradient(circle at center, rgba(25, 65, 100, 0.2) 0%, transparent 100%);
     background-attachment: fixed;
+}
+
+/* When CRT is on, make the container glass-like so the scan effect shows through */
+body.crt-enabled .container {
+    background-color: transparent;
+}
+
+body.crt-enabled .section {
+    background-color: rgba(var(--bg-primary-rgb), 0.35);
+}
+
+body.crt-enabled .tab-content {
+    background-color: transparent;
 }
 
 body.crt-enabled::before {
@@ -106,9 +125,17 @@ body.crt-enabled::after {
 }
 
 @keyframes flicker {
-  0% { opacity: 0.02739; }
-  50% { opacity: 0.00992; }
-  100% { opacity: 0.02739; }
+    0% {
+        opacity: 0.02739;
+    }
+
+    50% {
+        opacity: 0.00992;
+    }
+
+    100% {
+        opacity: 0.02739;
+    }
 }
 
 body.text-interlace-enabled {
@@ -118,20 +145,28 @@ body.text-interlace-enabled {
 
 body.text-interlace-enabled * {
     text-shadow: 1px 0px 1px rgba(255, 0, 0, 0.8),
-                -1px 0px 1px rgba(0, 255, 255, 0.8),
-                 0px 0px 8px var(--accent);
+        -1px 0px 1px rgba(0, 255, 255, 0.8),
+        0px 0px 8px var(--accent);
 }
 
-a, button, [role="tab"] {
+a,
+button,
+[role="tab"] {
     cursor: pointer;
 }
 
-textarea, input { cursor: text; }
+textarea,
+input {
+    cursor: text;
+}
 
 /* ----------------------------------------------------------------
    Typography
    ---------------------------------------------------------------- */
-h1, h2, h4 {
+h1,
+h2,
+h4 {
+    font-family: var(--font-display);
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -158,14 +193,16 @@ a {
     text-decoration-thickness: 2px;
     text-underline-offset: 4px;
 }
+
 a:hover {
     background-color: var(--accent);
     color: var(--bg-primary);
 }
 
 .material-symbols-rounded {
-    font-family: var(--font-mono); /* override material icons for now or hide */
-    display: none; 
+    font-family: var(--font-mono);
+    /* override material icons for now or hide */
+    display: none;
 }
 
 /* ----------------------------------------------------------------
@@ -174,10 +211,8 @@ a:hover {
 .container {
     max-width: 1000px;
     margin: 0 auto;
-    border: var(--border-style);
     padding: var(--space-lg);
     background-color: var(--bg-primary);
-    box-shadow: 0 0 20px rgba(0, 255, 65, 0.1);
 }
 
 .terminal-body {
@@ -195,7 +230,7 @@ a:hover {
 }
 
 .section::before {
-    content: "■";
+    content: "~$";
     position: absolute;
     top: -12px;
     left: -2px;
@@ -205,7 +240,9 @@ a:hover {
     font-size: 1.2rem;
 }
 
-.section:last-child { margin-bottom: 0; }
+.section:last-child {
+    margin-bottom: 0;
+}
 
 /* ----------------------------------------------------------------
    Command Prompt
@@ -229,8 +266,15 @@ a:hover {
 }
 
 @keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
 }
 
 .terminal-value {
@@ -239,6 +283,7 @@ a:hover {
     display: flex;
     align-items: center;
 }
+
 .terminal-value::before {
     content: "[ OK ] ";
     margin-right: var(--space-sm);
@@ -284,13 +329,17 @@ a:hover {
 .tab-pane {
     display: none;
 }
+
 .tab-pane.active {
     display: block;
 }
-[hidden] { display: none !important; }
+
+[hidden] {
+    display: none !important;
+}
 
 /* ----------------------------------------------------------------
-   Project Grid & Popover
+   Work Cards (always expanded)
    ---------------------------------------------------------------- */
 .project-grid {
     display: grid;
@@ -298,40 +347,175 @@ a:hover {
     margin-top: var(--space-md);
 }
 
-.project-link {
+.work-card {
     border: 1px dashed var(--accent);
     padding: var(--space-sm);
+    cursor: pointer;
+    transition: background 0.15s, border-style 0.15s;
+    outline: none;
 }
 
-.project-link a {
-    display: block;
-    font-size: 1.2rem;
-    text-decoration: none;
+.work-card:hover,
+.work-card:focus {
+    background: rgba(var(--bg-secondary-rgb), 0.6);
+    border-style: solid;
+}
+
+.work-card-header {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    margin-bottom: 0.4rem;
+}
+
+.work-card-prefix {
+    font-size: 0.65rem;
+    opacity: 0.5;
+    letter-spacing: 0.1em;
+    flex-shrink: 0;
+}
+
+.work-card-title {
+    font-size: 1.05rem;
     font-weight: 700;
 }
 
-.project-link a:hover {
-    background: transparent;
-    color: var(--accent);
+.work-card-desc {
+    font-size: 0.85rem;
+    opacity: 0.75;
+    margin: 0 0 0.6rem 0;
 }
 
-.project-link a::before {
-    content: "DIR ";
+.work-card-cta {
+    font-size: 0.7rem;
+    opacity: 0.6;
+    letter-spacing: 0.05em;
+    transition: opacity 0.15s;
 }
 
-.popover {
+.work-card:hover .work-card-cta,
+.work-card:focus .work-card-cta {
+    opacity: 1;
+}
+
+/* ----------------------------------------------------------------
+   Work Detail Modal
+   ---------------------------------------------------------------- */
+.work-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(var(--bg-primary-rgb), 0.88);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: var(--space-md);
+}
+
+.work-modal[hidden] {
     display: none;
-    margin-top: var(--space-sm);
-    border-top: 1px dashed var(--accent);
-    padding-top: var(--space-sm);
 }
 
-.project-link:hover .popover {
-    display: block;
+.work-modal-inner {
+    width: 100%;
+    max-width: 680px;
+    max-height: 88vh;
+    border: 2px solid var(--accent);
+    background: var(--bg-primary);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 0 40px rgba(0, 255, 65, 0.15);
 }
 
-.popover img {
-    display: none; /* Hide images for pure terminal feel */
+.work-modal-topbar {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.6rem 1rem;
+    border-bottom: 1px solid var(--accent);
+    background: var(--bg-secondary);
+    flex-shrink: 0;
+}
+
+.work-modal-blink {
+    animation: blink-cursor 1s step-end infinite;
+    color: var(--accent);
+    font-size: 0.9rem;
+}
+
+@keyframes blink-cursor {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+}
+
+.work-modal-title {
+    flex: 1;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.work-modal-close {
+    background: none;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 0.7rem;
+    padding: 0.2rem 0.5rem;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.work-modal-close:hover {
+    background: var(--accent);
+    color: var(--bg-primary);
+}
+
+.work-modal-body {
+    padding: 1.2rem 1.2rem 1.5rem;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.work-modal-period {
+    font-size: 0.7rem;
+    opacity: 0.55;
+    margin-bottom: 1.2rem;
+    letter-spacing: 0.08em;
+}
+
+.work-modal-section-label {
+    font-size: 0.75rem;
+    opacity: 0.5;
+    font-weight: 400;
+    margin: 1.2rem 0 0.4rem;
+    letter-spacing: 0.05em;
+}
+
+.work-modal-body p {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    margin: 0;
+}
+
+.work-modal-stack {
+    letter-spacing: 0.04em;
+    opacity: 0.8;
 }
 
 /* ----------------------------------------------------------------
@@ -353,19 +537,39 @@ a:hover {
     border: none;
     border-right: 1px solid var(--bg-primary);
 }
-.accent-btn:last-child { border-right: none; }
+
+.accent-btn:last-child {
+    border-right: none;
+}
 
 .accent-btn.active {
     outline: 2px solid #fff;
     outline-offset: -4px;
 }
 
-.accent-btn[data-color="mono"]   { background-color: var(--c-mono); }
-.accent-btn[data-color="yellow"] { background-color: var(--c-yellow); }
-.accent-btn[data-color="green"]  { background-color: var(--c-green); }
-.accent-btn[data-color="red"]    { background-color: var(--c-red); }
-.accent-btn[data-color="cyan"]   { background-color: var(--c-cyan); }
-.accent-btn[data-color="blue"]   { background-color: var(--c-blue); }
+.accent-btn[data-color="mono"] {
+    background-color: var(--c-mono);
+}
+
+.accent-btn[data-color="yellow"] {
+    background-color: var(--c-yellow);
+}
+
+.accent-btn[data-color="green"] {
+    background-color: var(--c-green);
+}
+
+.accent-btn[data-color="red"] {
+    background-color: var(--c-red);
+}
+
+.accent-btn[data-color="cyan"] {
+    background-color: var(--c-cyan);
+}
+
+.accent-btn[data-color="blue"] {
+    background-color: var(--c-blue);
+}
 
 .theme-toggle {
     position: fixed;
@@ -379,6 +583,7 @@ a:hover {
     font-weight: 700;
     text-transform: uppercase;
 }
+
 .theme-toggle:hover {
     background: var(--accent);
     color: var(--bg-primary);
@@ -418,9 +623,14 @@ a:hover {
    ---------------------------------------------------------------- */
 #screensaver {
     position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background-color: #000000; /* Always dark */
-    z-index: 9998; /* Just below CRT effects (9999) */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #000000;
+    /* Always dark */
+    z-index: 9998;
+    /* Just below CRT effects (9999) */
     display: none;
     overflow: hidden;
 }
@@ -431,10 +641,13 @@ a:hover {
 
 #screensaver-logo {
     position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
     width: 400px;
     height: 133px;
     /* We'll set the background color dynamically in JS to the dark-mode accent */
-    background-color: var(--accent); 
+    background-color: var(--accent);
     -webkit-mask-image: url('lumon-logo.png');
     -webkit-mask-size: contain;
     -webkit-mask-repeat: no-repeat;
@@ -443,13 +656,12 @@ a:hover {
     mask-size: contain;
     mask-repeat: no-repeat;
     mask-position: center;
+    will-change: transform;
 }
 
 /* Apply interlace glow to the screensaver logo using drop-shadow */
 body.text-interlace-enabled #screensaver-logo {
-    filter: drop-shadow(1px 0px 0px rgba(255, 0, 0, 0.8)) 
-            drop-shadow(-1px 0px 0px rgba(0, 255, 255, 0.8)) 
-            drop-shadow(0px 0px 8px var(--ss-accent, var(--accent)));
+    filter: drop-shadow(1px 0px 0px rgba(255, 0, 0, 0.8)) drop-shadow(-1px 0px 0px rgba(0, 255, 255, 0.8)) drop-shadow(0px 0px 8px var(--ss-accent, var(--accent)));
 }
 
 /* ----------------------------------------------------------------
@@ -463,9 +675,415 @@ body.text-interlace-enabled #screensaver-logo {
 /* ----------------------------------------------------------------
    Responsive
    ---------------------------------------------------------------- */
+
+/* ----------------------------------------------------------------
+   Options Menu â€” 3-tier responsive system
+   ---------------------------------------------------------------- */
+
+/* DESKTOP (>1440px): toggle hidden, children use their own fixed positioning */
+.options-toggle-btn {
+    display: none;
+}
+
+.options-close-btn {
+    display: none;
+}
+
+.options-menu {
+    display: contents;
+}
+
+/* TABLET DROPDOWN (768px â€“ 1440px) */
+@media (max-width: 1440px) {
+
+    /* Hide the individually-positioned elements */
+    .accent-switcher {
+        position: static;
+        bottom: auto;
+        right: auto;
+    }
+
+    .theme-toggle {
+        position: static;
+        bottom: auto;
+        left: auto;
+    }
+
+    .effects-panel {
+        position: static;
+        top: auto;
+        right: auto;
+    }
+
+    /* Show the toggle button fixed top-right */
+    .options-toggle-btn {
+        display: block;
+        position: fixed;
+        top: 1rem;
+        right: 1rem;
+        z-index: 9999;
+    }
+
+    /* The menu container becomes a positioned dropdown */
+    .options-menu {
+        display: none;
+        position: fixed;
+        top: 3.5rem;
+        right: 1rem;
+        width: 220px;
+        max-height: 90vh;
+        overflow-y: auto;
+        background: rgba(var(--bg-primary-rgb), 0.97);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid var(--accent);
+        z-index: 9998;
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--space-xs);
+        padding: var(--space-sm);
+        box-sizing: border-box;
+    }
+
+    .options-menu.open {
+        display: flex;
+    }
+
+    /* Hide the full-page close button (only needed in mobile overlay) */
+    .options-close-btn {
+        display: none;
+    }
+
+    /* All children sit static inside the dropdown column */
+    .options-menu .accent-switcher,
+    .options-menu .effects-panel,
+    .options-menu .theme-toggle {
+        position: static;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .options-menu .effects-panel {
+        flex-direction: column;
+        gap: var(--space-xs);
+    }
+
+    .options-menu .theme-toggle {
+        margin-top: var(--space-xs);
+    }
+}
+
+/* MOBILE FULL-SCREEN OVERLAY (<768px) */
 @media (max-width: 767px) {
-    body { padding: 1rem; }
-    .container { padding: 1rem; margin-bottom: 80px; }
-    .accent-switcher { bottom: 1rem; right: 1rem; }
-    .theme-toggle { bottom: 1rem; left: 1rem; padding: 0.5rem; }
+    body {
+        padding: 1rem;
+    }
+
+    .container {
+        padding: 1rem;
+        margin-bottom: 80px;
+    }
+
+    /* Toggle button stays fixed top-right */
+    .options-toggle-btn {
+        position: fixed;
+        top: 1rem;
+        right: 1rem;
+        z-index: 9999;
+    }
+
+    /* Override tablet dropdown styles â€” become full-screen overlay */
+    .options-menu {
+        top: 0;
+        right: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        max-height: none;
+        border: none;
+        justify-content: flex-start;
+        padding: 1rem;
+    }
+
+    /* Show the [ x CLOSE ] button inside the overlay */
+    .options-close-btn {
+        display: block;
+        align-self: flex-end;
+        margin-bottom: 1.5rem;
+    }
+
+    /* ASCII hand shows on mobile above the name */
+    .hero-ascii,
+    .ascii-hand {
+        display: block !important;
+        order: -1;
+        margin-bottom: 2rem;
+    }
+
+    section[style*="display: flex"] {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+.music-widget {
+    width: 100%;
+    max-width: 320px;
+    border: 1px solid var(--accent);
+    padding: 0.75rem;
+    margin-top: 1rem;
+    box-sizing: border-box;
+    background: rgba(var(--bg-primary-rgb), 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    overflow: hidden;
+}
+
+.sc-title {
+    font-size: 0.75rem;
+    margin-bottom: 0.75rem;
+    white-space: nowrap;
+    overflow: hidden;
+    opacity: 0.9;
+    font-family: var(--font-mono);
+    border-bottom: 1px solid rgba(var(--accent-rgb), 0.2);
+    padding-bottom: 0.25rem;
+    position: relative;
+}
+
+.sc-title.marquee span {
+    display: inline-block;
+    padding-right: 2rem;
+    animation: marquee 8s linear infinite;
+}
+
+@keyframes marquee {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+.radio-ascii {
+    color: var(--accent);
+    font-size: 0.15rem;
+    line-height: 1;
+    white-space: pre;
+    margin-bottom: 0.5rem;
+    display: block;
+    overflow: hidden;
+    text-align: center;
+}
+
+/* ---- Volume Row ---- */
+.vol-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.6rem;
+}
+
+.vol-label {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    flex-shrink: 0;
+    opacity: 0.7;
+}
+
+.vol-value {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.04em;
+    flex-shrink: 0;
+    opacity: 0.7;
+    min-width: 2.2ch;
+    text-align: right;
+}
+
+/* Strip all native range styling */
+.vol-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    flex: 1;
+    height: 4px;
+    background: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+}
+
+/* Track */
+.vol-slider::-webkit-slider-runnable-track {
+    height: 4px;
+    background: var(--accent);
+    opacity: 0.25;
+    border: none;
+}
+
+.vol-slider::-moz-range-track {
+    height: 4px;
+    background: var(--accent);
+    opacity: 0.25;
+    border: none;
+}
+
+/* Filled portion via a CSS hack â€” use box-shadow on thumb */
+.vol-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 2px;
+    height: 12px;
+    background: var(--accent);
+    border: none;
+    margin-top: -4px;
+    box-shadow: -200px 0 0 200px var(--accent);
+    clip-path: inset(0 0 0 200px);
+}
+
+.vol-slider::-moz-range-thumb {
+    width: 2px;
+    height: 12px;
+    background: var(--accent);
+    border: none;
+    border-radius: 0;
+}
+
+.vol-slider::-moz-range-progress {
+    height: 4px;
+    background: var(--accent);
+}
+
+.vol-slider:focus-visible {
+    outline: 1px dashed var(--accent);
+    outline-offset: 4px;
+}
+
+
+
+/* ----------------------------------------------------------------
+   Skill Accordion
+   ---------------------------------------------------------------- */
+
+.skill-accordion {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.skill-group {
+    border: 1px dashed var(--accent);
+}
+
+.skill-group-header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.55rem 0.75rem;
+    background: none;
+    border: none;
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: lowercase;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    text-align: left;
+}
+
+.skill-group-header:hover {
+    background: rgba(var(--bg-secondary-rgb), 0.5);
+}
+
+.skill-group[data-open]>.skill-group-header {
+    background: var(--accent);
+    color: var(--bg-primary);
+}
+
+.skill-group-icon {
+    flex-shrink: 0;
+    opacity: 0.7;
+    font-size: 0.75rem;
+}
+
+.skill-group-label {
+    flex: 1;
+}
+
+.skill-group-arrow {
+    flex-shrink: 0;
+    font-size: 0.7rem;
+    opacity: 0.6;
+    transition: opacity 0.1s;
+}
+
+.skill-group[data-open] .skill-group-arrow {
+    opacity: 1;
+}
+
+.skill-group-body {
+    padding: 0.5rem 0.75rem 0.75rem;
+    border-top: 1px dashed var(--accent);
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+/* Skill row: name left | level middle | bar far-right
+   HTML order is: name, bar, level — CSS order re-sequences them */
+.skill-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+}
+
+.skill-name {
+    flex: 1;
+    opacity: 0.85;
+    order: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.skill-level {
+    order: 2;
+    font-size: 0.62rem;
+    opacity: 0.5;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.skill-bar {
+    order: 3;
+    color: var(--accent);
+    letter-spacing: -0.05em;
+    font-size: 0.82rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* ----------------------------------------------------------------
+   ASCII Art
+   ---------------------------------------------------------------- */
+
+.ascii-art {
+    color: var(--accent);
+    font-size: 0.8rem;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    white-space: pre;
+}
+
+.ascii-hand {
+    color: var(--accent);
+    font-size: 0.45rem;
+    line-height: 1;
+    white-space: pre;
+    display: inline-block;
 }

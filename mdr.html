@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="mdr.css">
+    <script src="https://w.soundcloud.com/player/api.js"></script>
     <style>
         body { margin: 0; padding: 0; overflow: hidden; }
         .mdr-controls {
@@ -24,11 +25,34 @@
     </style>
 </head>
 <body class="crt-enabled text-interlace-enabled">
+    <button id="options-toggle" class="effect-btn options-toggle-btn" style="position: fixed; top: 1rem; right: 1rem; z-index: 9999;">[ OPTIONS ]</button>
+    <div id="options-menu" class="options-menu">
     <div class="mdr-controls">
         <button id="mdr-exit" class="effect-btn">[ EXIT ]</button>
         <button id="crt-toggle" class="effect-btn active">[ CRT: ON ]</button>
         <button id="interlace-toggle" class="effect-btn active">[ TEXT FX: ON ]</button>
         <button id="screensaver-toggle" class="effect-btn">[ SCREENSAVER ]</button>
+        
+        <!-- Custom Music Widget -->
+        <div class="music-widget">
+            <pre id="radio-ascii-container" class="radio-ascii"></pre>
+            <div id="sc-title" class="sc-title">Loading Track...</div>
+            <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 0.5rem;">
+                <button id="sc-prev" class="effect-btn" style="font-size: 0.8rem;">[ |< ]</button>
+                <button id="sc-play" class="effect-btn" style="font-size: 0.8rem;">[ PLAY ]</button>
+                <button id="sc-next" class="effect-btn" style="font-size: 0.8rem;">[ >| ]</button>
+            </div>
+            <div id="sc-seek-bar" style="height: 4px; background: var(--bg-primary); border: 1px solid var(--accent); cursor: pointer; position: relative;">
+                <div id="sc-seek-fill" style="width: 0%; height: 100%; background: var(--accent); pointer-events: none; transition: width 0.1s linear;"></div>
+            </div>
+            <div class="vol-row">
+                <span class="vol-label">VOL</span>
+                <input type="range" id="sc-volume" class="vol-slider" min="0" max="100" value="50" aria-label="Volume">
+                <span class="vol-value" id="sc-vol-display">50</span>
+            </div>
+        </div>
+    </div>
+    <iframe id="sc-iframe" style="opacity: 0.01; position: absolute; width: 1px; height: 1px; pointer-events: none;" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/john-rahman-549882155/beneath-the-mask-rain&color=%23000000&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false"></iframe>
     </div>
 
     <div id="mdr-container" class="active" style="display: flex;">
@@ -63,6 +87,7 @@
     </div>
 
     <script src="scripts.js"></script>
+    <script src="radio-ascii.js"></script>
     <script src="mdr.js"></script>
 </body>
 </html>

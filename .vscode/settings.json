@@ -1,0 +1,5 @@
+{
+    "telemetry.feedback.enabled": false,
+    "workbench.externalBrowser": "\"C:\\Program Files\\Google\\Chrome Dev\\Application\\chrome.exe\"",
+    "dart.devToolsBrowser": "default"
+}
