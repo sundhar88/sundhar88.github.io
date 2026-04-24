@@ -4,6 +4,19 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+    
+    /* ============================================================
+       Global Click Sound
+       ============================================================ */
+    const clickSound = new Audio('file:///C:/Users/sundh/Downloads/old-computer-click.mp3');
+    clickSound.preload = 'auto';
+
+    document.addEventListener('click', (e) => {
+        if (e.target.closest('button') || e.target.closest('a') || e.target.closest('.work-card') || e.target.closest('.skill-group-header')) {
+            clickSound.currentTime = 0;
+            clickSound.play().catch(() => {});
+        }
+    });
 
     /* ============================================================
        Scroll-in Animations (IntersectionObserver)
@@ -239,57 +252,37 @@ document.addEventListener('DOMContentLoaded', () => {
     function startScreensaver() {
         if (!screensaver || !screensaverLogo) return;
         
-        // Always use dark mode accent color for screensaver
         const colorKey = sessionStorage.getItem('accentColor') || 'mono';
         const darkColor = colorMap['dark'][colorKey];
-        screensaverLogo.style.backgroundColor = darkColor;
         document.body.style.setProperty('--ss-accent', darkColor);
 
         screensaver.classList.add('active');
         
-        // Use layout dimensions — offsetWidth/Height are unaffected by CSS transform
-        const logoW = screensaverLogo.offsetWidth;
-        const logoH = screensaverLogo.offsetHeight;
+        const logoW = screensaverLogo.offsetWidth || 240;
+        const logoH = screensaverLogo.offsetHeight || 100;
         const vW = window.innerWidth;
         const vH = window.innerHeight;
 
-        // Initial random position within bounds
         ssX = Math.random() * Math.max(0, vW - logoW);
         ssY = Math.random() * Math.max(0, vH - logoH);
-        
-        // Randomize initial direction
         ssDX = (Math.random() > 0.5 ? 1 : -1) * 2.5;
         ssDY = (Math.random() > 0.5 ? 1 : -1) * 2.5;
         
         function animate() {
             if (!screensaver.classList.contains('active')) return;
-            
-            // Re-read viewport on each frame to handle resize
             const vw = window.innerWidth;
             const vh = window.innerHeight;
-            const lw = screensaverLogo.offsetWidth;
-            const lh = screensaverLogo.offsetHeight;
+            const lw = screensaverLogo.offsetWidth || 240;
+            const lh = screensaverLogo.offsetHeight || 100;
 
             ssX += ssDX;
             ssY += ssDY;
             
-            // Clamp and bounce on X axis
-            if (ssX <= 0) {
-                ssX = 0;
-                ssDX = Math.abs(ssDX);
-            } else if (ssX + lw >= vw) {
-                ssX = vw - lw;
-                ssDX = -Math.abs(ssDX);
-            }
+            if (ssX <= 0) { ssX = 0; ssDX = Math.abs(ssDX); }
+            else if (ssX + lw >= vw) { ssX = vw - lw; ssDX = -Math.abs(ssDX); }
 
-            // Clamp and bounce on Y axis
-            if (ssY <= 0) {
-                ssY = 0;
-                ssDY = Math.abs(ssDY);
-            } else if (ssY + lh >= vh) {
-                ssY = vh - lh;
-                ssDY = -Math.abs(ssDY);
-            }
+            if (ssY <= 0) { ssY = 0; ssDY = Math.abs(ssDY); }
+            else if (ssY + lh >= vh) { ssY = vh - lh; ssDY = -Math.abs(ssDY); }
             
             screensaverLogo.style.transform = `translate(${ssX}px, ${ssY}px)`;
             ssAnimationId = requestAnimationFrame(animate);
@@ -308,6 +301,88 @@ document.addEventListener('DOMContentLoaded', () => {
 
     screensaverBtn?.addEventListener('click', startScreensaver);
     screensaver?.addEventListener('click', stopScreensaver);
+
+    /* ============================================================
+       Animated ASCII Art (magic.sh - 3D Torus)
+       ============================================================ */
+    let A = 0, B = 0;
+    function drawMagic() {
+        let b = [];
+        let z = [];
+        A += 0.07;
+        B += 0.03;
+        let cA = Math.cos(A), sA = Math.sin(A),
+            cB = Math.cos(B), sB = Math.sin(B);
+        for (let k = 0; k < 1760; k++) {
+            b[k] = k % 80 === 79 ? "\n" : " ";
+            z[k] = 0;
+        }
+        for (let j = 0; j < 6.28; j += 0.07) {
+            let ct = Math.cos(j), st = Math.sin(j);
+            for (let i = 0; i < 6.28; i += 0.02) {
+                let sp = Math.sin(i), cp = Math.cos(i),
+                    h = ct + 2,
+                    D = 1 / (sp * h * sA + st * cA + 5),
+                    t = sp * h * cA - st * sA;
+                let x = 0 | (40 + 30 * D * (cp * h * cB - t * sB)),
+                    y = 0 | (12 + 15 * D * (cp * h * sB + t * cB)),
+                    o = x + 80 * y,
+                    N = 0 | (8 * ((st * sA - sp * ct * cA) * cB - sp * ct * sA - st * cA - cp * ct * sB));
+                if (y < 22 && y >= 0 && x >= 0 && x < 79 && D > z[o]) {
+                    z[o] = D;
+                    b[o] = ".,-~:;=!*#$@"[N > 0 ? N : 0];
+                }
+            }
+        }
+        const magicEl = document.getElementById('magic-ascii');
+        if(magicEl) magicEl.textContent = b.join("");
+    }
+    setInterval(drawMagic, 50);
+
+    /* ============================================================
+       Animated ASCII Art (outro.sh - Drunk That's All Folks)
+       ============================================================ */
+    const outroFrames = [
+`
+    That's all folks!
+         (drunk)
+         _   _
+        ( )_( )
+         (o o)
+        (  V  )
+       /  |  | \\
+      /___|__|__\\
+`,
+`
+    That's all folks!
+         (drunk)
+         _   _
+        ( )_( )
+         (> <)
+        (  -  )
+       /  |  | \\
+      /___|__|__\\
+`,
+`
+    That's all folks!
+         (drunk)
+         _   _
+        ( )_( )
+         (@ @)
+        (  ~  )
+       /  |  | \\
+      /___|__|__\\
+`
+    ];
+    let currentOutroFrame = 0;
+    function drawOutro() {
+        const el = document.getElementById('outro-ascii');
+        if (el) {
+            el.textContent = outroFrames[currentOutroFrame];
+            currentOutroFrame = (currentOutroFrame + 1) % outroFrames.length;
+        }
+    }
+    setInterval(drawOutro, 300);
 
     /* ============================================================
        Navigation Logic

@@ -280,23 +280,15 @@ a:hover {
     font-weight: bold;
 }
 
-/* Spanning Utilities & Desktop Fixed Heights */
+/* Desktop Heights & Overflows (1024px+) */
 @media (min-width: 1024px) {
     .bento-grid {
-        grid-auto-rows: 452px;
+        grid-auto-rows: 468px;
     }
 
     .bento-tile {
         overflow-y: auto;
         overflow-x: hidden;
-    }
-
-    .span-2 {
-        grid-column: span 2;
-    }
-
-    .span-3 {
-        grid-column: span 3;
     }
 
     .row-2 {
@@ -305,6 +297,32 @@ a:hover {
 
     .row-3 {
         grid-row: span 3;
+    }
+}
+
+/* Medium Desktop: Stretched 2-Column Pairs (1025px - 1559px) */
+@media (min-width: 1025px) and (max-width: 1559px) {
+    .bento-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    .span-2 {
+        grid-column: span 1;
+    }
+    
+    .span-3 {
+        grid-column: span 2;
+    }
+}
+
+/* Large Desktop: Full 4-Column Dashboard (1560px+) */
+@media (min-width: 1560px) {
+    .span-2 {
+        grid-column: span 2;
+    }
+
+    .span-3 {
+        grid-column: span 3;
     }
 }
 
@@ -622,7 +640,7 @@ a:hover {
 }
 
 .accent-btn {
-    width: 30px;
+    width: 100%;
     height: 30px;
     border: none;
     border-right: 1px solid var(--bg-primary);
@@ -1181,6 +1199,24 @@ body.text-interlace-enabled #screensaver-logo {
     line-height: 1;
     white-space: pre;
     display: inline-block;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+.animated-ascii {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    line-height: 1;
+    color: var(--accent);
+    white-space: pre;
+    margin: auto;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .animated-ascii {
+        font-size: 0.4rem;
+    }
 }
 
 /* ----------------------------------------------------------------
@@ -1204,23 +1240,9 @@ body.text-interlace-enabled #screensaver-logo {
 
 #screensaver-logo {
     position: absolute;
-    width: 150px;
-    height: 70px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--font-mono);
-    font-weight: 900;
-    color: #000;
-    font-size: 1.2rem;
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
-    background-color: var(--accent);
-    box-shadow: 0 0 20px var(--accent);
-}
-
-#screensaver-logo::after {
-    content: "LUMON";
+    width: 240px;
+    height: auto;
+    filter: drop-shadow(0 0 15px var(--accent));
 }
 
 .hidden {

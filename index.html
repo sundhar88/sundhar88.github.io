@@ -12,7 +12,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
         rel="stylesheet">
     <link href="https://api.fontshare.com/v2/css?f[]=array@400,700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+        rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="mdr.css">
     <script src="https://w.soundcloud.com/player/api.js"></script>
@@ -24,8 +26,9 @@
 
             <!-- TILE 1: HERO -->
             <div class="bento-tile span-2 row-2">
-                <div class="tile-header">whoami</div>
-                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.5rem; flex: 1; text-align: center;">
+                <div class="tile-header">who am i</div>
+                <div
+                    style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.5rem; flex: 1; text-align: center;">
                     <pre id="welcome-ascii-container" class="ascii-hand" style="margin: 0;"></pre>
                     <div>
                         <h1 style="margin: 0;">sundhar m</h1>
@@ -37,11 +40,12 @@
 
             <!-- TILE 2: BIO -->
             <div class="bento-tile span-1">
-                <div class="tile-header">hello.txt</div>
+                <div class="tile-header">cat hello.txt</div>
                 <p>I design products that work — intuitively, accessibly, and without the need for a tutorial. My
                     practice spans the full product lifecycle: discovery, systems design, interaction design, and
                     validation.</p>
-                <p style="margin-top: var(--space-xs);">I pair deep design craft with a fluency in AI-assisted workflows to move faster without
+                <p style="margin-top: var(--space-xs);">I pair deep design craft with a fluency in AI-assisted workflows
+                    to move faster without
                     cutting corners.</p>
             </div>
 
@@ -49,11 +53,13 @@
             <div class="bento-tile span-1">
                 <div class="tile-header">system.cfg</div>
                 <div style="display: flex; flex-direction: column; gap: var(--space-sm);">
-                    <button class="theme-toggle" id="theme-toggle" style="position: static; width: 100%; border: 1px solid var(--accent); padding: 0.5rem;">
+                    <button class="theme-toggle" id="theme-toggle"
+                        style="position: static; width: 100%; border: 1px solid var(--accent); padding: 0.5rem;">
                         [ TOGGLE THEME ]
                     </button>
-                    
-                    <div class="accent-switcher" style="position: static; display: flex; justify-content: space-between; width: 100%; border: 1px solid var(--accent); padding: 0.5rem;">
+
+                    <div class="accent-switcher"
+                        style="position: static; display: flex; justify-content: space-between; width: 100%; border: 1px solid var(--accent); padding: 0.5rem;">
                         <button class="accent-btn active" data-color="mono"></button>
                         <button class="accent-btn" data-color="yellow"></button>
                         <button class="accent-btn" data-color="green"></button>
@@ -73,30 +79,38 @@
 
             <!-- TILE 4: MEDIA MODULE -->
             <div class="bento-tile span-1">
-                <div class="tile-header">media.sh</div>
-                <div class="music-widget" style="border: none; padding: 0; margin: 0; background: none; backdrop-filter: none; max-width: none;">
+                <div class="tile-header">./media.sh</div>
+                <div class="music-widget"
+                    style="border: none; padding: 0; margin: 0; background: none; backdrop-filter: none; max-width: none;">
                     <pre id="radio-ascii-container" class="radio-ascii" style="font-size: 0.12rem;"></pre>
                     <div id="sc-title" class="sc-title">Loading...</div>
-                    <div style="display: flex; justify-content: space-between; gap: 0.5rem; margin-bottom: 1rem; align-items: center;">
-                        <button id="sc-prev" class="effect-btn" style="flex: 1; padding: 0.5rem; display: flex; justify-content: center;">
+                    <div
+                        style="display: flex; justify-content: space-between; gap: 0.5rem; margin-bottom: 1rem; align-items: center;">
+                        <button id="sc-prev" class="effect-btn"
+                            style="flex: 1; padding: 0.5rem; display: flex; justify-content: center;">
                             <span class="material-symbols-rounded">skip_previous</span>
                         </button>
-                        <button id="sc-play" class="effect-btn" style="flex: 1.5; padding: 0.5rem; display: flex; justify-content: center;">
+                        <button id="sc-play" class="effect-btn"
+                            style="flex: 1.5; padding: 0.5rem; display: flex; justify-content: center;">
                             <span class="material-symbols-rounded" id="play-icon">play_arrow</span>
                         </button>
-                        <button id="sc-next" class="effect-btn" style="flex: 1; padding: 0.5rem; display: flex; justify-content: center;">
+                        <button id="sc-next" class="effect-btn"
+                            style="flex: 1; padding: 0.5rem; display: flex; justify-content: center;">
                             <span class="material-symbols-rounded">skip_next</span>
                         </button>
                     </div>
-                    <div id="sc-seek-bar" style="height: 4px; background: var(--bg-primary); border: 1px solid var(--accent); cursor: pointer; position: relative; margin-bottom: 0.8rem;">
-                        <div id="sc-seek-fill" style="width: 0%; height: 100%; background: var(--accent); pointer-events: none;"></div>
+                    <div id="sc-seek-bar"
+                        style="height: 4px; background: var(--bg-primary); border: 1px solid var(--accent); cursor: pointer; position: relative; margin-bottom: 0.8rem;">
+                        <div id="sc-seek-fill"
+                            style="width: 0%; height: 100%; background: var(--accent); pointer-events: none;"></div>
                     </div>
                     <div class="vol-row">
                         <span class="material-symbols-rounded" style="font-size: 1rem; opacity: 0.7;">volume_up</span>
                         <input type="range" id="sc-volume" class="vol-slider" min="0" max="100" value="50">
                     </div>
                 </div>
-                <iframe id="sc-iframe" style="display: none;" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/sundhar88/sets/portfolio&color=%23000000&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false"></iframe>
+                <iframe id="sc-iframe" style="display: none;" allow="autoplay"
+                    src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/sundhar88/sets/portfolio&color=%23000000&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false"></iframe>
             </div>
 
             <!-- TILE 5: UPLINK (CONTACT) -->
@@ -104,9 +118,12 @@
                 <div class="tile-header">cat contact.txt</div>
                 <p>// digital coordinates</p>
                 <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.5rem;">
-                    <a href="mailto:sundhar.pvt1@gmail.com" class="terminal-link">email &nbsp;&nbsp;&nbsp;→ sundhar.pvt1@gmail.com</a>
-                    <a href="https://linkedin.com/in/sundharm" target="_blank" class="terminal-link">linkedin → /in/sundharm</a>
-                    <a href="https://www.behance.net/sundhardesigns" target="_blank" class="terminal-link">behance &nbsp;→ /sundhardesigns</a>
+                    <a href="mailto:sundhar.pvt1@gmail.com" class="terminal-link">email &nbsp;&nbsp;&nbsp;→
+                        sundhar.pvt1@gmail.com</a>
+                    <a href="https://linkedin.com/in/sundharm" target="_blank" class="terminal-link">linkedin →
+                        /in/sundharm</a>
+                    <a href="https://www.behance.net/sundhardesigns" target="_blank" class="terminal-link">behance
+                        &nbsp;→ /sundhardesigns</a>
                 </div>
             </div>
 
@@ -209,12 +226,18 @@
                             <span class="skill-group-arrow">[+]</span>
                         </button>
                         <div class="skill-group-body" hidden>
-                            <div class="skill-row"><span class="skill-name">Product Design</span><span class="skill-bar">███████████░</span><span class="skill-level">Expert</span></div>
-                            <div class="skill-row"><span class="skill-name">Interaction Design</span><span class="skill-bar">███████████░</span><span class="skill-level">Expert</span></div>
-                            <div class="skill-row"><span class="skill-name">Visual Design</span><span class="skill-bar">██████████░░</span><span class="skill-level">Advanced</span></div>
-                            <div class="skill-row"><span class="skill-name">Design Systems</span><span class="skill-bar">███████████░</span><span class="skill-level">Expert</span></div>
-                            <div class="skill-row"><span class="skill-name">Information Architecture</span><span class="skill-bar">██████████░░</span><span class="skill-level">Advanced</span></div>
-                            <div class="skill-row"><span class="skill-name">Accessibility (WCAG)</span><span class="skill-bar">██████████░░</span><span class="skill-level">Champion</span></div>
+                            <div class="skill-row"><span class="skill-name">Product Design</span><span
+                                    class="skill-bar">███████████░</span><span class="skill-level">Expert</span></div>
+                            <div class="skill-row"><span class="skill-name">Interaction Design</span><span
+                                    class="skill-bar">███████████░</span><span class="skill-level">Expert</span></div>
+                            <div class="skill-row"><span class="skill-name">Visual Design</span><span
+                                    class="skill-bar">██████████░░</span><span class="skill-level">Advanced</span></div>
+                            <div class="skill-row"><span class="skill-name">Design Systems</span><span
+                                    class="skill-bar">███████████░</span><span class="skill-level">Expert</span></div>
+                            <div class="skill-row"><span class="skill-name">Information Architecture</span><span
+                                    class="skill-bar">██████████░░</span><span class="skill-level">Advanced</span></div>
+                            <div class="skill-row"><span class="skill-name">Accessibility (WCAG)</span><span
+                                    class="skill-bar">██████████░░</span><span class="skill-level">Champion</span></div>
                         </div>
                     </div>
                     <!-- TOOLS -->
@@ -226,9 +249,12 @@
                         </button>
                         <div class="skill-group-body" hidden>
                             <div class="skill-row"><span class="skill-name">Figma</span><span class="skill-bar">████████████</span><span class="skill-level">Expert</span></div>
-                            <div class="skill-row"><span class="skill-name">FigJam / Miro</span><span class="skill-bar">██████████░░</span><span class="skill-level">Advanced</span></div>
-                            <div class="skill-row"><span class="skill-name">Notion / Jira</span><span class="skill-bar">██████████░░</span><span class="skill-level">Advanced</span></div>
-                            <div class="skill-row"><span class="skill-name">GitHub / Storybook</span><span class="skill-bar">████████░░░░</span><span class="skill-level">Proficient</span></div>
+                            <div class="skill-row"><span class="skill-name">FigJam</span><span class="skill-bar">██████████░░</span><span class="skill-level">Advanced</span></div>
+                            <div class="skill-row"><span class="skill-name">Miro</span><span class="skill-bar">██████████░░</span><span class="skill-level">Advanced</span></div>
+                            <div class="skill-row"><span class="skill-name">Notion</span><span class="skill-bar">██████████░░</span><span class="skill-level">Advanced</span></div>
+                            <div class="skill-row"><span class="skill-name">Jira</span><span class="skill-bar">██████████░░</span><span class="skill-level">Advanced</span></div>
+                            <div class="skill-row"><span class="skill-name">GitHub</span><span class="skill-bar">████████░░░░</span><span class="skill-level">Proficient</span></div>
+                            <div class="skill-row"><span class="skill-name">Storybook</span><span class="skill-bar">████████░░░░</span><span class="skill-level">Proficient</span></div>
                         </div>
                     </div>
                     <!-- AI WORKFLOW -->
@@ -239,9 +265,12 @@
                             <span class="skill-group-arrow">[+]</span>
                         </button>
                         <div class="skill-group-body" hidden>
-                            <div class="skill-row"><span class="skill-name">Claude / Gemini</span><span class="skill-bar">████████████</span><span class="skill-level">Expert</span></div>
-                            <div class="skill-row"><span class="skill-name">Claude Code / Design</span><span class="skill-bar">██████████░░</span><span class="skill-level">Advanced</span></div>
-                            <div class="skill-row"><span class="skill-name">NotebookLM / Antigravity</span><span class="skill-bar">█████████░░░</span><span class="skill-level">Advanced</span></div>
+                            <div class="skill-row"><span class="skill-name">Claude</span><span class="skill-bar">████████████</span><span class="skill-level">Expert</span></div>
+                            <div class="skill-row"><span class="skill-name">Gemini</span><span class="skill-bar">████████████</span><span class="skill-level">Expert</span></div>
+                            <div class="skill-row"><span class="skill-name">Claude Code</span><span class="skill-bar">██████████░░</span><span class="skill-level">Advanced</span></div>
+                            <div class="skill-row"><span class="skill-name">Claude Design</span><span class="skill-bar">██████████░░</span><span class="skill-level">Advanced</span></div>
+                            <div class="skill-row"><span class="skill-name">NotebookLM</span><span class="skill-bar">█████████░░░</span><span class="skill-level">Advanced</span></div>
+                            <div class="skill-row"><span class="skill-name">Antigravity</span><span class="skill-bar">█████████░░░</span><span class="skill-level">Advanced</span></div>
                         </div>
                     </div>
                     <!-- RESEARCH -->
@@ -266,7 +295,8 @@
                         </button>
                         <div class="skill-group-body" hidden>
                             <div class="skill-row"><span class="skill-name">Design Thinking</span><span class="skill-bar">████████████</span><span class="skill-level">Expert</span></div>
-                            <div class="skill-row"><span class="skill-name">Lean UX / Agile</span><span class="skill-bar">███████████░</span><span class="skill-level">Expert</span></div>
+                            <div class="skill-row"><span class="skill-name">Lean UX</span><span class="skill-bar">███████████░</span><span class="skill-level">Expert</span></div>
+                            <div class="skill-row"><span class="skill-name">Agile</span><span class="skill-bar">███████████░</span><span class="skill-level">Expert</span></div>
                         </div>
                     </div>
                 </div>
@@ -275,30 +305,42 @@
 
             <!-- TILE 8: PRINCIPLES -->
             <div class="bento-tile span-2">
-                <div class="tile-header">cat principles.txt</div>
+                <div class="tile-header">nano principles.txt</div>
                 <div class="principles-grid">
                     <div>
-                        <h4 style="font-family: var(--font-mono); color: var(--accent); margin-bottom: 0.5rem; text-transform: uppercase; font-size: 1rem;">usable</h4>
-                        <p style="font-size: 0.85rem; opacity: 0.8; line-height: 1.6;">If it needs an explanation, it needs a redesign. Clarity is not a feature — it's the baseline.</p>
+                        <h4
+                            style="font-family: var(--font-mono); color: var(--accent); margin-bottom: 0.5rem; text-transform: uppercase; font-size: 1rem;">
+                            usable</h4>
+                        <p style="font-size: 0.85rem; opacity: 0.8; line-height: 1.6;">If it needs an explanation, it
+                            needs a redesign. Clarity is not a feature — it's the baseline.</p>
                     </div>
                     <div>
-                        <h4 style="font-family: var(--font-mono); color: var(--accent); margin-bottom: 0.5rem; text-transform: uppercase; font-size: 1rem;">intentional</h4>
-                        <p style="font-size: 0.85rem; opacity: 0.8; line-height: 1.6;">Every pixel earns its place. Decoration that doesn't communicate is just debt.</p>
+                        <h4
+                            style="font-family: var(--font-mono); color: var(--accent); margin-bottom: 0.5rem; text-transform: uppercase; font-size: 1rem;">
+                            intentional</h4>
+                        <p style="font-size: 0.85rem; opacity: 0.8; line-height: 1.6;">Every pixel earns its place.
+                            Decoration that doesn't communicate is just debt.</p>
                     </div>
                     <div>
-                        <h4 style="font-family: var(--font-mono); color: var(--accent); margin-bottom: 0.5rem; text-transform: uppercase; font-size: 1rem;">evidence-based</h4>
-                        <p style="font-size: 0.85rem; opacity: 0.8; line-height: 1.6;">Strong opinions, loosely held, heavily tested. Research makes it a decision.</p>
+                        <h4
+                            style="font-family: var(--font-mono); color: var(--accent); margin-bottom: 0.5rem; text-transform: uppercase; font-size: 1rem;">
+                            evidence-based</h4>
+                        <p style="font-size: 0.85rem; opacity: 0.8; line-height: 1.6;">Strong opinions, loosely held,
+                            heavily tested. Research makes it a decision.</p>
                     </div>
                     <div>
-                        <h4 style="font-family: var(--font-mono); color: var(--accent); margin-bottom: 0.5rem; text-transform: uppercase; font-size: 1rem;">shipped</h4>
-                        <p style="font-size: 0.85rem; opacity: 0.8; line-height: 1.6;">Perfect is the enemy of in-production. I build to learn, iterate fast.</p>
+                        <h4
+                            style="font-family: var(--font-mono); color: var(--accent); margin-bottom: 0.5rem; text-transform: uppercase; font-size: 1rem;">
+                            shipped</h4>
+                        <p style="font-size: 0.85rem; opacity: 0.8; line-height: 1.6;">Perfect is the enemy of
+                            in-production. I build to learn, iterate fast.</p>
                     </div>
                 </div>
             </div>
 
             <!-- TILE 9: ARCHIVES (WORK) -->
             <div class="bento-tile span-2">
-                <div class="tile-header">ls works/</div>
+                <div class="tile-header">gedit works.docx</div>
                 <div class="project-grid">
                     <div class="work-card" role="button" tabindex="0"
                         data-title="Senior Product Designer @ Wall Street English" data-period="2021 – Present"
@@ -324,7 +366,8 @@
                             <span class="work-card-prefix">DIR</span>
                             <span class="work-card-title">// ui/ux designer @ InstaSafe</span>
                         </div>
-                        <p class="work-card-desc">// Enterprise ZTNA SaaS — simplified admin complexity, cut support tickets 45%, boosted deal close rates 31%.</p>
+                        <p class="work-card-desc">// Enterprise ZTNA SaaS — simplified admin complexity, cut support
+                            tickets 45%, boosted deal close rates 31%.</p>
                         <span class="work-card-cta">[ VIEW DETAILS → ]</span>
                     </div>
 
@@ -338,7 +381,8 @@
                             <span class="work-card-prefix">DIR</span>
                             <span class="work-card-title">// creative visual designer @ freelance</span>
                         </div>
-                        <p class="work-card-desc">// Brand systems and UI for 20+ clients. Helped land seed rounds and boosted brand recall.</p>
+                        <p class="work-card-desc">// Brand systems and UI for 20+ clients. Helped land seed rounds and
+                            boosted brand recall.</p>
                         <span class="work-card-cta">[ VIEW DETAILS → ]</span>
                     </div>
                 </div>
@@ -355,13 +399,13 @@
                     </div>
                     <div class="work-modal-body">
                         <p class="work-modal-period" id="modal-period"></p>
-                        <h3 class="work-modal-section-label">&gt; cat role.txt</h3>
+                        <h3 class="work-modal-section-label">&gt; vim role.txt</h3>
                         <p id="modal-role"></p>
-                        <h3 class="work-modal-section-label">&gt; cat impact_user.txt</h3>
+                        <h3 class="work-modal-section-label">&gt; vim impact_user.txt</h3>
                         <p id="modal-impact-user"></p>
-                        <h3 class="work-modal-section-label">&gt; cat impact_business.txt</h3>
+                        <h3 class="work-modal-section-label">&gt; vim impact_business.txt</h3>
                         <p id="modal-impact-biz"></p>
-                        <h3 class="work-modal-section-label">&gt; cat stack.txt</h3>
+                        <h3 class="work-modal-section-label">&gt; vim stack.txt</h3>
                         <p id="modal-stack" class="work-modal-stack"></p>
                     </div>
                 </div>
@@ -369,12 +413,28 @@
 
 
 
+            <!-- TILE 10: ANIMATED ART (3D MAGIC) 
+            <div class="bento-tile span-1">
+                <div class="tile-header">magic.sh</div>
+                <pre id="magic-ascii" class="animated-ascii"></pre>
+            </div>
+            -->
+
+            <!-- TILE 11: ANIMATED ART (OUTRO) 
+            <div class="bento-tile span-1">
+                <div class="tile-header">outro.sh</div>
+                <pre id="outro-ascii" class="animated-ascii"></pre>
+            </div>
+            -->
+
         </main>
     </div>
 
     <!-- Screensaver Container -->
     <div id="screensaver">
-        <div id="screensaver-logo"></div>
+        <div class="screensaver-content">
+            <img id="screensaver-logo" src="lumon-logo.png" alt="Lumon Logo">
+        </div>
     </div>
 
     <!-- Theme transition overlay -->
