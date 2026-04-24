@@ -22,45 +22,50 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     /* ============================================================
-       Accessible Tab Switching
+       Accessible Tab Switching (Bento Compatible)
        ============================================================ */
-    const tabButtons = document.querySelectorAll('.tab-btn');
-    const tabPanes   = document.querySelectorAll('.tab-pane');
+    const tabTriggers = document.querySelectorAll('.tab-trigger');
+    const tabPanes    = document.querySelectorAll('.tab-pane');
 
-    function activateTab(button) {
-        // Deactivate all
-        tabButtons.forEach(btn => {
+    function activateTab(trigger) {
+        const parentTile = trigger.closest('.bento-tile');
+        if (!parentTile) return;
+
+        // Deactivate siblings in this specific tile
+        parentTile.querySelectorAll('.tab-trigger').forEach(btn => {
             btn.classList.remove('active');
             btn.setAttribute('aria-selected', 'false');
         });
-        tabPanes.forEach(pane => {
+        parentTile.querySelectorAll('.tab-pane').forEach(pane => {
             pane.classList.remove('active');
             pane.hidden = true;
         });
 
         // Activate target
-        button.classList.add('active');
-        button.setAttribute('aria-selected', 'true');
-        const target = document.getElementById(button.getAttribute('aria-controls'));
+        trigger.classList.add('active');
+        trigger.setAttribute('aria-selected', 'true');
+        
+        const tabId = trigger.dataset.tab;
+        const target = parentTile.querySelector(`.tab-pane[data-tab="${tabId}"]`);
         if (target) {
             target.classList.add('active');
             target.hidden = false;
         }
     }
 
-    tabButtons.forEach(button => {
-        button.addEventListener('click', () => activateTab(button));
+    tabTriggers.forEach(trigger => {
+        trigger.addEventListener('click', () => activateTab(trigger));
 
-        // Keyboard arrow navigation within tablist
-        button.addEventListener('keydown', (e) => {
-            const tabs  = [...tabButtons];
-            const idx   = tabs.indexOf(button);
+        // Keyboard arrow navigation
+        trigger.addEventListener('keydown', (e) => {
+            const parentTile = trigger.closest('.bento-tile');
+            if (!parentTile) return;
+            const tabs  = [...parentTile.querySelectorAll('.tab-trigger')];
+            const idx   = tabs.indexOf(trigger);
             let newIdx  = idx;
 
             if (e.key === 'ArrowRight') newIdx = (idx + 1) % tabs.length;
             if (e.key === 'ArrowLeft')  newIdx = (idx - 1 + tabs.length) % tabs.length;
-            if (e.key === 'Home')       newIdx = 0;
-            if (e.key === 'End')        newIdx = tabs.length - 1;
 
             if (newIdx !== idx) {
                 e.preventDefault();
@@ -472,40 +477,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     /* ============================================================
-       Mobile Options Menu Toggle
+       System Menu (Obsolete in Bento)
        ============================================================ */
-    const optionsToggleBtn = document.getElementById('options-toggle');
-    const optionsCloseBtn  = document.getElementById('options-close');
-    const optionsMenu      = document.getElementById('options-menu');
-
-    function openOptionsMenu() {
-        if (!optionsMenu) return;
-        optionsMenu.classList.add('open');
-        optionsMenu.removeAttribute('aria-hidden');
-        // Hide the toggle button while menu is open so it doesn't overlap the close button
-        if (optionsToggleBtn) optionsToggleBtn.style.display = 'none';
-    }
-
-    function closeOptionsMenu() {
-        if (!optionsMenu) return;
-        optionsMenu.classList.remove('open');
-        optionsMenu.setAttribute('aria-hidden', 'true');
-        // Restore toggle button visibility
-        if (optionsToggleBtn) optionsToggleBtn.style.display = '';
-    }
-
-    optionsToggleBtn?.addEventListener('click', openOptionsMenu);
-    optionsCloseBtn?.addEventListener('click', closeOptionsMenu);
-
-    // Close when clicking directly on the overlay backdrop (not its children)
-    optionsMenu?.addEventListener('click', (e) => {
-        if (e.target === optionsMenu) closeOptionsMenu();
-    });
-
-    // Close on Escape key
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeOptionsMenu();
-    });
+    // All controls are now integrated as tiles.
 
 
     /* ============================================================
