@@ -4,7 +4,7 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-    
+
     /* ============================================================
        Global Click Sound
        ============================================================ */
@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('click', (e) => {
         if (e.target.closest('button') || e.target.closest('a') || e.target.closest('.work-card') || e.target.closest('.skill-group-header')) {
             clickSound.currentTime = 0;
-            clickSound.play().catch(() => {});
+            clickSound.play().catch(() => { });
         }
     });
 
@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
        Accessible Tab Switching (Bento Compatible)
        ============================================================ */
     const tabTriggers = document.querySelectorAll('.tab-trigger');
-    const tabPanes    = document.querySelectorAll('.tab-pane');
+    const tabPanes = document.querySelectorAll('.tab-pane');
 
     function activateTab(trigger) {
         const parentTile = trigger.closest('.bento-tile');
@@ -61,12 +61,37 @@ document.addEventListener('DOMContentLoaded', () => {
         // Activate target
         trigger.classList.add('active');
         trigger.setAttribute('aria-selected', 'true');
-        
+
         const tabId = trigger.dataset.tab;
         const target = parentTile.querySelector(`.tab-pane[data-tab="${tabId}"]`);
         if (target) {
             target.classList.add('active');
             target.hidden = false;
+
+            // Apply DecryptedText effect to paragraphs and ASCII art in the new tab (Desktop only)
+            if (window.applyDecryptedText && window.innerWidth >= 768) {
+                const options = { encryptedClassName: 'decrypted-encrypted' };
+
+                // Animate paragraphs
+                target.querySelectorAll('p').forEach(p => {
+                    applyDecryptedText(p, {
+                        ...options,
+                        speed: 3,
+                        sequential: true,
+                        revealDirection: 'start'
+                    });
+                });
+
+                // Animate ASCII art (slightly faster sequential reveal)
+                target.querySelectorAll('pre.ascii-art').forEach(pre => {
+                    applyDecryptedText(pre, {
+                        ...options,
+                        speed: 2,
+                        sequential: true,
+                        revealDirection: 'start'
+                    });
+                });
+            }
         }
     }
 
@@ -77,12 +102,12 @@ document.addEventListener('DOMContentLoaded', () => {
         trigger.addEventListener('keydown', (e) => {
             const parentTile = trigger.closest('.bento-tile');
             if (!parentTile) return;
-            const tabs  = [...parentTile.querySelectorAll('.tab-trigger')];
-            const idx   = tabs.indexOf(trigger);
-            let newIdx  = idx;
+            const tabs = [...parentTile.querySelectorAll('.tab-trigger')];
+            const idx = tabs.indexOf(trigger);
+            let newIdx = idx;
 
             if (e.key === 'ArrowRight') newIdx = (idx + 1) % tabs.length;
-            if (e.key === 'ArrowLeft')  newIdx = (idx - 1 + tabs.length) % tabs.length;
+            if (e.key === 'ArrowLeft') newIdx = (idx - 1 + tabs.length) % tabs.length;
 
             if (newIdx !== idx) {
                 e.preventDefault();
@@ -98,20 +123,20 @@ document.addEventListener('DOMContentLoaded', () => {
        ============================================================ */
     const colorMap = {
         dark: {
-            mono:   '#FFFFFF',
+            mono: '#FFFFFF',
             yellow: '#FFB000',
-            green:  '#00FF41',
-            red:    '#FF4D4D',
-            cyan:   '#00FFFF',
-            blue:   '#6699FF',
+            green: '#00FF41',
+            red: '#FF4D4D',
+            cyan: '#00FFFF',
+            blue: '#6699FF',
         },
         light: {
-            mono:   '#000000',
+            mono: '#000000',
             yellow: '#8C6600',
-            green:  '#00661A',
-            red:    '#B30000',
-            cyan:   '#006666',
-            blue:   '#0033CC',
+            green: '#00661A',
+            red: '#B30000',
+            cyan: '#006666',
+            blue: '#0033CC',
         }
     };
 
@@ -146,8 +171,8 @@ document.addEventListener('DOMContentLoaded', () => {
        Theme Toggle
        ============================================================ */
     const themeToggle = document.getElementById('theme-toggle');
-    const overlay     = document.querySelector('.theme-overlay');
-    const icon        = themeToggle?.querySelector('.material-symbols-rounded');
+    const overlay = document.querySelector('.theme-overlay');
+    const icon = themeToggle?.querySelector('.material-symbols-rounded');
 
     function applyTheme(theme, animate = false) {
         if (animate && overlay) {
@@ -187,7 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Toggle on click
     themeToggle?.addEventListener('click', () => {
-        const current  = document.documentElement.getAttribute('data-theme') || 'dark';
+        const current = document.documentElement.getAttribute('data-theme') || 'dark';
         const newTheme = current === 'light' ? 'dark' : 'light';
         localStorage.setItem('theme', newTheme);
         applyTheme(newTheme, true);
@@ -235,7 +260,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const isCrtEnabled = localStorage.getItem('crtEnabled') === 'true';
     const isInterlaceEnabled = localStorage.getItem('interlaceEnabled') === 'true';
     const isGlowEnabled = localStorage.getItem('glowEnabled') === 'true';
-    
+
     updateEffect('crt', crtBtn, isCrtEnabled);
     updateEffect('text-interlace', interlaceBtn, isInterlaceEnabled);
     updateEffect('glow', glowBtn, isGlowEnabled);
@@ -362,7 +387,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
         const magicEl = document.getElementById('magic-ascii');
-        if(magicEl) magicEl.textContent = b.join("");
+        if (magicEl) magicEl.textContent = b.join("");
     }
     setInterval(drawMagic, 50);
 
@@ -370,7 +395,7 @@ document.addEventListener('DOMContentLoaded', () => {
        Animated ASCII Art (outro.sh - Drunk That's All Folks)
        ============================================================ */
     const outroFrames = [
-`
+        `
     That's all folks!
          (drunk)
          _   _
@@ -380,7 +405,7 @@ document.addEventListener('DOMContentLoaded', () => {
        /  |  | \\
       /___|__|__\\
 `,
-`
+        `
     That's all folks!
          (drunk)
          _   _
@@ -390,7 +415,7 @@ document.addEventListener('DOMContentLoaded', () => {
        /  |  | \\
       /___|__|__\\
 `,
-`
+        `
     That's all folks!
          (drunk)
          _   _
@@ -431,82 +456,141 @@ document.addEventListener('DOMContentLoaded', () => {
     const scSeekBar = document.getElementById('sc-seek-bar');
     const scSeekFill = document.getElementById('sc-seek-fill');
     const scTitle = document.getElementById('sc-title');
+    const playerStatus = document.getElementById('player-status');
+    const seekCurrent = document.getElementById('seek-current');
+    const seekTotal = document.getElementById('seek-total');
+    const asciiViz = document.getElementById('ascii-visualizer');
 
     if (scIframe && window.SC) {
         const widget = SC.Widget(scIframe);
         let trackDuration = 1;
         let isSeeking = false;
+        let vizInterval = null;
+
+        function formatTime(ms) {
+            const s = Math.floor(ms / 1000);
+            const m = Math.floor(s / 60);
+            const rs = s % 60;
+            return `${m}:${rs.toString().padStart(2, '0')}`;
+        }
+
+        function updateVisualizer() {
+            if (!asciiViz) return;
+
+            // Calculate bars and rows based on container size
+            const containerWidth = asciiViz.clientWidth;
+            const containerHeight = asciiViz.clientHeight;
+
+            // Estimate number of characters based on font size (approx 8px width, 12px height)
+            const numBars = Math.floor(containerWidth / 18) || 12;
+            const rows = Math.floor(containerHeight / 14) || 6;
+
+            const chars = [' ', '░', '▒', '▓', '█'];
+            let output = '';
+
+            const heights = Array.from({ length: numBars }, () => Math.random() * rows);
+
+            for (let r = rows - 1; r >= 0; r--) {
+                let line = '';
+                for (let b = 0; b < numBars; b++) {
+                    const diff = heights[b] - r;
+                    if (diff >= 1) {
+                        line += '█ ';
+                    } else if (diff > 0.6) {
+                        line += '▓ ';
+                    } else if (diff > 0.3) {
+                        line += '▒ ';
+                    } else if (diff > 0.1) {
+                        line += '░ ';
+                    } else {
+                        line += '  ';
+                    }
+                }
+                output += line + '\n';
+            }
+            asciiViz.textContent = output;
+        }
+
+        function startViz() {
+            if (vizInterval) clearInterval(vizInterval);
+            vizInterval = setInterval(updateVisualizer, 120);
+        }
+
+        function stopViz() {
+            if (vizInterval) clearInterval(vizInterval);
+            vizInterval = null;
+            if (asciiViz) {
+                // Static baseline state
+                const containerWidth = asciiViz.clientWidth;
+                const numBars = Math.floor(containerWidth / 18) || 12;
+                asciiViz.textContent = '\n'.repeat(Math.floor(asciiViz.clientHeight / 14) - 1) +
+                    '░ '.repeat(numBars);
+            }
+        }
 
         widget.bind(SC.Widget.Events.READY, () => {
             const savedVol = Number(sessionStorage.getItem('scVolume') ?? 50) || 50;
             widget.setVolume(savedVol);
 
-            const volSlider  = document.getElementById('sc-volume');
-            const volDisplay = document.getElementById('sc-vol-display');
+            const volSlider = document.getElementById('sc-volume');
 
             function applyVolume(val) {
                 const v = Number(val);
                 widget.setVolume(v);
                 sessionStorage.setItem('scVolume', v);
-                if (volDisplay) volDisplay.textContent = v;
             }
 
             if (volSlider) {
                 volSlider.value = savedVol;
-                if (volDisplay) volDisplay.textContent = savedVol;
-
                 volSlider.addEventListener('input', (e) => applyVolume(e.target.value));
-                volSlider.addEventListener('change', (e) => applyVolume(e.target.value));
             }
 
             function updateTitle() {
                 widget.getCurrentSound((sound) => {
                     if (scTitle && sound) {
                         const title = sound.title || 'Unknown Track';
-                        scTitle.innerHTML = `<span>${title}</span>`;
-                        const span = scTitle.querySelector('span');
-                        if (span.offsetWidth > scTitle.offsetWidth) {
-                            span.innerHTML = `${title} &nbsp;&nbsp;&nbsp; ${title} &nbsp;&nbsp;&nbsp;`;
-                            scTitle.classList.add('marquee');
-                        } else {
-                            scTitle.classList.remove('marquee');
-                        }
+                        scTitle.textContent = title;
+                        widget.getDuration((duration) => {
+                            trackDuration = duration;
+                            if (seekTotal) seekTotal.textContent = formatTime(duration);
+                        });
                     }
                 });
             }
 
-            widget.getDuration((duration) => {
-                trackDuration = duration;
-            });
-            
             updateTitle();
 
             const savedPos = sessionStorage.getItem('sc_position');
             const wasPlaying = sessionStorage.getItem('sc_playing') === 'true';
-            
-            if (savedPos) {
-                widget.seekTo(parseInt(savedPos, 10));
-            }
-            if (wasPlaying) {
-                widget.play();
-            }
 
-            // Events inside READY to share scope
+            if (savedPos) widget.seekTo(parseInt(savedPos, 10));
+            if (wasPlaying) widget.play();
+
             widget.bind(SC.Widget.Events.PLAY, () => {
-                if(scPlayBtn) scPlayBtn.textContent = '[ PAUSE ]';
+                if (scPlayBtn) scPlayBtn.textContent = '[⏸PAUSE ]';
+                if (playerStatus) playerStatus.textContent = 'PLAYING';
                 sessionStorage.setItem('sc_playing', 'true');
-                updateTitle(); 
+                updateTitle();
+                startViz();
             });
 
             widget.bind(SC.Widget.Events.PAUSE, () => {
-                if(scPlayBtn) scPlayBtn.textContent = '[ PLAY ]';
+                if (scPlayBtn) scPlayBtn.textContent = '[◀ PLAY ]';
+                if (playerStatus) playerStatus.textContent = 'PAUSED';
                 sessionStorage.setItem('sc_playing', 'false');
+                stopViz();
+            });
+
+            widget.bind(SC.Widget.Events.FINISH, () => {
+                if (playerStatus) playerStatus.textContent = 'STOPPED';
+                stopViz();
             });
 
             widget.bind(SC.Widget.Events.PLAY_PROGRESS, (e) => {
                 if (!isSeeking) {
                     sessionStorage.setItem('sc_position', e.currentPosition);
-                    if(scSeekFill) {
+                    if (seekCurrent) seekCurrent.textContent = formatTime(e.currentPosition);
+                    if (scSeekFill) {
                         const percent = (e.currentPosition / trackDuration) * 100;
                         scSeekFill.style.width = `${percent}%`;
                     }
@@ -523,7 +607,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 const clickX = e.clientX - rect.left;
                 const percent = clickX / rect.width;
                 const targetPos = percent * trackDuration;
-                if(scSeekFill) scSeekFill.style.width = `${percent * 100}%`;
+                if (scSeekFill) scSeekFill.style.width = `${percent * 100}%`;
+                if (seekCurrent) seekCurrent.textContent = formatTime(targetPos);
                 sessionStorage.setItem('sc_position', targetPos);
                 widget.seekTo(targetPos);
                 setTimeout(() => { isSeeking = false; }, 200);
@@ -536,9 +621,9 @@ document.addEventListener('DOMContentLoaded', () => {
        ============================================================ */
     document.querySelectorAll('.skill-group-header').forEach(header => {
         header.addEventListener('click', () => {
-            const group  = header.closest('.skill-group');
-            const body   = group.querySelector('.skill-group-body');
-            const arrow  = header.querySelector('.skill-group-arrow');
+            const group = header.closest('.skill-group');
+            const body = group.querySelector('.skill-group-body');
+            const arrow = header.querySelector('.skill-group-arrow');
             const isOpen = group.hasAttribute('data-open');
 
             // Close all other open groups (single-open accordion)
@@ -575,7 +660,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.documentElement.scrollHeight > window.innerHeight ? 'auto' : 'hidden';
     }
 
-    window.addEventListener('load',   checkOverflow);
+    window.addEventListener('load', checkOverflow);
     window.addEventListener('resize', checkOverflow);
 
 
@@ -589,27 +674,48 @@ document.addEventListener('DOMContentLoaded', () => {
     /* ============================================================
        Work Card → Modal
        ============================================================ */
-    const workModal       = document.getElementById('work-modal');
-    const workModalClose  = document.getElementById('work-modal-close');
+    const workModal = document.getElementById('work-modal');
+    const workModalClose = document.getElementById('work-modal-close');
 
     function openWorkModal(card) {
         if (!workModal) return;
-        document.getElementById('modal-title').textContent       = card.dataset.title       || '';
-        document.getElementById('modal-period').textContent      = card.dataset.period      || '';
-        document.getElementById('modal-role').textContent        = card.dataset.role        || '';
-        document.getElementById('modal-impact-user').textContent = card.dataset.impactUser  || '';
-        document.getElementById('modal-impact-biz').textContent  = card.dataset.impactBiz   || '';
-        document.getElementById('modal-stack').textContent       = card.dataset.stack       || '';
+
+        const titleEl = document.getElementById('modal-title');
+        const periodEl = document.getElementById('modal-period');
+        const roleEl = document.getElementById('modal-role');
+        const userEl = document.getElementById('modal-impact-user');
+        const bizEl = document.getElementById('modal-impact-biz');
+        const stackEl = document.getElementById('modal-stack');
+
+        titleEl.textContent = card.dataset.title || '';
+        periodEl.textContent = card.dataset.period || '';
+        roleEl.textContent = card.dataset.role || '';
+        userEl.textContent = card.dataset.impactUser || '';
+        bizEl.textContent = card.dataset.impactBiz || '';
+        stackEl.textContent = card.dataset.stack || '';
+
         workModal.removeAttribute('hidden');
+
+        // Apply decryption effect
+        if (window.applyDecryptedText) {
+            const options = { encryptedClassName: 'decrypted-encrypted' };
+            applyDecryptedText(titleEl, { ...options, speed: 10, maxIterations: 10 });
+            applyDecryptedText(periodEl, { ...options, speed: 10, maxIterations: 5 });
+            applyDecryptedText(roleEl, { ...options, speed: 4, sequential: true, revealDirection: 'start' });
+            applyDecryptedText(userEl, { ...options, speed: 4, sequential: true, revealDirection: 'start' });
+            applyDecryptedText(bizEl, { ...options, speed: 4, sequential: true, revealDirection: 'start' });
+            applyDecryptedText(stackEl, { ...options, speed: 10, maxIterations: 15 });
+        }
+
         openWorkSound.currentTime = 0;
-        openWorkSound.play().catch(() => {});
+        openWorkSound.play().catch(() => { });
         workModalClose?.focus();
     }
 
     function closeWorkModal() {
         workModal?.setAttribute('hidden', '');
         closeWorkSound.currentTime = 0;
-        closeWorkSound.play().catch(() => {});
+        closeWorkSound.play().catch(() => { });
     }
 
     document.querySelectorAll('.work-card').forEach(card => {
@@ -634,6 +740,38 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.key === 'Escape' && workModal && !workModal.hasAttribute('hidden')) {
             closeWorkModal();
         }
+    });
+
+    /* ============================================================
+       Site Index Navigation
+       ============================================================ */
+    document.querySelectorAll('.index-link').forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetId = link.dataset.target;
+            const target = document.getElementById(targetId);
+
+            if (target) {
+                // Scroll into view
+                target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                // Visual highlight with DecryptedText (Desktop only)
+                if (window.innerWidth >= 768 && window.applyDecryptedText) {
+                    // Delay slightly to wait for scroll to start
+                    setTimeout(() => {
+                        const elementsToAnimate = target.querySelectorAll('p, pre.ascii-art, .skill-group-label, .work-card-title, .principle-title');
+                        elementsToAnimate.forEach(el => {
+                            window.applyDecryptedText(el, {
+                                speed: 4,
+                                sequential: true,
+                                revealDirection: 'start',
+                                encryptedClassName: 'decrypted-encrypted'
+                            });
+                        });
+                    }, 300);
+                }
+            }
+        });
     });
 
 });
