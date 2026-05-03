@@ -192,7 +192,7 @@ class MDRGame {
         // Handle Exit
         const exitBtn = document.getElementById('mdr-exit');
         exitBtn?.addEventListener('click', () => {
-            window.location.href = 'index.html';
+            window.location.href = '../index.html';
         });
 
         // Handle Clicks for Refinement

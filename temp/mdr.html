@@ -7,8 +7,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="mdr.css">
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/mdr.css">
     <script src="https://w.soundcloud.com/player/api.js"></script>
     <style>
         body { margin: 0; padding: 0; overflow: hidden; }
@@ -24,13 +24,13 @@
         }
     </style>
 </head>
-<body class="crt-enabled text-interlace-enabled">
+<body>
     <button id="options-toggle" class="effect-btn options-toggle-btn" style="position: fixed; top: 1rem; right: 1rem; z-index: 9999;">[ OPTIONS ]</button>
     <div id="options-menu" class="options-menu">
     <div class="mdr-controls">
         <button id="mdr-exit" class="effect-btn">[ EXIT ]</button>
-        <button id="crt-toggle" class="effect-btn active">[ CRT: ON ]</button>
-        <button id="interlace-toggle" class="effect-btn active">[ TEXT FX: ON ]</button>
+        <button id="crt-toggle" class="effect-btn">[ CRT ]</button>
+        <button id="interlace-toggle" class="effect-btn">[ FX ]</button>
         <button id="screensaver-toggle" class="effect-btn">[ SCREENSAVER ]</button>
         
         <!-- Custom Music Widget -->
@@ -82,12 +82,12 @@
     </div>
     
     <!-- Screensaver Container -->
-    <div id="screensaver" class="hidden">
+    <div id="screensaver">
         <div id="screensaver-logo"></div>
     </div>
 
-    <script src="scripts.js"></script>
-    <script src="radio-ascii.js"></script>
-    <script src="mdr.js"></script>
+    <script src="../js/scripts.js"></script>
+    <script src="../js/radio-ascii.js"></script>
+    <script src="../js/mdr.js"></script>
 </body>
 </html>

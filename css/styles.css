@@ -5,11 +5,12 @@
 
 :root {
     --accent: #00ff41;
+    --accent-rgb: 0, 255, 65;
     /* Terminal Green */
     --bg-primary: #000000;
     --bg-primary-rgb: 0, 0, 0;
     --bg-secondary: #1a1a1a;
-    --bg-secondary-rgb: 10, 26, 10;
+    --bg-secondary-rgb: 26, 26, 26;
 
     --c-mono: #FFFFFF;
     --c-yellow: #FFB000;
@@ -38,6 +39,7 @@
 
 :root[data-theme="light"] {
     --accent: #000000;
+    --accent-rgb: 0, 0, 0;
     --bg-primary: #e0e0e0;
     --bg-primary-rgb: 224, 224, 224;
     --bg-secondary: #cccccc;
@@ -278,6 +280,66 @@ a:hover {
 .tile-header::before {
     content: ">";
     font-weight: bold;
+}
+
+/* Hero Section Enhancements */
+.hero-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 2rem;
+    flex: 1;
+    width: 100%;
+    padding: var(--space-sm) 0;
+}
+
+.name-ascii {
+    font-size: 1.1rem;
+    line-height: 1;
+    color: var(--accent);
+    margin: 0;
+    white-space: pre;
+    font-family: monospace;
+    letter-spacing: -1px;
+}
+
+.hero-properties {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.prop-row {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 1rem;
+    align-items: baseline;
+}
+
+.prop-key {
+    color: var(--accent);
+    opacity: 0.5;
+    font-weight: bold;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+}
+
+.prop-val {
+    color: var(--accent);
+    font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+    .name-ascii {
+        font-size: 0.5rem;
+    }
+    .prop-row {
+        grid-template-columns: 100px 1fr;
+        gap: 0.5rem;
+    }
 }
 
 /* Desktop Heights & Overflows (1024px+) */
@@ -737,8 +799,8 @@ a:hover {
     bottom: 0;
     background-color: #000000;
     /* Always dark */
-    z-index: 9998;
-    /* Just below CRT effects (9999) */
+    z-index: 99999;
+    /* Above everything including CRT effects */
     display: none;
     overflow: hidden;
 }
@@ -756,14 +818,14 @@ a:hover {
     height: 133px;
     /* We'll set the background color dynamically in JS to the dark-mode accent */
     background-color: var(--accent);
-    -webkit-mask-image: url('lumon-logo.png');
-    -webkit-mask-size: contain;
-    -webkit-mask-repeat: no-repeat;
-    -webkit-mask-position: center;
-    mask-image: url('lumon-logo.png');
-    mask-size: contain;
-    mask-repeat: no-repeat;
-    mask-position: center;
+
+    /* Robust Masking */
+    -webkit-mask: url('../assets/lumon-logo.png') no-repeat center / contain;
+    mask: url('../assets/lumon-logo.png') no-repeat center / contain;
+
+    /* Fallback border to verify movement */
+    border: 1px dashed rgba(var(--accent-rgb), 0.3);
+
     will-change: transform;
 }
 

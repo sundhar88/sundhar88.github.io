@@ -15,8 +15,9 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
         rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="mdr.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/mdr.css">
+    <link rel="stylesheet" href="css/border-glow.css">
     <script src="https://w.soundcloud.com/player/api.js"></script>
 </head>
 
@@ -26,14 +27,45 @@
 
             <!-- TILE 1: HERO -->
             <div class="bento-tile span-2 row-2">
-                <div class="tile-header">who am i</div>
-                <div
-                    style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.5rem; flex: 1; text-align: center;">
-                    <pre id="welcome-ascii-container" class="ascii-hand" style="margin: 0;"></pre>
-                    <div>
-                        <h1 style="margin: 0;">sundhar m</h1>
-                        <p style="margin: 0.5rem 0 0;">// senior product designer</p>
-                        <p style="margin: 0.2rem 0 0; opacity: 0.7;">// 5+ yrs · B2B SaaS · EdTech · 0→1 products</p>
+                <div class="tile-header">./whoami.sh</div>
+                <div class="hero-content">
+                    <pre class="name-ascii">
+  ________  ___  ___  ________   ________  ___  ___  ________  ________     
+ |\   ____\|\  \|\  \|\   __  \ |\   ___ \|\  \|\  \|\   __  \|\   __  \    
+ \ \  \___| \ \  \\\  \ \  \|\  \ \  \_|\ \ \  \\\  \ \  \|\  \ \  \|\  \   
+  \ \_____  \ \  \\\  \ \   __  \ \  \ \\ \ \   __  \ \   __  \ \   _  _\  
+   \|____|\  \ \  \\\  \ \  \ \  \ \  \_\\ \ \  \ \  \ \  \ \  \ \  \\  \| 
+     ____\_\  \ \_______\ \__\ \__\ \_______\ \__\ \__\ \__\ \__\ \__\\ _\ 
+    |\________\\_______|\|__|\|__|\|_______|\|__|\|__|\|__|\|__|\|__|\|__|
+    \|_________|                                                            
+                    </pre>
+                    <div class="hero-properties">
+                        <div class="prop-row">
+                            <span class="prop-key">NAME:</span>
+                            <span class="prop-val">Sundhar M</span>
+                        </div>
+                        <div class="prop-row">
+                            <span class="prop-key">ROLE:</span>
+                            <span class="prop-val">Senior Product Designer</span>
+                        </div>
+                        <div class="prop-row">
+                            <span class="prop-key">EXPERIENCE:</span>
+                            <span class="prop-val">5+ Years</span>
+                        </div>
+                        <div class="prop-row">
+                            <span class="prop-key">DOMAINS:</span>
+                            <span class="prop-val">B2B SaaS · EdTech · 0→1 Products</span>
+                        </div>
+                        <div class="prop-row">
+                            <span class="prop-key">LOCATION:</span>
+                            <span class="prop-val">
+                                <a href="https://www.google.com/maps/place/Chennai,+Tamil+Nadu" target="_blank" class="terminal-link">Chennai, India</a>
+                            </span>
+                        </div>
+                        <div class="prop-row">
+                            <span class="prop-key">STATUS:</span>
+                            <span class="prop-val">Ready for new challenges</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -41,12 +73,11 @@
             <!-- TILE 2: BIO -->
             <div class="bento-tile span-1">
                 <div class="tile-header">cat hello.txt</div>
-                <p>I design products that work — intuitively, accessibly, and without the need for a tutorial. My
-                    practice spans the full product lifecycle: discovery, systems design, interaction design, and
-                    validation.</p>
-                <p style="margin-top: var(--space-xs);">I pair deep design craft with a fluency in AI-assisted workflows
-                    to move faster without
-                    cutting corners.</p>
+                <p>I am a designer who values clarity over clutter. I build products that are accessible by default and
+                    intuitive by design, removing the need for tutorials entirely. Whether I am mapping out a new system
+                    or validating an interaction, I lean into a high-utility workflow.</p>
+                <p style="margin-top: var(--space-xs);">I blend traditional design principles with AI-powered tools to
+                    build better products in less time.</p>
             </div>
 
             <!-- TILE 3: SYSTEM CONTROLS -->
@@ -69,10 +100,11 @@
                     </div>
 
                     <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                        <button id="crt-toggle" class="effect-btn active" style="width: 100%;">[ CRT ]</button>
-                        <button id="interlace-toggle" class="effect-btn active" style="width: 100%;">[ FX ]</button>
-                        <button id="screensaver-toggle" class="effect-btn" style="width: 100%;">[ SCREENSAVER ]</button>
-                        <button id="refinement-toggle" class="effect-btn" style="width: 100%;">[ REFINEMENT ]</button>
+                        <button id="crt-toggle" class="effect-btn" style="width: 100%;">[ CRT ]</button>
+                        <button id="interlace-toggle" class="effect-btn" style="width: 100%;">[ FX ]</button>
+                        <button id="glow-toggle" class="effect-btn" style="width: 100%;">[ BORDER GLOW ]</button>
+                        <!-- <button id="screensaver-toggle" class="effect-btn" style="width: 100%;">[ SCREENSAVER ]</button> -->
+                        <!-- <button id="refinement-toggle" class="effect-btn" style="width: 100%;">[ REFINEMENT ]</button> -->
                     </div>
                 </div>
             </div>
@@ -248,13 +280,22 @@
                             <span class="skill-group-arrow">[+]</span>
                         </button>
                         <div class="skill-group-body" hidden>
-                            <div class="skill-row"><span class="skill-name">Figma</span><span class="skill-bar">████████████</span><span class="skill-level">Expert</span></div>
-                            <div class="skill-row"><span class="skill-name">FigJam</span><span class="skill-bar">██████████░░</span><span class="skill-level">Advanced</span></div>
-                            <div class="skill-row"><span class="skill-name">Miro</span><span class="skill-bar">██████████░░</span><span class="skill-level">Advanced</span></div>
-                            <div class="skill-row"><span class="skill-name">Notion</span><span class="skill-bar">██████████░░</span><span class="skill-level">Advanced</span></div>
-                            <div class="skill-row"><span class="skill-name">Jira</span><span class="skill-bar">██████████░░</span><span class="skill-level">Advanced</span></div>
-                            <div class="skill-row"><span class="skill-name">GitHub</span><span class="skill-bar">████████░░░░</span><span class="skill-level">Proficient</span></div>
-                            <div class="skill-row"><span class="skill-name">Storybook</span><span class="skill-bar">████████░░░░</span><span class="skill-level">Proficient</span></div>
+                            <div class="skill-row"><span class="skill-name">Figma</span><span
+                                    class="skill-bar">████████████</span><span class="skill-level">Expert</span></div>
+                            <div class="skill-row"><span class="skill-name">FigJam</span><span
+                                    class="skill-bar">██████████░░</span><span class="skill-level">Advanced</span></div>
+                            <div class="skill-row"><span class="skill-name">Miro</span><span
+                                    class="skill-bar">██████████░░</span><span class="skill-level">Advanced</span></div>
+                            <div class="skill-row"><span class="skill-name">Notion</span><span
+                                    class="skill-bar">██████████░░</span><span class="skill-level">Advanced</span></div>
+                            <div class="skill-row"><span class="skill-name">Jira</span><span
+                                    class="skill-bar">██████████░░</span><span class="skill-level">Advanced</span></div>
+                            <div class="skill-row"><span class="skill-name">GitHub</span><span
+                                    class="skill-bar">████████░░░░</span><span class="skill-level">Proficient</span>
+                            </div>
+                            <div class="skill-row"><span class="skill-name">Storybook</span><span
+                                    class="skill-bar">████████░░░░</span><span class="skill-level">Proficient</span>
+                            </div>
                         </div>
                     </div>
                     <!-- AI WORKFLOW -->
@@ -265,12 +306,18 @@
                             <span class="skill-group-arrow">[+]</span>
                         </button>
                         <div class="skill-group-body" hidden>
-                            <div class="skill-row"><span class="skill-name">Claude</span><span class="skill-bar">████████████</span><span class="skill-level">Expert</span></div>
-                            <div class="skill-row"><span class="skill-name">Gemini</span><span class="skill-bar">████████████</span><span class="skill-level">Expert</span></div>
-                            <div class="skill-row"><span class="skill-name">Claude Code</span><span class="skill-bar">██████████░░</span><span class="skill-level">Advanced</span></div>
-                            <div class="skill-row"><span class="skill-name">Claude Design</span><span class="skill-bar">██████████░░</span><span class="skill-level">Advanced</span></div>
-                            <div class="skill-row"><span class="skill-name">NotebookLM</span><span class="skill-bar">█████████░░░</span><span class="skill-level">Advanced</span></div>
-                            <div class="skill-row"><span class="skill-name">Antigravity</span><span class="skill-bar">█████████░░░</span><span class="skill-level">Advanced</span></div>
+                            <div class="skill-row"><span class="skill-name">Claude</span><span
+                                    class="skill-bar">████████████</span><span class="skill-level">Expert</span></div>
+                            <div class="skill-row"><span class="skill-name">Gemini</span><span
+                                    class="skill-bar">████████████</span><span class="skill-level">Expert</span></div>
+                            <div class="skill-row"><span class="skill-name">Claude Code</span><span
+                                    class="skill-bar">██████████░░</span><span class="skill-level">Advanced</span></div>
+                            <div class="skill-row"><span class="skill-name">Claude Design</span><span
+                                    class="skill-bar">██████████░░</span><span class="skill-level">Advanced</span></div>
+                            <div class="skill-row"><span class="skill-name">NotebookLM</span><span
+                                    class="skill-bar">█████████░░░</span><span class="skill-level">Advanced</span></div>
+                            <div class="skill-row"><span class="skill-name">Antigravity</span><span
+                                    class="skill-bar">█████████░░░</span><span class="skill-level">Advanced</span></div>
                         </div>
                     </div>
                     <!-- RESEARCH -->
@@ -281,9 +328,12 @@
                             <span class="skill-group-arrow">[+]</span>
                         </button>
                         <div class="skill-group-body" hidden>
-                            <div class="skill-row"><span class="skill-name">User Interviews</span><span class="skill-bar">███████████░</span><span class="skill-level">Expert</span></div>
-                            <div class="skill-row"><span class="skill-name">Usability Testing</span><span class="skill-bar">███████████░</span><span class="skill-level">Expert</span></div>
-                            <div class="skill-row"><span class="skill-name">Heuristic Analysis</span><span class="skill-bar">██████████░░</span><span class="skill-level">Advanced</span></div>
+                            <div class="skill-row"><span class="skill-name">User Interviews</span><span
+                                    class="skill-bar">███████████░</span><span class="skill-level">Expert</span></div>
+                            <div class="skill-row"><span class="skill-name">Usability Testing</span><span
+                                    class="skill-bar">███████████░</span><span class="skill-level">Expert</span></div>
+                            <div class="skill-row"><span class="skill-name">Heuristic Analysis</span><span
+                                    class="skill-bar">██████████░░</span><span class="skill-level">Advanced</span></div>
                         </div>
                     </div>
                     <!-- PROCESS -->
@@ -294,9 +344,12 @@
                             <span class="skill-group-arrow">[+]</span>
                         </button>
                         <div class="skill-group-body" hidden>
-                            <div class="skill-row"><span class="skill-name">Design Thinking</span><span class="skill-bar">████████████</span><span class="skill-level">Expert</span></div>
-                            <div class="skill-row"><span class="skill-name">Lean UX</span><span class="skill-bar">███████████░</span><span class="skill-level">Expert</span></div>
-                            <div class="skill-row"><span class="skill-name">Agile</span><span class="skill-bar">███████████░</span><span class="skill-level">Expert</span></div>
+                            <div class="skill-row"><span class="skill-name">Design Thinking</span><span
+                                    class="skill-bar">████████████</span><span class="skill-level">Expert</span></div>
+                            <div class="skill-row"><span class="skill-name">Lean UX</span><span
+                                    class="skill-bar">███████████░</span><span class="skill-level">Expert</span></div>
+                            <div class="skill-row"><span class="skill-name">Agile</span><span
+                                    class="skill-bar">███████████░</span><span class="skill-level">Expert</span></div>
                         </div>
                     </div>
                 </div>
@@ -430,22 +483,30 @@
         </main>
     </div>
 
-    <!-- Screensaver Container -->
+    <!-- Screensaver Container
     <div id="screensaver">
         <div class="screensaver-content">
-            <img id="screensaver-logo" src="lumon-logo.png" alt="Lumon Logo">
+            <img id="screensaver-logo" src="assets/lumon-logo.png" alt="Lumon Logo">
         </div>
     </div>
+    -->
+
+    <!-- Screensaver Container
+    <div id="screensaver">
+        <div id="screensaver-logo"></div>
+    </div>
+    -->
 
     <!-- Theme transition overlay -->
     <div class="theme-overlay" aria-hidden="true"></div>
 
     <!-- No additional menus needed, all controls are in bento tiles -->
 
-    <script src="scripts.js"></script>
-    <script src="radio-ascii.js"></script>
-    <script src="mdr.js"></script>
-    <script src="welcome-ascii.js"></script>
+    <script src="js/scripts.js"></script>
+    <script src="js/radio-ascii.js"></script>
+    <!-- <script src="js/mdr.js"></script> -->
+    <!-- <script src="js/welcome-ascii.js"></script> -->
+    <script src="js/border-glow.js"></script>
 </body>
 
 </html>

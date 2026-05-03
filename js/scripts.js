@@ -8,8 +8,12 @@ document.addEventListener('DOMContentLoaded', () => {
     /* ============================================================
        Global Click Sound
        ============================================================ */
-    const clickSound = new Audio('file:///C:/Users/sundh/Downloads/old-computer-click.mp3');
+    const clickSound = new Audio('assets/click.ogg');
+    const openWorkSound = new Audio('assets/UI_Open_Works.wav');
+    const closeWorkSound = new Audio('assets/UI_Close_works.wav');
     clickSound.preload = 'auto';
+    openWorkSound.preload = 'auto';
+    closeWorkSound.preload = 'auto';
 
     document.addEventListener('click', (e) => {
         if (e.target.closest('button') || e.target.closest('a') || e.target.closest('.work-card') || e.target.closest('.skill-group-header')) {
@@ -201,31 +205,40 @@ document.addEventListener('DOMContentLoaded', () => {
        ============================================================ */
     const crtBtn = document.getElementById('crt-toggle');
     const interlaceBtn = document.getElementById('interlace-toggle');
+    const glowBtn = document.getElementById('glow-toggle');
 
     function updateEffect(effectName, btnEl, isEnabled) {
         if (isEnabled) {
             document.body.classList.add(`${effectName}-enabled`);
             if (btnEl) {
                 btnEl.classList.add('active');
-                btnEl.textContent = `[ ${effectName === 'crt' ? 'CRT' : 'TEXT FX'}: ON ]`;
+                let label = effectName.toUpperCase();
+                if (effectName === 'text-interlace') label = 'FX';
+                if (effectName === 'glow') label = 'BORDER GLOW';
+                btnEl.textContent = `[ ${label}: ON ]`;
             }
             localStorage.setItem(`${effectName}Enabled`, 'true');
         } else {
             document.body.classList.remove(`${effectName}-enabled`);
             if (btnEl) {
                 btnEl.classList.remove('active');
-                btnEl.textContent = `[ ${effectName === 'crt' ? 'CRT' : 'TEXT FX'}: OFF ]`;
+                let label = effectName.toUpperCase();
+                if (effectName === 'text-interlace') label = 'FX';
+                if (effectName === 'glow') label = 'BORDER GLOW';
+                btnEl.textContent = `[ ${label}: OFF ]`;
             }
             localStorage.setItem(`${effectName}Enabled`, 'false');
         }
     }
 
-    // Initialize effects
-    const isCrtEnabled = localStorage.getItem('crtEnabled') !== 'false';
-    const isInterlaceEnabled = localStorage.getItem('interlaceEnabled') !== 'false';
+    // Initialize effects - default to false if not set
+    const isCrtEnabled = localStorage.getItem('crtEnabled') === 'true';
+    const isInterlaceEnabled = localStorage.getItem('interlaceEnabled') === 'true';
+    const isGlowEnabled = localStorage.getItem('glowEnabled') === 'true';
     
     updateEffect('crt', crtBtn, isCrtEnabled);
     updateEffect('text-interlace', interlaceBtn, isInterlaceEnabled);
+    updateEffect('glow', glowBtn, isGlowEnabled);
 
     crtBtn?.addEventListener('click', () => {
         const currentlyEnabled = document.body.classList.contains('crt-enabled');
@@ -237,10 +250,16 @@ document.addEventListener('DOMContentLoaded', () => {
         updateEffect('text-interlace', interlaceBtn, !currentlyEnabled);
     });
 
+    glowBtn?.addEventListener('click', () => {
+        const currentlyEnabled = document.body.classList.contains('glow-enabled');
+        updateEffect('glow', glowBtn, !currentlyEnabled);
+    });
+
 
     /* ============================================================
        Screensaver Logic (DVD Bounce)
        ============================================================ */
+    /*
     const screensaverBtn = document.getElementById('screensaver-toggle');
     const screensaver = document.getElementById('screensaver');
     const screensaverLogo = document.getElementById('screensaver-logo');
@@ -255,18 +274,25 @@ document.addEventListener('DOMContentLoaded', () => {
         const colorKey = sessionStorage.getItem('accentColor') || 'mono';
         const darkColor = colorMap['dark'][colorKey];
         document.body.style.setProperty('--ss-accent', darkColor);
+        screensaverLogo.style.backgroundColor = darkColor;
 
         screensaver.classList.add('active');
         
-        const logoW = screensaverLogo.offsetWidth || 240;
-        const logoH = screensaverLogo.offsetHeight || 100;
-        const vW = window.innerWidth;
-        const vH = window.innerHeight;
+        // Use a small timeout to ensure display: block has taken effect for dimensions
+        setTimeout(() => {
+            const logoW = screensaverLogo.offsetWidth || 400;
+            const logoH = screensaverLogo.offsetHeight || 133;
+            const vW = window.innerWidth;
+            const vH = window.innerHeight;
 
-        ssX = Math.random() * Math.max(0, vW - logoW);
-        ssY = Math.random() * Math.max(0, vH - logoH);
-        ssDX = (Math.random() > 0.5 ? 1 : -1) * 2.5;
-        ssDY = (Math.random() > 0.5 ? 1 : -1) * 2.5;
+            ssX = Math.random() * Math.max(0, vW - logoW);
+            ssY = Math.random() * Math.max(0, vH - logoH);
+            ssDX = (Math.random() > 0.5 ? 1 : -1) * 3;
+            ssDY = (Math.random() > 0.5 ? 1 : -1) * 3;
+            
+            if (ssAnimationId) cancelAnimationFrame(ssAnimationId);
+            animate();
+        }, 10);
         
         function animate() {
             if (!screensaver.classList.contains('active')) return;
@@ -301,6 +327,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     screensaverBtn?.addEventListener('click', startScreensaver);
     screensaver?.addEventListener('click', stopScreensaver);
+    */
 
     /* ============================================================
        Animated ASCII Art (magic.sh - 3D Torus)
@@ -387,10 +414,12 @@ document.addEventListener('DOMContentLoaded', () => {
     /* ============================================================
        Navigation Logic
        ============================================================ */
+    /*
     const refinementToggleBtn = document.getElementById('refinement-toggle');
     refinementToggleBtn?.addEventListener('click', () => {
-        window.location.href = 'mdr.html';
+        window.location.href = 'temp/mdr.html';
     });
+    */
 
     /* ============================================================
        Music Widget Logic
@@ -572,11 +601,15 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('modal-impact-biz').textContent  = card.dataset.impactBiz   || '';
         document.getElementById('modal-stack').textContent       = card.dataset.stack       || '';
         workModal.removeAttribute('hidden');
+        openWorkSound.currentTime = 0;
+        openWorkSound.play().catch(() => {});
         workModalClose?.focus();
     }
 
     function closeWorkModal() {
         workModal?.setAttribute('hidden', '');
+        closeWorkSound.currentTime = 0;
+        closeWorkSound.play().catch(() => {});
     }
 
     document.querySelectorAll('.work-card').forEach(card => {
