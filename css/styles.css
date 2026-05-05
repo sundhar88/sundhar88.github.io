@@ -24,7 +24,7 @@
     --scanline-color: rgba(255, 255, 255, 0.06);
 
     --font-mono: 'IBM Plex Mono', monospace;
-    --font-display: 'Doto', 'IBM Plex Mono', monospace;
+    --font-display: 'VT323', monospace;
 
     --speed-fast: 0ms;
     --speed-base: 0ms;

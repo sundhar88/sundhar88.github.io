@@ -144,20 +144,45 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     /* ============================================================
-       Global Click Sound
+       Global Click Sound (Shuffled)
        ============================================================ */
-    const clickSound = new Audio('assets/click.ogg');
+    const clickFiles = [
+        'assets/click.ogg',
+        'assets/CLICK_01.wav',
+        'assets/CLICK_02.wav',
+        'assets/CLICK_03.wav',
+        'assets/CLICK_04.wav',
+        'assets/CLICK_11.wav',
+        'assets/CLICK_17.wav',
+        'assets/CLICK_18.wav'
+    ];
+
+    const clickSounds = clickFiles.map(file => {
+        const audio = new Audio(file);
+        audio.preload = 'auto';
+        return audio;
+    });
+
     const openWorkSound = new Audio('assets/UI_Open_Works.wav');
     const closeWorkSound = new Audio('assets/UI_Close_works.wav');
-    clickSound.preload = 'auto';
     openWorkSound.preload = 'auto';
     closeWorkSound.preload = 'auto';
 
     document.addEventListener('click', (e) => {
-        if (e.target.closest('button') || e.target.closest('a') || e.target.closest('.work-card') || e.target.closest('.skill-group-header')) {
-            clickSound.currentTime = 0;
-            clickSound.play().catch(() => { });
+        // Find interactive target
+        const target = e.target.closest('button, a, .work-card, .skill-group-header, [role="button"], .interactive, .tab-trigger');
+        
+        if (!target) return;
+        
+        // EXCLUDE: work cards (modal open) and anything inside the work modal (modal close/interactions)
+        if (target.classList.contains('work-card') || target.closest('#work-modal')) {
+            return;
         }
+
+        const randomIdx = Math.floor(Math.random() * clickSounds.length);
+        const sound = clickSounds[randomIdx];
+        sound.currentTime = 0;
+        sound.play().catch(() => { });
     });
 
     /* ============================================================
@@ -655,7 +680,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function openWorkModal(card) {
         if (!workModal) return;
-        const clickSound = new Audio('assets/click.ogg');
 
         const titleEl = document.getElementById('modal-title');
         const periodEl = document.getElementById('modal-period');
