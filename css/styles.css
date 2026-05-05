@@ -18,6 +18,10 @@
     --c-red: #FF4D4D;
     --c-cyan: #00FFFF;
     --c-blue: #6699FF;
+    --c-purple: #D1A3FF;
+    --c-pink: #FF80BF;
+
+    --scanline-color: rgba(255, 255, 255, 0.06);
 
     --font-mono: 'IBM Plex Mono', monospace;
     --font-display: 'Doto', 'IBM Plex Mono', monospace;
@@ -29,7 +33,7 @@
 
     --space-xs: 0.5rem;
     --space-sm: 1rem;
-    --space-md: 1.5rem;
+    --space-md: 1.2rem;
     --space-lg: 2.5rem;
 
     --border-style: 2px solid var(--accent);
@@ -41,6 +45,7 @@
     --fs-md: clamp(1.1rem, 1.05rem + 0.25vw, 1.25rem);
     --fs-lg: clamp(1.4rem, 1.3rem + 0.5vw, 1.8rem);
     --fs-xl: clamp(2rem, 1.8rem + 1.5vw, 3.5rem);
+    --accent-dim: rgba(var(--accent-rgb), 0.3);
 }
 
 :root[data-theme="light"] {
@@ -52,11 +57,16 @@
     --bg-secondary-rgb: 204, 204, 204;
 
     --c-mono: #000000;
-    --c-yellow: #8C6600;
+    --c-yellow: #805E00;
     --c-green: #00661A;
     --c-red: #B30000;
     --c-cyan: #006666;
     --c-blue: #0033CC;
+    --c-purple: #7A29CC;
+    --c-pink: #B8005D;
+
+    --scanline-color: rgba(0, 0, 0, 0.12);
+    --accent-dim: rgba(var(--accent-rgb), 0.3);
 }
 
 /* ----------------------------------------------------------------
@@ -86,63 +96,75 @@ body {
 }
 
 body.crt-enabled {
-    background-image: radial-gradient(circle at center, rgba(25, 65, 100, 0.2) 0%, transparent 100%);
-    background-attachment: fixed;
+    background-color: var(--bg-primary);
 }
 
-/* When CRT is on, make the container glass-like so the scan effect shows through */
+/* Subtle curvature via perspective */
 body.crt-enabled .container {
     background-color: transparent;
+    transform: perspective(1200px) rotateX(0.3deg) scale(1.01);
+    transform-origin: center center;
 }
 
-body.crt-enabled .section {
-    background-color: rgba(var(--bg-primary-rgb), 0.35);
-}
-
-body.crt-enabled .tab-content {
-    background-color: transparent;
-}
-
+/* Scanlines overlay — neutral horizontal lines, no color bleed */
 body.crt-enabled::before {
-    content: " ";
-    display: block;
+    content: "";
     position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-    background-size: 100% 2px, 3px 100%;
-    z-index: 9999;
+    inset: 0;
+    background: repeating-linear-gradient(to bottom,
+            transparent 0px,
+            transparent 2px,
+            var(--scanline-color) 2px,
+            var(--scanline-color) 4px);
+    z-index: 11000;
     pointer-events: none;
+    animation: crt-flicker 8s linear infinite;
 }
 
+/* Vignette + subtle edge darkening */
 body.crt-enabled::after {
-    content: " ";
-    display: block;
+    content: "";
     position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    background: rgba(18, 16, 16, 0.1);
-    opacity: 0;
-    z-index: 9999;
+    inset: 0;
+    background: radial-gradient(ellipse at center,
+            transparent 50%,
+            rgba(0, 0, 0, 0.35) 80%,
+            rgba(0, 0, 0, 0.65) 100%);
+    z-index: 11001;
     pointer-events: none;
-    animation: flicker 0.15s infinite;
 }
 
-@keyframes flicker {
+/* Subtle chromatic aberration on all text — CSS only, no SVG filter */
+body.crt-enabled * {
+    text-shadow:
+        0.5px 0 0 rgba(255, 0, 0, 0.12),
+        -0.5px 0 0 rgba(0, 255, 255, 0.12);
+}
+
+/* Very subtle brightness flicker — slow and gentle */
+@keyframes crt-flicker {
     0% {
-        opacity: 0.02739;
+        opacity: 1;
     }
 
-    50% {
-        opacity: 0.00992;
+    5% {
+        opacity: 0.98;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    15% {
+        opacity: 0.97;
+    }
+
+    20% {
+        opacity: 1;
     }
 
     100% {
-        opacity: 0.02739;
+        opacity: 1;
     }
 }
 
@@ -166,6 +188,57 @@ button,
 textarea,
 input {
     cursor: text;
+}
+
+/* ----------------------------------------------------------------
+   Custom Cursor
+   ---------------------------------------------------------------- */
+@media (pointer: fine) {
+    body.custom-cursor-enabled,
+    body.custom-cursor-enabled * {
+        cursor: none !important;
+    }
+}
+
+.custom-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 32px;
+    height: 32px;
+    pointer-events: none;
+    z-index: 999999;
+    display: none;
+    will-change: transform;
+}
+
+body.custom-cursor-enabled .custom-cursor {
+    display: block;
+}
+
+.cursor-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.1s ease;
+}
+
+.cursor-svg.active {
+    opacity: 1;
+}
+
+/* Map SVG colors to theme variables */
+.cursor-fill {
+    fill: var(--accent);
+    transition: fill 0.3s var(--ease-theme);
+}
+
+.cursor-stroke {
+    stroke: var(--bg-primary);
+    transition: stroke 0.3s var(--ease-theme);
 }
 
 /* ----------------------------------------------------------------
@@ -347,6 +420,10 @@ a:hover {
 }
 
 @media (max-width: 768px) {
+    .container {
+        padding: 0;
+    }
+
     .name-ascii {
         font-size: 0.5rem;
     }
@@ -471,74 +548,12 @@ a:hover {
     }
 }
 
-.principles-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-    margin-top: 1rem;
-}
-
-@media (min-width: 1024px) {
-    .principles-grid {
-        grid-template-columns: 1fr 1fr;
-    }
-}
 
 .terminal-body {
     width: 100%;
 }
 
-/* ----------------------------------------------------------------
-   Sections
-   ---------------------------------------------------------------- */
-.section {
-    position: relative;
-    width: 100%;
-}
 
-.section::before {
-    display: none;
-}
-
-/* ----------------------------------------------------------------
-   Command Prompt
-   ---------------------------------------------------------------- */
-.command {
-    font-size: 1.2rem;
-    opacity: 0.9;
-    margin-bottom: var(--space-md);
-    text-transform: lowercase;
-}
-
-.command::before {
-    content: ">\00a0";
-    font-weight: bold;
-}
-
-.command::after {
-    content: "█";
-    animation: blink 1s step-end infinite;
-    margin-left: 8px;
-}
-
-@keyframes blink {
-
-    0%,
-    100% {
-        opacity: 1;
-    }
-
-    50% {
-        opacity: 0;
-    }
-}
-
-.terminal-value {
-    font-size: 1.5rem;
-    margin-bottom: var(--space-xs);
-    display: flex;
-    align-items: center;
-}
 
 /* ----------------------------------------------------------------
    Tabs (Bento Compatible)
@@ -682,7 +697,7 @@ a:hover {
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    box-shadow: 0 0 40px rgba(0, 255, 65, 0.15);
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.15);
 }
 
 .work-modal-topbar {
@@ -770,8 +785,88 @@ a:hover {
 }
 
 .work-modal-stack {
-    letter-spacing: 0.04em;
-    opacity: 0.8;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.stack-tag {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.6rem;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    background: rgba(var(--accent-rgb), 0.05);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 700;
+}
+
+/* Impact Storytelling Layout */
+.work-modal-cover {
+    width: 100%;
+    height: 180px;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--accent);
+    overflow: hidden;
+    background: var(--bg-secondary);
+}
+
+.work-modal-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(100%) contrast(120%);
+    opacity: 0.7;
+    transition: filter 0.3s ease, opacity 0.3s ease;
+}
+
+.work-modal-cover:hover img {
+    filter: grayscale(0%) contrast(100%);
+    opacity: 1;
+}
+
+.impact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 0.5rem;
+}
+
+.impact-column {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.impact-item {
+    border-left: 2px solid var(--accent);
+    padding-left: 0.8rem;
+    position: relative;
+}
+
+.impact-number {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    font-weight: 900;
+    line-height: 1;
+    margin-bottom: 0.2rem;
+    color: var(--accent);
+    text-shadow: 0 0 10px rgba(var(--accent-rgb), 0.3);
+}
+
+.impact-label {
+    font-size: 0.75rem;
+    opacity: 0.7;
+    line-height: 1.4;
+    display: block;
+}
+
+@media (max-width: 600px) {
+    .impact-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* DecryptedText Utility Classes */
@@ -834,6 +929,14 @@ a:hover {
     background-color: var(--c-blue);
 }
 
+.accent-btn[data-color="purple"] {
+    background-color: var(--c-purple);
+}
+
+.accent-btn[data-color="pink"] {
+    background-color: var(--c-pink);
+}
+
 .theme-toggle {
     position: fixed;
     bottom: var(--space-lg);
@@ -881,51 +984,6 @@ a:hover {
     color: var(--bg-primary);
 }
 
-/* ----------------------------------------------------------------
-   Screensaver
-   ---------------------------------------------------------------- */
-#screensaver {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #000000;
-    /* Always dark */
-    z-index: 99999;
-    /* Above everything including CRT effects */
-    display: none;
-    overflow: hidden;
-}
-
-#screensaver.active {
-    display: block;
-}
-
-#screensaver-logo {
-    position: absolute;
-    top: 0;
-    left: 0;
-    margin: 0;
-    width: 400px;
-    height: 133px;
-    /* We'll set the background color dynamically in JS to the dark-mode accent */
-    background-color: var(--accent);
-
-    /* Robust Masking */
-    -webkit-mask: url('../assets/lumon-logo.png') no-repeat center / contain;
-    mask: url('../assets/lumon-logo.png') no-repeat center / contain;
-
-    /* Fallback border to verify movement */
-    border: 1px dashed rgba(var(--accent-rgb), 0.3);
-
-    will-change: transform;
-}
-
-/* Apply interlace glow to the screensaver logo using drop-shadow */
-body.text-interlace-enabled #screensaver-logo {
-    filter: drop-shadow(1px 0px 0px rgba(255, 0, 0, 0.8)) drop-shadow(-1px 0px 0px rgba(0, 255, 255, 0.8)) drop-shadow(0px 0px 8px var(--ss-accent, var(--accent)));
-}
 
 /* ----------------------------------------------------------------
    Focus Styles
@@ -934,10 +992,6 @@ body.text-interlace-enabled #screensaver-logo {
     outline: 2px dashed var(--accent);
     outline-offset: 4px;
 }
-
-/* ----------------------------------------------------------------
-   Responsive
-   ---------------------------------------------------------------- */
 
 /* ----------------------------------------------------------------
    Options Menu â€” 3-tier responsive system
@@ -1043,7 +1097,7 @@ body.text-interlace-enabled #screensaver-logo {
     }
 
     .container {
-        padding: 1rem;
+        padding: 0;
         margin-bottom: 80px;
     }
 
@@ -1087,18 +1141,34 @@ body.text-interlace-enabled #screensaver-logo {
         flex-direction: column;
         text-align: center;
     }
-}
 
-.music-widget {
-    width: 100%;
-    border: 1px solid var(--accent);
-    padding: 0.75rem;
-    margin-top: 1rem;
-    box-sizing: border-box;
-    background: rgba(var(--bg-primary-rgb), 0.85);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    overflow: hidden;
+    .skill-group-body .skill-row {
+        display: grid;
+        grid-template-areas:
+            "name level"
+            "name bar";
+        grid-template-columns: 1fr auto;
+        gap: 0.15rem 1rem;
+        align-items: center;
+        padding: 0.5rem 0;
+    }
+
+    .skill-group-body .skill-name {
+        grid-area: name;
+        align-self: center;
+    }
+
+    .skill-group-body .skill-level {
+        grid-area: level;
+        justify-self: end;
+        line-height: 1;
+    }
+
+    .skill-group-body .skill-bar {
+        grid-area: bar;
+        justify-self: end;
+        line-height: 1;
+    }
 }
 
 .sc-title {
@@ -1128,104 +1198,6 @@ body.text-interlace-enabled #screensaver-logo {
         transform: translateX(-50%);
     }
 }
-
-.radio-ascii {
-    color: var(--accent);
-    font-size: 0.15rem;
-    line-height: 1;
-    white-space: pre;
-    margin-bottom: 0.5rem;
-    display: block;
-    overflow: hidden;
-    text-align: center;
-}
-
-/* ---- Volume Row ---- */
-.vol-row {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-top: 0.6rem;
-}
-
-.vol-label {
-    font-family: var(--font-mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.08em;
-    flex-shrink: 0;
-    opacity: 0.7;
-}
-
-.vol-value {
-    font-family: var(--font-mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.04em;
-    flex-shrink: 0;
-    opacity: 0.7;
-    min-width: 2.2ch;
-    text-align: right;
-}
-
-/* Strip all native range styling */
-.vol-slider {
-    -webkit-appearance: none;
-    appearance: none;
-    flex: 1;
-    height: 4px;
-    background: transparent;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    position: relative;
-}
-
-/* Track */
-.vol-slider::-webkit-slider-runnable-track {
-    height: 4px;
-    background: var(--accent);
-    opacity: 0.25;
-    border: none;
-}
-
-.vol-slider::-moz-range-track {
-    height: 4px;
-    background: var(--accent);
-    opacity: 0.25;
-    border: none;
-}
-
-/* Filled portion via a CSS hack â€” use box-shadow on thumb */
-.vol-slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 2px;
-    height: 12px;
-    background: var(--accent);
-    border: none;
-    margin-top: -4px;
-    box-shadow: -200px 0 0 200px var(--accent);
-    clip-path: inset(0 0 0 200px);
-}
-
-.vol-slider::-moz-range-thumb {
-    width: 2px;
-    height: 12px;
-    background: var(--accent);
-    border: none;
-    border-radius: 0;
-}
-
-.vol-slider::-moz-range-progress {
-    height: 4px;
-    background: var(--accent);
-}
-
-.vol-slider:focus-visible {
-    outline: 1px dashed var(--accent);
-    outline-offset: 4px;
-}
-
-
 
 /* ----------------------------------------------------------------
    Skill Accordion
@@ -1373,32 +1345,6 @@ body.text-interlace-enabled #screensaver-logo {
     }
 }
 
-/* ----------------------------------------------------------------
-   Screensaver (DVD Bounce)
-   ---------------------------------------------------------------- */
-#screensaver {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: #000;
-    z-index: 11000;
-    display: none;
-    cursor: none;
-}
-
-#screensaver.active {
-    display: block;
-}
-
-#screensaver-logo {
-    position: absolute;
-    width: 240px;
-    height: auto;
-    filter: drop-shadow(0 0 15px var(--accent));
-}
-
 .hidden {
     display: none !important;
 }
@@ -1529,23 +1475,41 @@ body.text-interlace-enabled #screensaver-logo {
 .terminal-range {
     -webkit-appearance: none;
     width: 100%;
-    height: 2px;
-    background: var(--accent-dim);
+    height: 8px;
+    background: rgba(var(--accent-rgb), 0.1);
+    border: 1px solid var(--accent);
     outline: none;
+    cursor: pointer;
+}
+
+.terminal-range::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 8px;
+    cursor: pointer;
+    background: transparent;
 }
 
 .terminal-range::-webkit-slider-thumb {
     -webkit-appearance: none;
+    height: 16px;
     width: 8px;
-    height: 14px;
     background: var(--accent);
     border: 1px solid var(--bg-primary);
     cursor: pointer;
+    margin-top: -5px; /* (track_height / 2) - (thumb_height / 2) => 4 - 8 = -4, but let's adjust visually */
+}
+
+.terminal-range::-moz-range-track {
+    width: 100%;
+    height: 8px;
+    cursor: pointer;
+    background: rgba(var(--accent-rgb), 0.1);
+    border: 1px solid var(--accent);
 }
 
 .terminal-range::-moz-range-thumb {
+    height: 16px;
     width: 8px;
-    height: 14px;
     background: var(--accent);
     border: 1px solid var(--bg-primary);
     cursor: pointer;
@@ -1659,4 +1623,153 @@ body.text-interlace-enabled #screensaver-logo {
     .contact-grid {
         grid-template-columns: 1fr;
     }
+}
+
+/* ----------------------------------------------------------------
+   Splash Screen
+   ---------------------------------------------------------------- */
+#splash-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 100000;
+    background-color: var(--bg-primary);
+    color: var(--accent);
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    overflow: hidden;
+    transition: opacity 0.3s ease;
+}
+
+#splash-screen.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.splash-border {
+    position: absolute;
+}
+
+.splash-border-top {
+    top: 1rem;
+    left: 1rem;
+    right: 1rem;
+    height: 12px;
+    background:
+        linear-gradient(to bottom, var(--accent) 0%, var(--accent) 3px, transparent 3px, transparent 6px, var(--accent) 6px, var(--accent) 12px);
+}
+
+.splash-border-bottom {
+    bottom: 1rem;
+    left: 1rem;
+    right: 1rem;
+    height: 12px;
+    background:
+        linear-gradient(to top, var(--accent) 0%, var(--accent) 3px, transparent 3px, transparent 6px, var(--accent) 6px, var(--accent) 12px);
+}
+
+.splash-border-left,
+.splash-border-right {
+    top: 2rem;
+    bottom: 2rem;
+    width: 8vw;
+    max-width: 60px;
+    background:
+        linear-gradient(to bottom,
+            var(--accent) 0%, var(--accent) 5%,
+            transparent 5%, transparent 7%,
+            var(--accent) 7%, var(--accent) 8%,
+            transparent 8%, transparent 10%,
+            var(--accent) 10%, var(--accent) 15%,
+            transparent 15%, transparent 17%,
+            var(--accent) 17%, var(--accent) 22%,
+            transparent 22%, transparent 28%,
+            var(--accent) 28%, var(--accent) 30%,
+            transparent 30%, transparent 60%,
+            var(--accent) 60%, var(--accent) 65%,
+            transparent 65%, transparent 68%,
+            var(--accent) 68%, var(--accent) 69%,
+            transparent 69%, transparent 72%,
+            var(--accent) 72%, var(--accent) 78%,
+            transparent 78%, transparent 80%,
+            var(--accent) 80%, var(--accent) 82%,
+            transparent 82%, transparent 85%,
+            var(--accent) 85%, var(--accent) 90%,
+            transparent 90%, transparent 95%,
+            var(--accent) 95%, var(--accent) 100%);
+}
+
+.splash-border-left {
+    left: 1rem;
+}
+
+.splash-border-right {
+    right: 1rem;
+}
+
+.splash-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+    padding: 4rem 4rem 4rem 4rem;
+}
+
+.splash-center {
+    text-align: center;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.splash-logo {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 10vw, 10rem);
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin: 0;
+    line-height: 1;
+    border-bottom: none;
+    padding: 0;
+    display: block;
+}
+
+.splash-sub {
+    font-family: var(--font-mono);
+    font-size: clamp(1rem, 2.5vw, 1.8rem);
+    margin-top: 1rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.splash-bottom {
+    width: 100%;
+    text-align: center;
+    font-family: var(--font-mono);
+}
+
+.splash-bottom p {
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+    letter-spacing: 0.05em;
+}
+
+.splash-bar-container {
+    display: flex;
+    justify-content: center;
+    letter-spacing: 0.1em;
+}
+
+.splash-bar-fill,
+.splash-bar-empty {
+    white-space: pre;
+}
+
+.splash-bar-empty {
+    opacity: 0.3;
 }

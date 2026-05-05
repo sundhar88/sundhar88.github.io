@@ -6,6 +6,144 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     /* ============================================================
+       Splash Screen
+       ============================================================ */
+    const splashScreen = document.getElementById('splash-screen');
+    if (splashScreen) {
+        // Removed text-based borders in favor of CSS background styling
+
+        const startPrompt = document.getElementById('splash-start-prompt');
+        const loadingArea = document.getElementById('splash-loading-area');
+        
+        let hasBooted = false;
+        let loadingInterval = null;
+        let printLogInterval = null;
+
+        const dismissSplashScreen = () => {
+            if (loadingInterval) clearInterval(loadingInterval);
+            if (printLogInterval) clearInterval(printLogInterval);
+            splashScreen.classList.add('hidden');
+            setTimeout(() => {
+                if (splashScreen.parentNode) splashScreen.remove();
+            }, 300);
+        };
+
+        const bootSystem = () => {
+            if (hasBooted) {
+                dismissSplashScreen();
+                return;
+            }
+            hasBooted = true;
+
+            const mainContent = document.getElementById('splash-main-content');
+            const bootSequence = document.getElementById('splash-boot-sequence');
+            const bootLogs = document.getElementById('splash-boot-logs');
+            const fillEl = document.querySelector('.splash-bar-fill');
+            const emptyEl = document.querySelector('.splash-bar-empty');
+
+            if (mainContent) mainContent.style.display = 'none';
+            if (bootSequence) bootSequence.style.display = 'flex';
+
+            // Play sound securely after user interaction
+            const splashSound = document.getElementById('splash-audio');
+            if (splashSound) {
+                splashSound.volume = 1.0;
+                splashSound.currentTime = 0;
+                const playPromise = splashSound.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(e => console.warn("Splash sound error:", e));
+                }
+            }
+
+            const totalBlocks = 20;
+            let progress = 0;
+            const bootDuration = 4000;
+            const barInterval = bootDuration / totalBlocks;
+
+            const baseMessages = [
+                "BIOS Date 04/22/26 19:14:10 Ver 08.00.15",
+                "CPU: UX Processor @ 3.4GHz",
+                "Memory Test: 64000K OK",
+                "Mounting design system core...",
+                "[OK] Loaded typography tokens: Inter, Roboto, IBM Plex Mono",
+                "[OK] Allocated empathetic user matrices.",
+                "Initializing heuristic evaluation daemon...",
+                "Scanning for anti-patterns... [NONE FOUND]",
+                "Warming up the color palette... [DONE]",
+                "Resolving pixel-perfect constraints...",
+                "eth0: link up, 1000Mbps, full-duplex",
+                "Loading kernel modules: auto-layout, components, variables...",
+                "[WARN] Ignoring 'Make it pop' requests... (Policy restricted)",
+                "Synthesizing qualitative research data... 100%",
+                "Bypassing dark patterns... [SUCCESS]",
+                "Checking contrast ratios... WCAG AAA [PASSED]",
+                "Aligning all elements to 8pt grid... OK",
+                "Calibrating accessibility standards...",
+                "Fetching user personas... [someone, recruiter, designer, pm, engineer]",
+                "Waiting for Figma to sync... [TIMEOUT] -> Switching to local cache.",
+                "fsck: /dev/sda1: clean, 11/262144 files, 153/1048576 blocks",
+                "Mounting /var/log/user_interviews...",
+                "Establishing emotional connection module...",
+                "Loading bento-grid framework...",
+                "[OK] Started Interaction Design Daemon.",
+                "[OK] Started Visual Design Daemon.",
+                "Applying CRT curvature and scanline overlay...",
+                "Applying chromatic aberration filter...",
+                "Booting UX-OS core environment...",
+                "System architecture verified.",
+                "All systems nominal. Ready for launch."
+            ];
+
+            const fullLogs = [];
+            for (let i = 0; i < 70; i++) {
+                if (i % 2 === 0 && baseMessages.length > 0) {
+                    fullLogs.push(`[${(i * 0.057).toFixed(3)}] ${baseMessages.shift()}`);
+                } else {
+                    const addr = "0x" + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0').toUpperCase();
+                    const mem = Math.floor(Math.random() * 9999).toString().padStart(4, '0');
+                    fullLogs.push(`[${(i * 0.057).toFixed(3)}] sys_init: kernel block allocated at ${addr} size=${mem}K`);
+                }
+            }
+
+            if (fillEl && emptyEl) {
+                fillEl.textContent = "";
+                emptyEl.textContent = "▒".repeat(totalBlocks);
+
+                loadingInterval = setInterval(() => {
+                    progress++;
+                    fillEl.textContent = "█".repeat(progress);
+                    emptyEl.textContent = "▒".repeat(totalBlocks - progress);
+
+                    if (progress >= totalBlocks) {
+                        dismissSplashScreen();
+                    }
+                }, barInterval);
+            }
+
+            let logIndex = 0;
+            const logIntervalTime = bootDuration / fullLogs.length;
+            if (bootLogs) {
+                printLogInterval = setInterval(() => {
+                    if (logIndex < fullLogs.length) {
+                        const p = document.createElement('div');
+                        p.textContent = fullLogs[logIndex];
+                        bootLogs.appendChild(p);
+                        logIndex++;
+                    } else {
+                        clearInterval(printLogInterval);
+                    }
+                }, logIntervalTime);
+            }
+        };
+
+        splashScreen.addEventListener('click', bootSystem);
+        splashScreen.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') bootSystem();
+        });
+    }
+
+
+    /* ============================================================
        Global Click Sound
        ============================================================ */
     const clickSound = new Audio('assets/click.ogg');
@@ -129,14 +267,18 @@ document.addEventListener('DOMContentLoaded', () => {
             red: '#FF4D4D',
             cyan: '#00FFFF',
             blue: '#6699FF',
+            purple: '#D1A3FF',
+            pink: '#FF80BF',
         },
         light: {
             mono: '#000000',
-            yellow: '#8C6600',
+            yellow: '#805E00',
             green: '#00661A',
             red: '#B30000',
             cyan: '#006666',
             blue: '#0033CC',
+            purple: '#7A29CC',
+            pink: '#B8005D',
         }
     };
 
@@ -226,7 +368,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     /* ============================================================
-       Effects Toggles (CRT & Interlace)
+       Effects Toggles (CRT, Interlace & Glow)
        ============================================================ */
     const crtBtn = document.getElementById('crt-toggle');
     const interlaceBtn = document.getElementById('interlace-toggle');
@@ -238,6 +380,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (btnEl) {
                 btnEl.classList.add('active');
                 let label = effectName.toUpperCase();
+                if (effectName === 'crt') label = 'CRT';
                 if (effectName === 'text-interlace') label = 'FX';
                 if (effectName === 'glow') label = 'BORDER GLOW';
                 btnEl.textContent = `[ ${label}: ON ]`;
@@ -248,6 +391,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (btnEl) {
                 btnEl.classList.remove('active');
                 let label = effectName.toUpperCase();
+                if (effectName === 'crt') label = 'CRT';
                 if (effectName === 'text-interlace') label = 'FX';
                 if (effectName === 'glow') label = 'BORDER GLOW';
                 btnEl.textContent = `[ ${label}: OFF ]`;
@@ -281,170 +425,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
-    /* ============================================================
-       Screensaver Logic (DVD Bounce)
-       ============================================================ */
-    /*
-    const screensaverBtn = document.getElementById('screensaver-toggle');
-    const screensaver = document.getElementById('screensaver');
-    const screensaverLogo = document.getElementById('screensaver-logo');
-    
-    let ssAnimationId;
-    let ssX = 0, ssY = 0;
-    let ssDX = 2.5, ssDY = 2.5;
 
-    function startScreensaver() {
-        if (!screensaver || !screensaverLogo) return;
-        
-        const colorKey = sessionStorage.getItem('accentColor') || 'mono';
-        const darkColor = colorMap['dark'][colorKey];
-        document.body.style.setProperty('--ss-accent', darkColor);
-        screensaverLogo.style.backgroundColor = darkColor;
-
-        screensaver.classList.add('active');
-        
-        // Use a small timeout to ensure display: block has taken effect for dimensions
-        setTimeout(() => {
-            const logoW = screensaverLogo.offsetWidth || 400;
-            const logoH = screensaverLogo.offsetHeight || 133;
-            const vW = window.innerWidth;
-            const vH = window.innerHeight;
-
-            ssX = Math.random() * Math.max(0, vW - logoW);
-            ssY = Math.random() * Math.max(0, vH - logoH);
-            ssDX = (Math.random() > 0.5 ? 1 : -1) * 3;
-            ssDY = (Math.random() > 0.5 ? 1 : -1) * 3;
-            
-            if (ssAnimationId) cancelAnimationFrame(ssAnimationId);
-            animate();
-        }, 10);
-        
-        function animate() {
-            if (!screensaver.classList.contains('active')) return;
-            const vw = window.innerWidth;
-            const vh = window.innerHeight;
-            const lw = screensaverLogo.offsetWidth || 240;
-            const lh = screensaverLogo.offsetHeight || 100;
-
-            ssX += ssDX;
-            ssY += ssDY;
-            
-            if (ssX <= 0) { ssX = 0; ssDX = Math.abs(ssDX); }
-            else if (ssX + lw >= vw) { ssX = vw - lw; ssDX = -Math.abs(ssDX); }
-
-            if (ssY <= 0) { ssY = 0; ssDY = Math.abs(ssDY); }
-            else if (ssY + lh >= vh) { ssY = vh - lh; ssDY = -Math.abs(ssDY); }
-            
-            screensaverLogo.style.transform = `translate(${ssX}px, ${ssY}px)`;
-            ssAnimationId = requestAnimationFrame(animate);
-        }
-        
-        if (ssAnimationId) cancelAnimationFrame(ssAnimationId);
-        animate();
-    }
-
-    function stopScreensaver() {
-        if (screensaver) {
-            screensaver.classList.remove('active');
-            if (ssAnimationId) cancelAnimationFrame(ssAnimationId);
-        }
-    }
-
-    screensaverBtn?.addEventListener('click', startScreensaver);
-    screensaver?.addEventListener('click', stopScreensaver);
-    */
-
-    /* ============================================================
-       Animated ASCII Art (magic.sh - 3D Torus)
-       ============================================================ */
-    let A = 0, B = 0;
-    function drawMagic() {
-        let b = [];
-        let z = [];
-        A += 0.07;
-        B += 0.03;
-        let cA = Math.cos(A), sA = Math.sin(A),
-            cB = Math.cos(B), sB = Math.sin(B);
-        for (let k = 0; k < 1760; k++) {
-            b[k] = k % 80 === 79 ? "\n" : " ";
-            z[k] = 0;
-        }
-        for (let j = 0; j < 6.28; j += 0.07) {
-            let ct = Math.cos(j), st = Math.sin(j);
-            for (let i = 0; i < 6.28; i += 0.02) {
-                let sp = Math.sin(i), cp = Math.cos(i),
-                    h = ct + 2,
-                    D = 1 / (sp * h * sA + st * cA + 5),
-                    t = sp * h * cA - st * sA;
-                let x = 0 | (40 + 30 * D * (cp * h * cB - t * sB)),
-                    y = 0 | (12 + 15 * D * (cp * h * sB + t * cB)),
-                    o = x + 80 * y,
-                    N = 0 | (8 * ((st * sA - sp * ct * cA) * cB - sp * ct * sA - st * cA - cp * ct * sB));
-                if (y < 22 && y >= 0 && x >= 0 && x < 79 && D > z[o]) {
-                    z[o] = D;
-                    b[o] = ".,-~:;=!*#$@"[N > 0 ? N : 0];
-                }
-            }
-        }
-        const magicEl = document.getElementById('magic-ascii');
-        if (magicEl) magicEl.textContent = b.join("");
-    }
-    setInterval(drawMagic, 50);
-
-    /* ============================================================
-       Animated ASCII Art (outro.sh - Drunk That's All Folks)
-       ============================================================ */
-    const outroFrames = [
-        `
-    That's all folks!
-         (drunk)
-         _   _
-        ( )_( )
-         (o o)
-        (  V  )
-       /  |  | \\
-      /___|__|__\\
-`,
-        `
-    That's all folks!
-         (drunk)
-         _   _
-        ( )_( )
-         (> <)
-        (  -  )
-       /  |  | \\
-      /___|__|__\\
-`,
-        `
-    That's all folks!
-         (drunk)
-         _   _
-        ( )_( )
-         (@ @)
-        (  ~  )
-       /  |  | \\
-      /___|__|__\\
-`
-    ];
-    let currentOutroFrame = 0;
-    function drawOutro() {
-        const el = document.getElementById('outro-ascii');
-        if (el) {
-            el.textContent = outroFrames[currentOutroFrame];
-            currentOutroFrame = (currentOutroFrame + 1) % outroFrames.length;
-        }
-    }
-    setInterval(drawOutro, 300);
-
-    /* ============================================================
-       Navigation Logic
-       ============================================================ */
-    /*
-    const refinementToggleBtn = document.getElementById('refinement-toggle');
-    refinementToggleBtn?.addEventListener('click', () => {
-        window.location.href = 'temp/mdr.html';
-    });
-    */
 
     /* ============================================================
        Music Widget Logic
@@ -665,11 +646,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-    /* ============================================================
-       System Menu (Obsolete in Bento)
-       ============================================================ */
-    // All controls are now integrated as tiles.
-
 
     /* ============================================================
        Work Card → Modal
@@ -679,6 +655,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function openWorkModal(card) {
         if (!workModal) return;
+        const clickSound = new Audio('assets/click.ogg');
 
         const titleEl = document.getElementById('modal-title');
         const periodEl = document.getElementById('modal-period');
@@ -686,25 +663,55 @@ document.addEventListener('DOMContentLoaded', () => {
         const userEl = document.getElementById('modal-impact-user');
         const bizEl = document.getElementById('modal-impact-biz');
         const stackEl = document.getElementById('modal-stack');
+        const coverImgEl = document.getElementById('modal-cover-img');
 
         titleEl.textContent = card.dataset.title || '';
         periodEl.textContent = card.dataset.period || '';
         roleEl.textContent = card.dataset.role || '';
-        userEl.textContent = card.dataset.impactUser || '';
-        bizEl.textContent = card.dataset.impactBiz || '';
-        stackEl.textContent = card.dataset.stack || '';
+        userEl.innerHTML = card.dataset.impactUser || '';
+        bizEl.innerHTML = card.dataset.impactBiz || '';
+        
+        // Populate tech stack as tags
+        const stackStr = card.dataset.stack || '';
+        const stackItems = stackStr.split('·').map(s => s.trim()).filter(s => s);
+        stackEl.innerHTML = '';
+        stackItems.forEach(item => {
+            const span = document.createElement('span');
+            span.className = 'stack-tag';
+            span.textContent = item;
+            stackEl.appendChild(span);
+        });
+
+        // Set random cover image from Unsplash
+        if (coverImgEl) {
+            const randomId = Math.floor(Math.random() * 1000);
+            coverImgEl.src = `https://images.unsplash.com/photo-${1500000000000 + randomId}?auto=format&fit=crop&w=800&q=80`;
+            // Fallback for demo if the above pattern is too specific
+            coverImgEl.onerror = () => {
+                coverImgEl.src = `https://picsum.photos/seed/${randomId}/800/400?grayscale`;
+            };
+        }
 
         workModal.removeAttribute('hidden');
 
-        // Apply decryption effect
+        // Apply decryption effect to plain text elements
         if (window.applyDecryptedText) {
             const options = { encryptedClassName: 'decrypted-encrypted' };
             applyDecryptedText(titleEl, { ...options, speed: 10, maxIterations: 10 });
             applyDecryptedText(periodEl, { ...options, speed: 10, maxIterations: 5 });
             applyDecryptedText(roleEl, { ...options, speed: 4, sequential: true, revealDirection: 'start' });
-            applyDecryptedText(userEl, { ...options, speed: 4, sequential: true, revealDirection: 'start' });
-            applyDecryptedText(bizEl, { ...options, speed: 4, sequential: true, revealDirection: 'start' });
-            applyDecryptedText(stackEl, { ...options, speed: 10, maxIterations: 15 });
+            
+            // Apply to specific elements within impact sections to preserve HTML structure
+            userEl.querySelectorAll('.impact-number, .impact-label').forEach(el => {
+                applyDecryptedText(el, { ...options, speed: 5, sequential: true });
+            });
+            bizEl.querySelectorAll('.impact-number, .impact-label').forEach(el => {
+                applyDecryptedText(el, { ...options, speed: 5, sequential: true });
+            });
+
+            stackEl.querySelectorAll('.stack-tag').forEach(el => {
+                applyDecryptedText(el, { ...options, speed: 10, maxIterations: 15 });
+            });
         }
 
         openWorkSound.currentTime = 0;
@@ -759,7 +766,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (window.innerWidth >= 768 && window.applyDecryptedText) {
                     // Delay slightly to wait for scroll to start
                     setTimeout(() => {
-                        const elementsToAnimate = target.querySelectorAll('p, pre.ascii-art, .skill-group-label, .work-card-title, .principle-title');
+                        const elementsToAnimate = target.querySelectorAll('p, pre.ascii-art, .skill-group-label, .work-card-title, .principle-title, .principle-desc');
                         elementsToAnimate.forEach(el => {
                             window.applyDecryptedText(el, {
                                 speed: 4,
@@ -773,5 +780,58 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    /* ============================================================
+       Custom Cursor Logic
+       ============================================================ */
+    const customCursor = document.getElementById('custom-cursor');
+    const defaultSvg = document.getElementById('cursor-default-svg');
+    const pointerSvg = document.getElementById('cursor-pointer-svg');
+
+    if (customCursor && defaultSvg && pointerSvg && window.matchMedia('(pointer: fine)').matches) {
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+        let isPointer = false;
+        
+        // Define interactive selectors
+        const interactiveSelector = 'a, button, [role="button"], [role="tab"], input, textarea, select, .interactive, .theme-toggle';
+
+        document.addEventListener('mousemove', (e) => {
+            if (!document.body.classList.contains('custom-cursor-enabled')) {
+                document.body.classList.add('custom-cursor-enabled');
+            }
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            // Check if hovering over interactive elements
+            const target = e.target;
+            const isHoveringClickable = target.closest(interactiveSelector);
+            
+            if (isHoveringClickable && !isPointer) {
+                isPointer = true;
+                defaultSvg.classList.remove('active');
+                pointerSvg.classList.add('active');
+            } else if (!isHoveringClickable && isPointer) {
+                isPointer = false;
+                pointerSvg.classList.remove('active');
+                defaultSvg.classList.add('active');
+            }
+        });
+
+        const renderCursor = () => {
+            // Smooth lerp
+            cursorX += (mouseX - cursorX) * 0.8;
+            cursorY += (mouseY - cursorY) * 0.8;
+            
+            // Offset the cursor container so the tip of the SVG matches the actual mouse coordinate
+            const offsetX = isPointer ? -14 : -10;
+            const offsetY = isPointer ? -6 : -10;
+            
+            customCursor.style.transform = `translate3d(${cursorX + offsetX}px, ${cursorY + offsetY}px, 0)`;
+            
+            requestAnimationFrame(renderCursor);
+        };
+        requestAnimationFrame(renderCursor);
+    }
 
 });

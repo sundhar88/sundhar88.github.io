@@ -17,12 +17,73 @@
     <link href="https://api.fontshare.com/v2/css?f[]=array@400,700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/mdr.css">
     <link rel="stylesheet" href="css/border-glow.css">
     <script src="https://w.soundcloud.com/player/api.js"></script>
 </head>
 
 <body>
+    <!-- Splash Screen -->
+    <audio id="splash-audio" src="assets/splash_sound.wav" preload="auto"></audio>
+    <div id="splash-screen">
+        <div class="splash-border splash-border-top"></div>
+        <div class="splash-border splash-border-bottom"></div>
+        <div class="splash-border splash-border-left"></div>
+        <div class="splash-border splash-border-right"></div>
+        <div class="splash-content" id="splash-main-content">
+            <div class="splash-center">
+                <h1 class="splash-logo">WELCOME</h1>
+                <p class="splash-sub">TO SUNDHAR'S PORTFOLIO</p>
+                <div class="splash-system-info"
+                    style="font-size: 0.8rem; margin-top: 1rem; opacity: 0.8; text-align: center; line-height: 1.5;">
+                    <p>SYS.VER: UX-OS v2.4.1</p>
+                    <p>AUTHOR: SUNDHAR M</p>
+                    <p>ROLE: PRODUCT DESIGNER</p>
+                    <p>STATUS: READY FOR BOOT SEQUENCE</p>
+                </div>
+            </div>
+            <div class="splash-bottom">
+                <div id="splash-start-prompt" class="work-modal-blink">CLICK ANYWHERE TO BOOT SYSTEM</div>
+            </div>
+        </div>
+
+        <div id="splash-boot-sequence"
+            style="display: none; flex: 1; position: relative; padding: 4rem 10vw; flex-direction: column; font-family: var(--font-mono); font-size: clamp(0.6rem, 1.2vw, 0.8rem); line-height: 1.4; color: var(--accent); overflow: hidden; opacity: 0.85; z-index: 2;">
+            <div id="splash-boot-logs"
+                style="flex: 1; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; white-space: pre-wrap; word-break: break-all;">
+                <!-- Logs will appear here -->
+            </div>
+            <div id="splash-loading-area" style="margin-top: 1rem; flex-shrink: 0; display: block;">
+                <p style="margin-bottom: 0.5rem;">NOW LOADING UX-OS CORE...</p>
+                <p class="splash-bar-container">[<span class="splash-bar-fill"></span><span
+                        class="splash-bar-empty"></span>]</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- CRT Filters -->
+    <svg style="display: none;">
+        <defs>
+            <filter id="crt-curvature">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="0.4" result="blur" />
+                <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1 0"
+                    result="matrix" />
+                <feComponentTransfer in="matrix" result="curvature">
+                    <feFuncR type="table" tableValues="0 1" />
+                </feComponentTransfer>
+            </filter>
+
+            <filter id="chromatic-aberration">
+                <feOffset in="SourceGraphic" dx="1.5" dy="0" result="red" />
+                <feOffset in="SourceGraphic" dx="-1.5" dy="0" result="blue" />
+                <feColorMatrix in="red" type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0"
+                    result="redOnly" />
+                <feColorMatrix in="blue" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0"
+                    result="blueOnly" />
+                <feBlend in="redOnly" in2="blueOnly" mode="screen" result="rb" />
+                <feBlend in="rb" in2="SourceGraphic" mode="screen" />
+            </filter>
+        </defs>
+    </svg>
     <div class="container">
         <main id="main" class="bento-grid">
 
@@ -65,7 +126,7 @@
                         </div>
                         <div class="prop-row">
                             <span class="prop-key">EXPERIENCE:</span>
-                            <span class="prop-val">5+ Years</span>
+                            <span class="prop-val">7+ Years</span>
                         </div>
                         <div class="prop-row">
                             <span class="prop-key">DOMAINS:</span>
@@ -95,6 +156,8 @@
                             <a href="#settings-tile" class="index-link" data-target="settings-tile">[ 06. SITE SETTINGS
                                 ]</a>
                             <a href="#contact-tile" class="index-link" data-target="contact-tile">[ 07. CONTACT ]</a>
+                            <a href="#principles-tile" class="index-link" data-target="principles-tile">[ 08. PRINCIPLES
+                                ]</a>
                         </nav>
                     </div>
                 </div>
@@ -102,7 +165,7 @@
 
             <!-- TILE 2: BIO -->
             <div id="about-tile" class="bento-tile span-1">
-                <div class="tile-header">cat hello.txt</div>
+                <div class="tile-header">grep hello.txt</div>
                 <p>I am a designer who values clarity over clutter. I build products that are accessible by default and
                     intuitive by design, removing the need for tutorials entirely. Whether I am mapping out a new system
                     or validating an interaction, I lean into a high-utility workflow.</p>
@@ -127,6 +190,8 @@
                         <button class="accent-btn" data-color="red"></button>
                         <button class="accent-btn" data-color="cyan"></button>
                         <button class="accent-btn" data-color="blue"></button>
+                        <button class="accent-btn" data-color="purple"></button>
+                        <button class="accent-btn" data-color="pink"></button>
                     </div>
 
                     <div style="display: flex; flex-direction: column; gap: 0.5rem;">
@@ -214,6 +279,7 @@
             <!-- TILE 6: PERSONA SELECTION -->
             <div id="persona-tile" class="bento-tile span-2">
                 <div class="tile-header" id="audience-label">identify --user</div>
+                <p style="font-size:0.75rem; opacity:0.55; margin-bottom:1rem;">// select your role below</p>
                 <div class="tabs-header" role="tablist" aria-label="Audience select">
                     <button class="tab-trigger active" role="tab" aria-selected="true" data-tab="someone">USER</button>
                     <button class="tab-trigger" role="tab" aria-selected="false" data-tab="recruiter">RECRUITER</button>
@@ -299,7 +365,7 @@
 
             <!-- TILE 7: SKILLS INVENTORY -->
             <div id="skills-tile" class="bento-tile span-2">
-                <div class="tile-header">ls skills/</div>
+                <div class="tile-header">my skills.xls</div>
                 <p style="font-size:0.75rem; opacity:0.55; margin-bottom:1rem;">// click any category to expand</p>
                 <div class="skill-accordion" id="skill-accordion">
                     <!-- DESIGN CRAFT -->
@@ -409,8 +475,8 @@
 
 
             <!-- TILE 8: PRINCIPLES -->
-            <div class="bento-tile span-2">
-                <div class="tile-header">nano principles.txt</div>
+            <div id="principles-tile" class="bento-tile span-2">
+                <div class="tile-header">my principles.txt</div>
                 <div class="principles-grid">
                     <div class="principle-box">
                         <h4 class="principle-title">usable</h4>
@@ -437,27 +503,91 @@
 
             <!-- TILE 9: ARCHIVES (WORK) -->
             <div id="works-tile" class="bento-tile span-2">
-                <div class="tile-header">gedit works.docx</div>
+                <div class="tile-header">my works.docx</div>
                 <div class="project-grid">
-                    <div class="work-card" role="button" tabindex="0"
-                        data-title="Senior Product Designer @ Wall Street English" data-period="2021 – Present"
-                        data-role="// Led end-to-end product design for a global English-learning platform operating across 15+ countries."
-                        data-impact-user="// Redesigned the core learning flow, reducing course completion friction by 38%. User satisfaction scores (CSAT) climbed from 62% to 81% within two quarters."
-                        data-impact-biz="// Redesigned onboarding and lesson modules contributed to a 22% increase in premium subscription conversions. Retention improved by 17% YoY."
-                        data-stack="Figma · Maze · Hotjar · Jira · Confluence">
+                    <!-- 1. Placement Test @ WSE -->
+                    <div class="work-card" role="button" tabindex="0" data-title="Placement Test @ Wall Street English"
+                        data-period="2021 – Present"
+                        data-role="// Lead Product Designer for the global placement test overhaul, focused on reducing entry friction and optimizing the student onboarding funnel."
+                        data-impact-user='<div class="impact-item"><span class="impact-number">42%</span><span class="impact-label">Reduction in test abandonment through gamified interaction design.</span></div><div class="impact-item"><span class="impact-number">65%</span><span class="impact-label">Improvement in proficiency result clarity and user confidence.</span></div>'
+                        data-impact-biz='<div class="impact-item"><span class="impact-number">28%</span><span class="impact-label">Direct increase in course sales by streamlining the path to checkout.</span></div><div class="impact-item"><span class="impact-number">35%</span><span class="impact-label">Boost in lead qualification accuracy for global sales teams.</span></div>'
+                        data-stack="Figma · Maze · Google Analytics · Hotjar">
                         <div class="work-card-header">
                             <span class="work-card-prefix">DIR</span>
-                            <span class="work-card-title">// senior product designer @ Wall Street English</span>
+                            <span class="work-card-title">// placement test @ Wall Street English</span>
                         </div>
-                        <p class="work-card-desc">// EdTech platform. Lifted CSAT 19pts, grew conversions 22%.</p>
+                        <p class="work-card-desc">// EdTech. Cut abandonment 42%, boosted course sales 28%.</p>
                         <span class="work-card-cta">[ VIEW DETAILS → ]</span>
                     </div>
 
+                    <!-- 2. Course Product Revamp @ WSE -->
+                    <div class="work-card" role="button" tabindex="0"
+                        data-title="Course Product Revamp @ Wall Street English" data-period="2022 – Present"
+                        data-role="// Spearheaded the complete revamp of the core learning experience, focusing on accessibility, interaction depth, and design system scalability."
+                        data-impact-user='<div class="impact-item"><span class="impact-number">100%</span><span class="impact-label">WCAG 2.1 AA compliance achieved for global accessibility.</span></div><div class="impact-item"><span class="impact-number">50%</span><span class="impact-label">Increase in daily active engagement through micro-interactions.</span></div>'
+                        data-impact-biz='<div class="impact-item"><span class="impact-number">24%</span><span class="impact-label">YoY retention growth by reducing learning fatigue.</span></div><div class="impact-item"><span class="impact-number">40%</span><span class="impact-label">Faster feature delivery via a robust, tokenized Design System.</span></div>'
+                        data-stack="Figma · Storybook · Jira · WCAG 2.1">
+                        <div class="work-card-header">
+                            <span class="work-card-prefix">DIR</span>
+                            <span class="work-card-title">// course product revamp @ Wall Street English</span>
+                        </div>
+                        <p class="work-card-desc">// EdTech. 100% accessibility, +50% engagement, 40% faster shipping.
+                        </p>
+                        <span class="work-card-cta">[ VIEW DETAILS → ]</span>
+                    </div>
+
+                    <!-- 3. Study Planner @ WSE -->
+                    <div class="work-card" role="button" tabindex="0" data-title="Study Planner @ Wall Street English"
+                        data-period="2022"
+                        data-role="// Designed a personalized, goal-oriented study planner to help students manage their learning pace and maintain motivation through automated scheduling."
+                        data-impact-user='<div class="impact-item"><span class="impact-number">52%</span><span class="impact-label">Increase in students consistently reaching their weekly learning goals.</span></div><div class="impact-item"><span class="impact-number">3.5x</span><span class="impact-label">Growth in user-reported organization and learning control scores.</span></div>'
+                        data-impact-biz='<div class="impact-item"><span class="impact-number">31%</span><span class="impact-label">Boost in overall course completion rates across global markets.</span></div><div class="impact-item"><span class="impact-number">19%</span><span class="impact-label">Reduction in student churn rate during the critical first 90 days.</span></div>'
+                        data-stack="Figma · Hotjar · Mixpanel · Notion">
+                        <div class="work-card-header">
+                            <span class="work-card-prefix">DIR</span>
+                            <span class="work-card-title">// study planner @ Wall Street English</span>
+                        </div>
+                        <p class="work-card-desc">// EdTech. +31% course completion, 52% goal attainment.</p>
+                        <span class="work-card-cta">[ VIEW DETAILS → ]</span>
+                    </div>
+
+                    <!-- 4. Online Classroom @ WSE -->
+                    <div class="work-card" role="button" tabindex="0"
+                        data-title="Online Classroom @ Wall Street English" data-period="2021 – 2023"
+                        data-role="// Reimagined the virtual teaching experience by adding high-fidelity classroom features that replicate the intimacy and efficacy of in-person learning."
+                        data-impact-user='<div class="impact-item"><span class="impact-number">85%</span><span class="impact-label">Sentiment score on "reproduction of in-person classroom feel."</span></div><div class="impact-item"><span class="impact-number">2.4x</span><span class="impact-label">Increase in student-teacher interaction rate per session.</span></div>'
+                        data-impact-biz='<div class="impact-item"><span class="impact-number">200%</span><span class="impact-label">Growth in total class bookings, effectively doubling the business unit.</span></div><div class="impact-item"><span class="impact-number">45%</span><span class="impact-label">Reduction in teaching overhead via integrated digital materials.</span></div>'
+                        data-stack="Figma · Zoom SDK · React · WebRTC">
+                        <div class="work-card-header">
+                            <span class="work-card-prefix">DIR</span>
+                            <span class="work-card-title">// online classroom @ Wall Street English</span>
+                        </div>
+                        <p class="work-card-desc">// EdTech. Doubled classes business, 2.4x student interaction.</p>
+                        <span class="work-card-cta">[ VIEW DETAILS → ]</span>
+                    </div>
+
+                    <!-- 5. Auro24 -->
+                    <div class="work-card" role="button" tabindex="0" data-title="Product Designer @ Auro24"
+                        data-period="2021"
+                        data-role="// Designed the end-to-end MVP for a complex MDM (Mobile Device Management) admin dashboard and high-conversion marketing website."
+                        data-impact-user='<div class="impact-item"><span class="impact-number">92%</span><span class="impact-label">Usability score on the admin dashboard for complex device management.</span></div><div class="impact-item"><span class="impact-number">75%</span><span class="impact-label">Reduction in device enrollment time for enterprise IT admins.</span></div>'
+                        data-impact-biz='<div class="impact-item"><span class="impact-number">300%</span><span class="impact-label">Increase in brand visibility and lead gen via website revamp.</span></div><div class="impact-item"><span class="impact-number">$1.2M</span><span class="impact-label">Secured in enterprise pre-orders directly attributed to the MVP launch.</span></div>'
+                        data-stack="Figma · React · Tailwind · Webflow">
+                        <div class="work-card-header">
+                            <span class="work-card-prefix">DIR</span>
+                            <span class="work-card-title">// product designer @ Auro24</span>
+                        </div>
+                        <p class="work-card-desc">// Enterprise MDM. 92% usability, $1.2M in pre-orders, 300% brand
+                            lift.</p>
+                        <span class="work-card-cta">[ VIEW DETAILS → ]</span>
+                    </div>
+
+                    <!-- 6. InstaSafe -->
                     <div class="work-card" role="button" tabindex="0" data-title="UI/UX Designer @ InstaSafe"
                         data-period="2019 – 2021"
-                        data-role="// Owned the full design lifecycle for a zero-trust network access (ZTNA) SaaS product targeting enterprise clients."
-                        data-impact-user="// Simplified a complex admin console into an intuitive dashboard. Support tickets related to UI confusion dropped by 45%."
-                        data-impact-biz="// The UX overhaul was instrumental in winning the 'Best Security Startup' award and securing multiple Fortune 500 contracts."
+                        data-role="// Owned the full design lifecycle for a zero-trust network access (ZTNA) SaaS product, simplifying complex security configurations for enterprise administrators."
+                        data-impact-user='<div class="impact-item"><span class="impact-number">45%</span><span class="impact-label">Drop in support tickets related to UI confusion after dashboard overhaul.</span></div><div class="impact-item"><span class="impact-number">60%</span><span class="impact-label">Reduction in average task completion time for security audits.</span></div>'
+                        data-impact-biz='<div class="impact-item"><span class="impact-number">31%</span><span class="impact-label">Increase in B2B deal close rates through improved product walkthroughs.</span></div><div class="impact-item"><span class="impact-number">Fortune 500</span><span class="impact-label">UX overhaul was instrumental in securing multiple major enterprise contracts.</span></div>'
                         data-stack="Figma · Adobe XD · Zeplin · Mixpanel">
                         <div class="work-card-header">
                             <span class="work-card-prefix">DIR</span>
@@ -468,11 +598,12 @@
                         <span class="work-card-cta">[ VIEW DETAILS → ]</span>
                     </div>
 
+                    <!-- 7. Freelance -->
                     <div class="work-card" role="button" tabindex="0" data-title="Creative Visual Designer @ Freelance"
                         data-period="2017 – 2019"
-                        data-role="// Delivered brand identities, marketing collateral, and digital UI for 20+ clients across fintech, e-commerce, and lifestyle sectors."
-                        data-impact-user="// Crafted brand systems that users genuinely connected with — averaged +55% social engagement after visual refresh."
-                        data-impact-biz="// Helped a fintech startup close their seed round by designing an investor deck and product prototype."
+                        data-role="// Delivered brand identities, marketing collateral, and digital UI for 20+ global clients across fintech, e-commerce, and lifestyle sectors."
+                        data-impact-user='<div class="impact-item"><span class="impact-number">+55%</span><span class="impact-label">Average increase in social engagement after visual identity refresh.</span></div><div class="impact-item"><span class="impact-number">98%</span><span class="impact-label">Client satisfaction rate across 20+ diverse high-growth projects.</span></div>'
+                        data-impact-biz='<div class="impact-item"><span class="impact-number">$2.4M</span><span class="impact-label">Helped a fintech client raise Seed funding with a high-fidelity prototype.</span></div><div class="impact-item"><span class="impact-number">40%</span><span class="impact-label">Increase in organic brand recall through consistent design systems.</span></div>'
                         data-stack="Figma · Illustrator · Photoshop · After Effects">
                         <div class="work-card-header">
                             <span class="work-card-prefix">DIR</span>
@@ -484,72 +615,103 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Work Detail Modal -->
-            <div id="work-modal" class="work-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"
-                hidden>
-                <div class="work-modal-inner">
-                    <div class="work-modal-topbar">
-                        <span class="work-modal-blink">█</span>
-                        <span id="modal-title" class="work-modal-title"></span>
-                        <button class="work-modal-close" id="work-modal-close" aria-label="Close">[ × CLOSE ]</button>
-                    </div>
-                    <div class="work-modal-body">
-                        <p class="work-modal-period" id="modal-period"></p>
-                        <h3 class="work-modal-section-label">&gt; MY_ROLE.txt</h3>
-                        <p id="modal-role"></p>
-                        <h3 class="work-modal-section-label">&gt; USER_IMPACT.txt</h3>
-                        <p id="modal-impact-user"></p>
-                        <h3 class="work-modal-section-label">&gt; BUSINESS_IMPACT.txt</h3>
-                        <p id="modal-impact-biz"></p>
-                        <h3 class="work-modal-section-label">&gt; TECH_STACK.txt</h3>
-                        <p id="modal-stack" class="work-modal-stack"></p>
-                    </div>
-                </div>
-            </div>
-
-
-
-            <!-- TILE 10: ANIMATED ART (3D MAGIC) 
-            <div class="bento-tile span-1">
-                <div class="tile-header">magic.sh</div>
-                <pre id="magic-ascii" class="animated-ascii"></pre>
-            </div>
-            -->
-
-            <!-- TILE 11: ANIMATED ART (OUTRO) 
-            <div class="bento-tile span-1">
-                <div class="tile-header">outro.sh</div>
-                <pre id="outro-ascii" class="animated-ascii"></pre>
-            </div>
-            -->
-
         </main>
     </div>
 
-    <!-- Screensaver Container
-    <div id="screensaver">
-        <div class="screensaver-content">
-            <img id="screensaver-logo" src="assets/lumon-logo.png" alt="Lumon Logo">
+    <!-- Work Detail Modal -->
+    <div id="work-modal" class="work-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" hidden>
+        <div class="work-modal-inner">
+            <div class="work-modal-topbar">
+                <span class="work-modal-blink">█</span>
+                <span id="modal-title" class="work-modal-title"></span>
+                <button class="work-modal-close" id="work-modal-close" aria-label="Close">[ × CLOSE ]</button>
+            </div>
+            <div class="work-modal-body">
+                <div class="work-modal-cover">
+                    <img id="modal-cover-img" src="" alt="Work Cover">
+                </div>
+                <p class="work-modal-period" id="modal-period"></p>
+                <h3 class="work-modal-section-label">&gt; MY_ROLE.txt</h3>
+                <p id="modal-role"></p>
+
+                <div class="impact-grid">
+                    <div class="impact-column">
+                        <h3 class="work-modal-section-label">&gt; USER_IMPACT.txt</h3>
+                        <div id="modal-impact-user" class="impact-column"></div>
+                    </div>
+                    <div class="impact-column">
+                        <h3 class="work-modal-section-label">&gt; BUSINESS_IMPACT.txt</h3>
+                        <div id="modal-impact-biz" class="impact-column"></div>
+                    </div>
+                </div>
+
+                <h3 class="work-modal-section-label">&gt; TECH_STACK.txt</h3>
+                <p id="modal-stack" class="work-modal-stack"></p>
+            </div>
         </div>
     </div>
-    -->
 
-    <!-- Screensaver Container
-    <div id="screensaver">
-        <div id="screensaver-logo"></div>
+
+
+    <!-- Custom Cursor -->
+    <div id="custom-cursor" class="custom-cursor" aria-hidden="true">
+        <div id="cursor-default-svg" class="cursor-svg active">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g filter="url(#filter0_d_8_111)">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M22 15.5068L10 10L12.8382 23L16.3062 17.8654L22 15.5068Z" class="cursor-fill" />
+                    <path
+                        d="M10.209 9.5459L22.209 15.0527L23.25 15.5303L22.1914 15.9688L16.6367 18.2695L13.2529 23.2803L12.5986 24.248L12.3496 23.1064L9.51172 10.1064L9.29785 9.12793L10.209 9.5459Z"
+                        class="cursor-stroke" stroke-miterlimit="16" />
+                </g>
+                <defs>
+                    <filter id="filter0_d_8_111" x="5.59552" y="6.25522" width="19.8216" height="23.2402"
+                        filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                        <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                        <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+                            result="hardAlpha" />
+                        <feOffset dy="1" />
+                        <feGaussianBlur stdDeviation="1.5" />
+                        <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0" />
+                        <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_8_111" />
+                        <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_8_111" result="shape" />
+                    </filter>
+                </defs>
+            </svg>
+        </div>
+        <div id="cursor-pointer-svg" class="cursor-svg">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g filter="url(#filter0_d_8_123)">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M12.9819 16L12.0953 14.6453C11.4899 13.7203 10.2004 13.3829 9.21404 13.89L9.44387 13.7718C9.19908 13.8977 9.0817 14.2114 9.18249 14.4721L10.4098 17.6474C10.6043 18.1508 11.1012 18.8627 11.513 19.2203C11.513 19.2203 13.9819 21.2639 13.9819 22.03V23H17.9819H19.0757H19.9819H20.9819V22.03C20.9819 21.2639 22.4908 18.8507 22.4908 18.8507C22.7685 18.3816 23 17.5552 23 17.0066V12.9718C22.9819 12.0785 22.2226 11.3545 21.2856 11.3545C20.8169 11.3545 20.4372 11.7165 20.4372 12.1634V12.4866C20.4372 11.5933 19.6779 10.8693 18.7409 10.8693C18.2722 10.8693 17.8925 11.2313 17.8925 11.6782V12.0013C17.8925 11.108 17.1332 10.3841 16.1963 10.3841C15.7275 10.3841 15.3479 10.7461 15.3479 11.193V11.5161C15.3479 11.3726 15.3325 11.2584 15.3029 11.168L15.0441 7.00121C15.0091 6.43776 14.5342 6 13.9819 6C13.4258 6 12.9819 6.44763 12.9819 6.99981V11V16Z"
+                        class="cursor-fill" />
+                    <path
+                        d="M23.6005 17.0068C23.6004 17.3531 23.529 17.7536 23.4276 18.1191C23.3261 18.485 23.1809 18.8621 23.0067 19.1562L23.0038 19.1631L22.9999 19.1689L22.9989 19.1699C22.9983 19.1709 22.9973 19.1727 22.996 19.1748C22.9934 19.1789 22.9894 19.1851 22.9843 19.1934C22.9737 19.2104 22.9574 19.2358 22.9374 19.2686C22.8973 19.3341 22.8405 19.4294 22.7714 19.5459C22.6327 19.7795 22.448 20.0975 22.2645 20.4375C22.08 20.7795 21.9013 21.1351 21.7704 21.4443C21.7049 21.5989 21.6546 21.7334 21.6219 21.8438C21.6057 21.8985 21.5951 21.9432 21.5887 21.9775C21.5857 21.9942 21.5839 22.0072 21.5829 22.0166C21.5819 22.0258 21.5819 22.0303 21.5819 22.0303V23.5996H13.3817V22.0508C13.3779 22.0394 13.3673 22.012 13.3436 21.9668C13.2985 21.8806 13.2256 21.7688 13.1219 21.6348C12.9147 21.3668 12.6279 21.0613 12.327 20.7656C12.0289 20.4726 11.7291 20.201 11.5028 20.002C11.39 19.9027 11.2957 19.8221 11.2303 19.7666C11.1978 19.7389 11.1722 19.7174 11.1552 19.7031C11.147 19.6963 11.1408 19.691 11.1366 19.6875C11.1346 19.6859 11.1327 19.6844 11.1317 19.6836L11.1307 19.6826L11.1249 19.6777L11.12 19.6729C10.6336 19.2504 10.0799 18.4569 9.85046 17.8633L8.62292 14.6885C8.44536 14.2291 8.58662 13.6983 8.95398 13.3838L8.93933 13.3564L8.94128 13.3555L9.1698 13.2383L9.17566 13.249C10.2845 12.8082 11.6048 13.1357 12.3817 14.0352V7C12.3817 6.11785 13.0934 5.40039 13.9823 5.40039C14.8492 5.40059 15.5876 6.08219 15.6425 6.96387L15.8202 9.83301C15.941 9.80124 16.0672 9.78419 16.1962 9.78418C16.8677 9.78418 17.4831 10.0686 17.9081 10.5264C18.1471 10.3634 18.4365 10.2695 18.7411 10.2695C19.4129 10.2696 20.028 10.5545 20.453 11.0127C20.692 10.8496 20.9813 10.7549 21.286 10.7549C22.5298 10.7551 23.5744 11.7209 23.5995 12.96L23.6005 12.9717V17.0068Z"
+                        class="cursor-stroke" stroke-width="1.2" />
+                </g>
+                <defs>
+                    <filter id="filter0_d_8_123" x="4.94656" y="2.8" width="22.2534" height="25.4"
+                        filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                        <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                        <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+                            result="hardAlpha" />
+                        <feOffset dy="1" />
+                        <feGaussianBlur stdDeviation="1.5" />
+                        <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.2 0" />
+                        <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_8_123" />
+                        <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_8_123" result="shape" />
+                    </filter>
+                </defs>
+            </svg>
+        </div>
     </div>
-    -->
 
     <!-- Theme transition overlay -->
-    <div class="theme-overlay" aria-hidden="true"></div>
 
-    <!-- No additional menus needed, all controls are in bento tiles -->
+    <div class="theme-overlay" aria-hidden="true"></div>
 
     <script src="js/decrypted-text.js"></script>
     <script src="js/scripts.js"></script>
-    <!-- <script src="js/mdr.js"></script> -->
-    <!-- <script src="js/welcome-ascii.js"></script> -->
     <script src="js/border-glow.js"></script>
 </body>
 
