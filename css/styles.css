@@ -194,6 +194,7 @@ input {
    Custom Cursor
    ---------------------------------------------------------------- */
 @media (pointer: fine) {
+
     body.custom-cursor-enabled,
     body.custom-cursor-enabled * {
         cursor: none !important;
@@ -381,14 +382,20 @@ a:hover {
 }
 
 .name-ascii {
-    font-size: clamp(4px, 0.85cqw, 1.2rem);
-    line-height: 1;
+    /* Perfectly scale 105 characters to fit the tile's inner width */
+    /* Available width = 100cqw - (2 * tile padding) */
+    /* 105 chars * 0.6 aspect ratio = 63 units */
+    font-size: calc((100cqw - 2.4rem) / 63);
+    line-height: 1.1;
     color: var(--accent);
     margin: 0;
+    padding: 0;
     white-space: pre;
-    font-family: 'IBM Plex Mono', monospace;
-    letter-spacing: -0.01em;
+    font-family: ui-monospace, monospace;
+    letter-spacing: 0;
     overflow: hidden;
+    width: 100%;
+    display: block;
 }
 
 .hero-properties {
@@ -424,9 +431,7 @@ a:hover {
         padding: 0;
     }
 
-    .name-ascii {
-        font-size: 0.5rem;
-    }
+    /* ASCII Name scaling handled by cqw clamp in main style */
 
     .prop-row {
         grid-template-columns: 100px 1fr;
@@ -435,13 +440,7 @@ a:hover {
 }
 
 @media (max-width: 568px) {
-    .name-ascii {
-        transform: scale(0.55);
-        transform-origin: left top;
-        width: 180%;
-        margin-bottom: -6rem;
-        /* Adjust to prevent large empty space below scaled art */
-    }
+    /* ASCII Name scaling handled by cqw clamp in main style */
 }
 
 /* Hero Site Index */
@@ -1313,6 +1312,7 @@ a:hover {
 
 .ascii-art {
     color: var(--accent);
+    font-family: ui-monospace, 'IBM Plex Mono', monospace;
     font-size: 0.8rem;
     line-height: 1.2;
     margin-bottom: 1rem;
@@ -1321,6 +1321,7 @@ a:hover {
 
 .ascii-hand {
     color: var(--accent);
+    font-family: ui-monospace, 'IBM Plex Mono', monospace;
     font-size: 0.45rem;
     line-height: 1;
     white-space: pre;
@@ -1330,7 +1331,7 @@ a:hover {
 }
 
 .animated-ascii {
-    font-family: var(--font-mono);
+    font-family: ui-monospace, 'IBM Plex Mono', monospace;
     font-size: 0.6rem;
     line-height: 1;
     color: var(--accent);
@@ -1368,6 +1369,7 @@ a:hover {
 }
 
 .ascii-visualizer {
+    font-family: ui-monospace, 'IBM Plex Mono', monospace;
     font-size: 0.8rem;
     line-height: 1;
     color: var(--accent);
@@ -1496,7 +1498,8 @@ a:hover {
     background: var(--accent);
     border: 1px solid var(--bg-primary);
     cursor: pointer;
-    margin-top: -5px; /* (track_height / 2) - (thumb_height / 2) => 4 - 8 = -4, but let's adjust visually */
+    margin-top: -5px;
+    /* (track_height / 2) - (thumb_height / 2) => 4 - 8 = -4, but let's adjust visually */
 }
 
 .terminal-range::-moz-range-track {
