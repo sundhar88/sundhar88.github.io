@@ -10,6 +10,7 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
+!libs/cobe/dist
 *.local
 
 # Editor directories and files
