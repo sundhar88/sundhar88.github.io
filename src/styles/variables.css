@@ -1,0 +1,66 @@
+/* ================================================================
+   DESIGN TOKENS
+   ================================================================ */
+:root {
+  --accent: #FFFFFF;
+  --accent-rgb: 255, 255, 255;
+  --bg-primary: #000000;
+  --bg-primary-rgb: 0, 0, 0;
+  --bg-secondary: #1a1a1a;
+  --bg-secondary-rgb: 26, 26, 26;
+
+  --c-mono: #FFFFFF;
+  --c-yellow: #FFB000;
+  --c-green: #00FF41;
+  --c-red: #FF4D4D;
+  --c-cyan: #00FFFF;
+  --c-blue: #6699FF;
+  --c-purple: #D1A3FF;
+  --c-pink: #FF80BF;
+
+  --scanline-color: rgba(255, 255, 255, 0.06);
+
+  --font-mono: 'IBM Plex Mono', monospace;
+  --font-display: 'VT323', monospace;
+
+  --speed-fast: 0ms;
+  --speed-base: 0ms;
+  --speed-slow: 0ms;
+  --ease-theme: linear;
+
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 1.2rem;
+  --space-lg: 2.5rem;
+
+  --border-style: 2px solid var(--accent);
+
+  --fs-xs: clamp(0.65rem, 0.62rem + 0.15vw, 0.75rem);
+  --fs-sm: clamp(0.75rem, 0.72rem + 0.15vw, 0.85rem);
+  --fs-base: clamp(0.9rem, 0.86rem + 0.2vw, 1rem);
+  --fs-md: clamp(1.1rem, 1.05rem + 0.25vw, 1.25rem);
+  --fs-lg: clamp(1.4rem, 1.3rem + 0.5vw, 1.8rem);
+  --fs-xl: clamp(2rem, 1.8rem + 1.5vw, 3.5rem);
+  --accent-dim: rgba(var(--accent-rgb), 0.3);
+}
+
+:root[data-theme="light"] {
+  --accent: #000000;
+  --accent-rgb: 0, 0, 0;
+  --bg-primary: #e0e0e0;
+  --bg-primary-rgb: 224, 224, 224;
+  --bg-secondary: #cccccc;
+  --bg-secondary-rgb: 204, 204, 204;
+
+  --c-mono: #000000;
+  --c-yellow: #805E00;
+  --c-green: #00661A;
+  --c-red: #B30000;
+  --c-cyan: #006666;
+  --c-blue: #0033CC;
+  --c-purple: #7A29CC;
+  --c-pink: #B8005D;
+
+  --scanline-color: rgba(0, 0, 0, 0.12);
+  --accent-dim: rgba(var(--accent-rgb), 0.3);
+}

@@ -1,0 +1,242 @@
+/* ================================================================
+   GLOBAL RESET & BASE
+   ================================================================ */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: auto;
+}
+
+body {
+  font-family: var(--font-mono);
+  background-color: var(--bg-primary);
+  color: var(--accent);
+  padding: var(--space-lg);
+  min-height: 100vh;
+  overflow-y: auto;
+  transition: background-color 0.3s var(--ease-theme), color 0.3s var(--ease-theme);
+}
+
+/* CRT Effect */
+body.crt-enabled {
+  background-color: var(--bg-primary);
+}
+
+body.crt-enabled .container {
+  background-color: transparent;
+  transform: perspective(1200px) rotateX(0.3deg) scale(1.01);
+  transform-origin: center center;
+}
+
+body.crt-enabled::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 2px,
+    var(--scanline-color) 2px,
+    var(--scanline-color) 4px
+  );
+  z-index: 11000;
+  pointer-events: none;
+  animation: crt-flicker 8s linear infinite;
+}
+
+body.crt-enabled::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 50%,
+    rgba(0, 0, 0, 0.35) 80%,
+    rgba(0, 0, 0, 0.65) 100%
+  );
+  z-index: 11001;
+  pointer-events: none;
+}
+
+body.crt-enabled * {
+  text-shadow:
+    0.5px 0 0 rgba(255, 0, 0, 0.12),
+    -0.5px 0 0 rgba(0, 255, 255, 0.12);
+}
+
+@keyframes crt-flicker {
+  0%   { opacity: 1; }
+  5%   { opacity: 0.98; }
+  10%  { opacity: 1; }
+  15%  { opacity: 0.97; }
+  20%  { opacity: 1; }
+  100% { opacity: 1; }
+}
+
+/* Interlace Effect */
+body.text-interlace-enabled {
+  -webkit-font-smoothing: none;
+  font-smooth: never;
+}
+
+body.text-interlace-enabled * {
+  text-shadow:
+    1px 0px 1px rgba(255, 0, 0, 0.8),
+    -1px 0px 1px rgba(0, 255, 255, 0.8),
+    0px 0px 8px var(--accent);
+}
+
+/* Typography */
+h1, h2, h4 {
+  font-family: var(--font-display);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--space-sm);
+}
+
+h1 {
+  font-size: var(--fs-xl);
+  border-bottom: var(--border-style);
+  display: inline-block;
+  padding-bottom: var(--space-xs);
+  margin-bottom: var(--space-md);
+}
+
+h2 { font-size: var(--fs-lg); }
+h4 { font-size: var(--fs-md); }
+
+p {
+  line-height: 1.6;
+  margin-bottom: var(--space-sm);
+  font-size: var(--fs-base);
+}
+
+a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+a:hover {
+  background-color: var(--accent);
+  color: var(--bg-primary);
+}
+
+a, button, [role="tab"] {
+  cursor: pointer;
+}
+
+textarea, input {
+  cursor: text;
+}
+
+[class^="ri-"],
+[class*=" ri-"] {
+  font-size: 1.2rem;
+  line-height: 1;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+:focus-visible {
+  outline: 2px dashed var(--accent);
+  outline-offset: 4px;
+}
+
+/* Theme overlay */
+.theme-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--accent);
+  z-index: 99999;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.theme-overlay.animating {
+  animation: theme-flash 0.35s ease-out forwards;
+}
+
+@keyframes theme-flash {
+  0%   { opacity: 0.6; }
+  100% { opacity: 0; }
+}
+
+/* Blink animation */
+@keyframes blink-cursor {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+.blink {
+  animation: blink-cursor 1s step-end infinite;
+}
+
+/* DecryptedText */
+.decrypted-encrypted {
+  opacity: 0.6;
+  font-family: var(--font-mono);
+}
+
+/* Custom Cursor */
+@media (pointer: fine) {
+  body.custom-cursor-enabled,
+  body.custom-cursor-enabled * {
+    cursor: none !important;
+  }
+}
+
+.custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 32px;
+  height: 32px;
+  pointer-events: none;
+  z-index: 999999;
+  display: none;
+  will-change: transform;
+}
+
+body.custom-cursor-enabled .custom-cursor {
+  display: block;
+}
+
+.cursor-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.1s ease;
+}
+
+.cursor-svg.active {
+  opacity: 1;
+}
+
+.cursor-fill {
+  fill: var(--accent);
+  transition: fill 0.3s var(--ease-theme);
+}
+
+.cursor-stroke {
+  stroke: var(--bg-primary);
+  transition: stroke 0.3s var(--ease-theme);
+}
+
+@media (max-width: 767px) {
+  body {
+    padding: 1rem;
+  }
+}
