@@ -38,7 +38,7 @@ const BASE_MESSAGES = [
 ];
 
 const TOTAL_BLOCKS = 20;
-const BOOT_DURATION = 4000;
+const BOOT_DURATION = 1500;
 
 export default function SplashScreen({ onDismiss }) {
   const [phase, setPhase] = useState('idle'); // idle | booting | hidden
@@ -46,6 +46,23 @@ export default function SplashScreen({ onDismiss }) {
   const [progress, setProgress] = useState(0);
   const audioRef = useRef(null);
   const booted = useRef(false);
+
+  // Check if user already booted this session
+  useEffect(() => {
+    try {
+      if (sessionStorage.getItem('gitfolio_booted') === 'true') {
+        onDismiss();
+      }
+    } catch {}
+  }, [onDismiss]);
+
+  const dismissAndRemember = useCallback(() => {
+    try {
+      sessionStorage.setItem('gitfolio_booted', 'true');
+    } catch {}
+    setPhase('hidden');
+    onDismiss();
+  }, [onDismiss]);
 
   const buildLogs = useCallback(() => {
     const msgs = [...BASE_MESSAGES];
@@ -99,33 +116,39 @@ export default function SplashScreen({ onDismiss }) {
         clearInterval(barTimer);
         clearInterval(logTimer);
         setTimeout(() => {
-          setPhase('hidden');
-          setTimeout(onDismiss, 350);
-        }, 200);
+          dismissAndRemember();
+        }, 120);
       }
     }, barInterval);
-  }, [buildLogs, onDismiss]);
+  }, [buildLogs, dismissAndRemember]);
 
   const handleInteraction = useCallback(() => {
-    if (phase === 'booting') {
-      // Skip/Dismiss
-      setPhase('hidden');
-      onDismiss();
-    } else if (phase === 'idle') {
-      boot();
+    if (phase === 'booting' || phase === 'idle') {
+      dismissAndRemember();
     }
     
     // Attempt to play sound on any interaction to satisfy browser policies
     if (audioRef.current && audioRef.current.paused) {
       audioRef.current.play().catch(() => {});
     }
-  }, [phase, boot, onDismiss]);
+  }, [phase, dismissAndRemember]);
+
+  // Global keydown listener for quick escape
+  useEffect(() => {
+    const handleKey = (e) => {
+      if (e.key === 'Escape' || e.key === ' ' || e.key === 'Enter') {
+        dismissAndRemember();
+      }
+    };
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, [dismissAndRemember]);
 
   // Auto-boot on mount
   useEffect(() => {
     const timer = setTimeout(() => {
       boot();
-    }, 500); 
+    }, 200); 
     return () => clearTimeout(timer);
   }, [boot]);
 
@@ -139,10 +162,10 @@ export default function SplashScreen({ onDismiss }) {
       id="splash-screen"
       className={phase === 'hidden' ? 'hidden' : ''}
       onClick={handleInteraction}
-      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleInteraction(); }}
+      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ' || e.key === 'Escape') handleInteraction(); }}
       tabIndex={0}
       role="button"
-      aria-label="System booting"
+      aria-label="System booting (click or press ESC to skip)"
     >
       <audio ref={audioRef} src="/assets/splash_sound.wav" preload="auto" />
       <div className="splash-border splash-border-top" />
@@ -164,7 +187,7 @@ export default function SplashScreen({ onDismiss }) {
             </div>
           </div>
           <div className="splash-bottom">
-            <div className="splash-start-prompt">SYSTEM BOOTING AUTOMATICALLY...</div>
+            <div className="splash-start-prompt">SYSTEM BOOTING... [ CLICK OR PRESS ESC TO ENTER ]</div>
           </div>
         </div>
       )}
@@ -178,7 +201,7 @@ export default function SplashScreen({ onDismiss }) {
             ))}
           </div>
           <div className="splash-loading-area">
-            <p style={{ marginBottom: '0.5rem' }}>NOW LOADING UX-OS CORE...</p>
+            <p style={{ marginBottom: '0.5rem' }}>NOW LOADING UX-OS CORE... <span style={{ opacity: 0.7 }}>[ESC TO SKIP]</span></p>
             <p className="splash-bar-container">
               [<span className="splash-bar-fill">{fill}</span>
               <span className="splash-bar-empty">{empty}</span>]

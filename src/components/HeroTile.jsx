@@ -1,7 +1,10 @@
 /**
  * HeroTile — ASCII name art + properties + site index
  */
+import { useEffect } from 'react';
+import gsap from 'gsap';
 import BentoTile from './BentoTile';
+import TerminalTypewriter from './TerminalTypewriter';
 
 const ASCII_NAME = `  █████████                            █████ █████                                                       
  ███░░░░░███                          ░░███ ░░███                                                        
@@ -28,14 +31,15 @@ const ASCII_NAME = `  █████████                            █
                                                                             `;
 
 const SITE_INDEX = [
-  { id: 'about-tile',      label: '[ 01. ABOUT ]' },
-  { id: 'persona-tile',    label: '[ 02. PERSONAS ]' },
-  { id: 'works-tile',      label: '[ 03. WORKS ]' },
-  { id: 'skills-tile',     label: '[ 04. SKILLS ]' },
-  { id: 'music-tile',      label: '[ 05. MUSIC ]' },
-  { id: 'settings-tile',   label: '[ 06. SITE SETTINGS ]' },
-  { id: 'contact-tile',    label: '[ 07. CONTACT ]' },
-  { id: 'principles-tile', label: '[ 08. PRINCIPLES ]' },
+  { id: 'about-tile',      label: '[ ABOUT ]' },
+  { id: 'persona-tile',    label: '[ PERSONAS ]' },
+  { id: 'works-tile',      label: '[ WORKS ]' },
+  { id: 'skills-tile',     label: '[ SKILLS ]' },
+  { id: 'music-tile',      label: '[ MUSIC ]' },
+  { id: 'settings-tile',   label: '[ SETTINGS ]' },
+  { id: 'contact-tile',    label: '[ CONTACT ]' },
+  { id: 'principles-tile', label: '[ PRINCIPLES ]' },
+  { id: 'globe-tile',      label: '[ LOCATION ]' },
 ];
 
 function scrollToTile(id) {
@@ -44,6 +48,18 @@ function scrollToTile(id) {
 }
 
 export default function HeroTile() {
+  useEffect(() => {
+    if (document.body.classList.contains('safe-mode')) return;
+    const isReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (isReduced) return;
+
+    gsap.fromTo(
+      '.hero-properties .prop-row',
+      { opacity: 0, y: 6 },
+      { opacity: 1, y: 0, duration: 0.35, stagger: 0.07, ease: 'power2.out', delay: 0.1 }
+    );
+  }, []);
+
   return (
     <BentoTile id="hero-tile" className="span-2 row-2">
       <div className="tile-header">./whoami.sh</div>
@@ -57,7 +73,9 @@ export default function HeroTile() {
           </div>
           <div className="prop-row">
             <span className="prop-key">ROLE:</span>
-            <span className="prop-val">Senior Product Designer</span>
+            <span className="prop-val">
+              <TerminalTypewriter text="Lead Product Designer & Design Technologist" speed={0.03} cursorChar="█" />
+            </span>
           </div>
           <div className="prop-row">
             <span className="prop-key">EXPERIENCE:</span>

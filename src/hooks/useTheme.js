@@ -5,12 +5,12 @@ import { useState, useEffect, useCallback } from 'react';
 
 const COLOR_MAP = {
   dark: {
-    mono: '#FFFFFF', yellow: '#FFB000', green: '#00FF41', red: '#FF4D4D',
-    cyan: '#00FFFF', blue: '#6699FF', purple: '#D1A3FF', pink: '#FF80BF',
+    mono: '#FFFFFF', yellow: '#FFB000', green: '#00FF66', red: '#FF4D4D',
+    cyan: '#00E5FF', blue: '#6699FF', purple: '#D1A3FF', pink: '#FF80BF',
   },
   light: {
-    mono: '#000000', yellow: '#805E00', green: '#00661A', red: '#B30000',
-    cyan: '#006666', blue: '#0033CC', purple: '#7A29CC', pink: '#B8005D',
+    mono: '#111111', yellow: '#B45309', green: '#047857', red: '#B91C1C',
+    cyan: '#0E7490', blue: '#1D4ED8', purple: '#6D28D9', pink: '#BE185D',
   },
 };
 

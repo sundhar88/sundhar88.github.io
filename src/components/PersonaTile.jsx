@@ -1,9 +1,6 @@
-/**
- * PersonaTile — tabbed persona selection
- */
 import { useState } from 'react';
 import BentoTile from './BentoTile';
-import { applyDecryptedText } from '../utils/decryptedText';
+import TerminalTypewriter from './TerminalTypewriter';
 
 const TABS = [
   {
@@ -31,7 +28,7 @@ const TABS = [
   │ shipping   ████ 5 │
   └───────────────────┘
   status: open to roles`,
-    text: `5+ years of shipping product at scale — from zero-to-one at startups to enterprise SaaS. I own outcomes, not just deliverables. Senior IC track. Strong in cross-functional collaboration, design systems, and AI-augmented workflows.`,
+    text: `7+ years of shipping product at scale — from zero-to-one at startups to enterprise SaaS. I own outcomes, not just deliverables. Senior IC track. Strong in cross-functional collaboration, design systems, and AI-augmented workflows.`,
   },
   {
     id: 'designer',
@@ -113,7 +110,9 @@ export default function PersonaTile() {
             id={`panel-${tab.id}`}
           >
             <pre className="ascii-art">{tab.ascii}</pre>
-            <p>{tab.text}</p>
+            <p>
+              <TerminalTypewriter key={tab.id} text={tab.text} speed={0.012} cursorChar="█" />
+            </p>
           </div>
         )}
       </div>

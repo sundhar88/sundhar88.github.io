@@ -1,4 +1,4 @@
-﻿/**
+/**
  * MusicTile - SoundCloud player with ASCII visualizer
  */
 import { useEffect, useRef, useState } from 'react';
@@ -203,7 +203,7 @@ export default function MusicTile() {
               <span id="seek-total">{totalTime}</span>
             </div>
             <div id="sc-seek-bar" className="terminal-seek-bar" onClick={handleSeek}>
-              <div id="sc-seek-fill" className="terminal-seek-fill" style={{ width: `${progress}%` }} />
+              <div id="sc-seek-fill" className="terminal-seek-fill" style={{ transform: `scaleX(${progress / 100})` }} />
             </div>
           </div>
 

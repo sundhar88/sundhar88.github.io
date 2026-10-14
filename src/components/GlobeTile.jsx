@@ -170,8 +170,30 @@ export default function GlobeTile({ theme, accent }) {
     }
   }, [theme, mapBrightness, diffuse, accent]);
 
+  // Live IST Clock
+  const [istTime, setIstTime] = useState('');
+  useEffect(() => {
+    const updateTime = () => {
+      try {
+        const timeStr = new Intl.DateTimeFormat('en-GB', {
+          timeZone: 'Asia/Kolkata',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: false
+        }).format(new Date());
+        setIstTime(timeStr + ' IST');
+      } catch {
+        setIstTime('UTC+05:30');
+      }
+    };
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <BentoTile id="globe-tile" className="span-1">
+    <BentoTile id="globe-tile" className="span-4 globe-tile-deck">
       <div className="tile-header">
         <span>./location.sh</span>
         <button 
@@ -182,123 +204,156 @@ export default function GlobeTile({ theme, accent }) {
           {showControls ? '[ CLOSE ]' : '[ CONFIG ]'}
         </button>
       </div>
-      
-      <div className="globe-container" style={{
-        position: 'relative',
-        width: "100%",
-        height: "100%",
-        display: "flex",
-        flexDirection: 'column',
-        alignItems: "center",
-        justifyContent: "center",
-        minHeight: "350px",
-        overflow: 'hidden'
-      }}>
-        <canvas
-          ref={canvasRef}
-          onPointerDown={(e) => {
-            pointerInteracting.current = e.clientX - pointerInteractionMovement.current;
-            if (canvasRef.current) canvasRef.current.style.cursor = 'grabbing';
-          }}
-          onPointerUp={() => {
-            pointerInteracting.current = null;
-            if (canvasRef.current) canvasRef.current.style.cursor = 'grab';
-          }}
-          onPointerOut={() => {
-            pointerInteracting.current = null;
-            if (canvasRef.current) canvasRef.current.style.cursor = 'grab';
-          }}
-          onMouseMove={(e) => {
-            if (pointerInteracting.current !== null) {
-              const delta = e.clientX - pointerInteracting.current;
-              pointerInteractionMovement.current = delta / 100;
-            }
-          }}
-          style={{
-            width: "100%",
-            height: "auto",
-            aspectRatio: "1 / 1",
-            opacity: 0,
-            transition: 'opacity 1s ease',
-            cursor: 'grab',
-            touchAction: 'none'
-          }}
-          width="1000"
-          height="1000"
-        />
 
-        {/* Controls Overlay */}
-        {showControls && (
-          <div className="globe-controls" style={{
-            position: 'absolute',
-            bottom: '10px',
-            left: '10px',
-            right: '10px',
-            background: 'rgba(var(--bg-primary-rgb), 0.9)',
-            backdropFilter: 'blur(8px)',
-            border: '1px solid var(--accent)',
-            padding: '12px',
-            zIndex: 10,
-            fontSize: '0.7rem',
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gap: '10px',
-            color: 'var(--accent)',
-            fontFamily: 'var(--font-mono)'
-          }}>
-            <div className="control-group">
-              <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
-                <input 
-                  type="checkbox" 
-                  checked={autoRotate} 
-                  onChange={e => setAutoRotate(e.target.checked)} 
-                />
-                AUTO-ROTATE
-              </label>
+      <div className="globe-telemetry-deck">
+        <div className="globe-canvas-col">
+          <canvas
+            ref={canvasRef}
+            onPointerDown={(e) => {
+              pointerInteracting.current = e.clientX - pointerInteractionMovement.current;
+              if (canvasRef.current) canvasRef.current.style.cursor = 'grabbing';
+            }}
+            onPointerUp={() => {
+              pointerInteracting.current = null;
+              if (canvasRef.current) canvasRef.current.style.cursor = 'grab';
+            }}
+            onPointerOut={() => {
+              pointerInteracting.current = null;
+              if (canvasRef.current) canvasRef.current.style.cursor = 'grab';
+            }}
+            onMouseMove={(e) => {
+              if (pointerInteracting.current !== null) {
+                const delta = e.clientX - pointerInteracting.current;
+                pointerInteractionMovement.current = delta / 100;
+              }
+            }}
+            style={{
+              width: "100%",
+              maxWidth: "340px",
+              height: "auto",
+              aspectRatio: "1 / 1",
+              opacity: 0,
+              transition: 'opacity 1s ease',
+              cursor: 'grab',
+              touchAction: 'none'
+            }}
+            width="1000"
+            height="1000"
+          />
+        </div>
+
+        <div className="globe-telemetry-col">
+          <div className="telemetry-section-title">// GLOBAL RADAR TELEMETRY</div>
+          
+          <div className="telemetry-grid">
+            <div className="telemetry-item">
+              <span className="telemetry-label">BASE_STATION:</span>
+              <span className="telemetry-val">Chennai, Tamil Nadu, India</span>
             </div>
-            <div className="control-group">
-              <label>PHI: {phi.toFixed(2)}</label>
-              <input 
-                type="range" min="0" max="6.28" step="0.01" 
-                value={phi} onChange={e => setPhi(parseFloat(e.target.value))}
-                style={{ width: '100%' }}
-              />
+            <div className="telemetry-item">
+              <span className="telemetry-label">COORDINATES:</span>
+              <span className="telemetry-val">13.0827° N, 80.2707° E</span>
             </div>
-            <div className="control-group">
-              <label>THETA: {theta.toFixed(2)}</label>
-              <input 
-                type="range" min="-1.57" max="1.57" step="0.01" 
-                value={theta} onChange={e => setTheta(parseFloat(e.target.value))}
-                style={{ width: '100%' }}
-              />
+            <div className="telemetry-item">
+              <span className="telemetry-label">LOCAL_TIME:</span>
+              <span className="telemetry-val clock-display">{istTime || '12:00:00 IST'} (UTC+05:30)</span>
             </div>
-            <div className="control-group">
-              <label>SAMPLES: {mapSamples}</label>
-              <input 
-                type="range" min="4000" max="40000" step="1000" 
-                value={mapSamples} onChange={e => setMapSamples(parseInt(e.target.value))}
-                style={{ width: '100%' }}
-              />
+            <div className="telemetry-item">
+              <span className="telemetry-label">AVAILABILITY:</span>
+              <span className="telemetry-val">● ONLINE // OPEN TO ROLES</span>
             </div>
-            <div className="control-group">
-              <label>BRIGHTNESS: {mapBrightness.toFixed(1)}</label>
-              <input 
-                type="range" min="0" max="20" step="0.5" 
-                value={mapBrightness} onChange={e => setMapBrightness(parseFloat(e.target.value))}
-                style={{ width: '100%' }}
-              />
+            <div className="telemetry-item">
+              <span className="telemetry-label">TIMEZONE_OVERLAP:</span>
+              <span className="telemetry-val">APAC · EMEA · US East mornings</span>
             </div>
-            <div className="control-group">
-              <label>GLOW (DIFFUSE): {diffuse.toFixed(1)}</label>
-              <input 
-                type="range" min="0" max="3" step="0.1" 
-                value={diffuse} onChange={e => setDiffuse(parseFloat(e.target.value))}
-                style={{ width: '100%' }}
-              />
+            <div className="telemetry-item">
+              <span className="telemetry-label">ARC_TELEMETRY:</span>
+              <span className="telemetry-val">
+                {visitorLocation 
+                  ? `NODE [${visitorLocation[0].toFixed(1)}°, ${visitorLocation[1].toFixed(1)}°] -> CHENNAI [LINK ACTIVE]`
+                  : 'SYNCHRONIZING VISITOR NODE...'
+                }
+              </span>
             </div>
           </div>
-        )}
+
+          <p className="telemetry-note">
+            // Crafting intuitive systems remotely worldwide. Drag globe to inspect coordinates.
+          </p>
+        </div>
       </div>
+
+      {/* Controls Overlay */}
+      {showControls && (
+        <div className="globe-controls" style={{
+          position: 'absolute',
+          bottom: '10px',
+          left: '10px',
+          right: '10px',
+          background: 'rgba(var(--bg-primary-rgb), 0.95)',
+          backdropFilter: 'blur(8px)',
+          border: '1px solid var(--accent)',
+          padding: '12px',
+          zIndex: 10,
+          fontSize: '0.7rem',
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+          gap: '10px',
+          color: 'var(--accent)',
+          fontFamily: 'var(--font-mono)'
+        }}>
+          <div className="control-group">
+            <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+              <input 
+                type="checkbox" 
+                checked={autoRotate} 
+                onChange={e => setAutoRotate(e.target.checked)} 
+              />
+              AUTO-ROTATE
+            </label>
+          </div>
+          <div className="control-group">
+            <label>PHI: {phi.toFixed(2)}</label>
+            <input 
+              type="range" min="0" max="6.28" step="0.01" 
+              value={phi} onChange={e => setPhi(parseFloat(e.target.value))}
+              style={{ width: '100%' }}
+            />
+          </div>
+          <div className="control-group">
+            <label>THETA: {theta.toFixed(2)}</label>
+            <input 
+              type="range" min="-1.57" max="1.57" step="0.01" 
+              value={theta} onChange={e => setTheta(parseFloat(e.target.value))}
+              style={{ width: '100%' }}
+            />
+          </div>
+          <div className="control-group">
+            <label>SAMPLES: {mapSamples}</label>
+            <input 
+              type="range" min="4000" max="40000" step="1000" 
+              value={mapSamples} onChange={e => setMapSamples(parseInt(e.target.value))}
+              style={{ width: '100%' }}
+            />
+          </div>
+          <div className="control-group">
+            <label>BRIGHTNESS: {mapBrightness.toFixed(1)}</label>
+            <input 
+              type="range" min="0" max="20" step="0.5" 
+              value={mapBrightness} onChange={e => setMapBrightness(parseFloat(e.target.value))}
+              style={{ width: '100%' }}
+            />
+          </div>
+          <div className="control-group">
+            <label>GLOW (DIFFUSE): {diffuse.toFixed(1)}</label>
+            <input 
+              type="range" min="0" max="3" step="0.1" 
+              value={diffuse} onChange={e => setDiffuse(parseFloat(e.target.value))}
+              style={{ width: '100%' }}
+            />
+          </div>
+        </div>
+      )}
     </BentoTile>
   );
 }
