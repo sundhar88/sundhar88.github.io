@@ -137,6 +137,7 @@ export default function MusicTile() {
     return () => {
       if (vizIntervalRef.current) clearInterval(vizIntervalRef.current);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- widget initialised once on mount
   }, []);
 
   const handlePlay = () => widgetRef.current?.toggle();

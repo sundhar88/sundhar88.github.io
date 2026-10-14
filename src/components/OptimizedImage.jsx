@@ -24,7 +24,7 @@ export default function OptimizedImage({
   }
 
   const isWebp = src?.toLowerCase().endsWith('.webp');
-  if (!isWebp && process.env.NODE_ENV === 'development') {
+  if (!isWebp && import.meta.env.DEV) {
     console.warn(`OptimizedImage: Consider using .webp format for "${src}" to improve performance.`);
   }
 

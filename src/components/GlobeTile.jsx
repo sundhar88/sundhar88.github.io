@@ -1,5 +1,5 @@
 import createGlobe from "cobe";
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState } from "react";
 import BentoTile from './BentoTile';
 
 const ACCENT_COLORS = {
@@ -65,6 +65,7 @@ export default function GlobeTile({ theme, accent }) {
   const isDarkRef = useRef(theme === 'dark');
   useEffect(() => {
     isDarkRef.current = theme === 'dark';
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- sync default brightness to theme
     setMapBrightness(theme === 'dark' ? 10 : 6);
   }, [theme]);
 
@@ -147,6 +148,7 @@ export default function GlobeTile({ theme, accent }) {
       }
       if (animationId) cancelAnimationFrame(animationId);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- mapBrightness/diffuse updated live by the effect below
   }, [visitorLocation, mapSamples, accent]); // Re-init on accent change too
 
   // Property Update Effect (Updates without re-init)

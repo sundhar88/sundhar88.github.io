@@ -53,13 +53,13 @@ export default function SplashScreen({ onDismiss }) {
       if (sessionStorage.getItem('gitfolio_booted') === 'true') {
         onDismiss();
       }
-    } catch {}
+    } catch { /* sessionStorage unavailable */ }
   }, [onDismiss]);
 
   const dismissAndRemember = useCallback(() => {
     try {
       sessionStorage.setItem('gitfolio_booted', 'true');
-    } catch {}
+    } catch { /* sessionStorage unavailable */ }
     setPhase('hidden');
     onDismiss();
   }, [onDismiss]);

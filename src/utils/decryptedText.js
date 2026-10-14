@@ -1,7 +1,7 @@
 /**
  * DecryptedText utility — port of the vanilla JS decrypted-text.js
  */
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 
 const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?/\\~`';
 
@@ -15,8 +15,6 @@ export function applyDecryptedText(el, opts = {}) {
     speed = 5,
     maxIterations = 10,
     sequential = false,
-    revealDirection = 'start',
-    encryptedClassName = 'decrypted-encrypted',
   } = opts;
 
   const originalText = el.textContent;
@@ -24,7 +22,6 @@ export function applyDecryptedText(el, opts = {}) {
 
   let iteration = 0;
   let revealedCount = 0;
-  let animId;
 
   function getChar() {
     return CHARS[Math.floor(Math.random() * CHARS.length)];
@@ -72,11 +69,10 @@ export function applyDecryptedText(el, opts = {}) {
     }
 
     el.textContent = result;
-    animId = requestAnimationFrame(step);
+    requestAnimationFrame(step);
   }
 
-  cancelAnimationFrame(animId);
-  animId = requestAnimationFrame(step);
+  requestAnimationFrame(step);
 }
 
 /**

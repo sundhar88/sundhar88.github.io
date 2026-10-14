@@ -142,7 +142,7 @@ export default function WorksTile() {
         </div>
 
         <div className="project-grid">
-          {filteredWorks.map((work, i) => (
+          {filteredWorks.map((work) => (
             <div
               key={work.title}
               className="work-card"

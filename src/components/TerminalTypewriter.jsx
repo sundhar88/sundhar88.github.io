@@ -33,6 +33,7 @@ export default function TerminalTypewriter({
 
     if (isReducedMotion || isSafeMode) {
       el.textContent = text;
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- reduced-motion path finishes immediately
       setIsTyping(false);
       if (onComplete) onComplete();
       return;
