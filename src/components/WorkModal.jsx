@@ -1,10 +1,9 @@
-﻿/**
- * WorkModal - work detail modal with decrypted text effects
- */
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { applyDecryptedText } from '../utils/decryptedText';
+import WorkCoverVisual from './WorkCoverVisual';
 
 export default function WorkModal({ work, onClose }) {
+  const [copiedInquiry, setCopiedInquiry] = useState(false);
   const titleRef = useRef(null);
   const periodRef = useRef(null);
   const roleRef = useRef(null);
@@ -35,8 +34,16 @@ export default function WorkModal({ work, onClose }) {
   if (!work) return null;
 
   const stackItems = (work.stack || '').split('·').map(s => s.trim()).filter(Boolean);
-  const randomId = Math.floor(Math.random() * 1000);
-  const coverUrl = `https://picsum.photos/seed/${work.title?.length ?? 10 + randomId}/800/400?grayscale`;
+
+  const handleCopyInquiry = () => {
+    if (navigator?.clipboard?.writeText) {
+      navigator.clipboard.writeText(`Hi Sundhar, I saw your work on "${work.title}" and would love to chat about a design opportunity.`);
+    }
+    setCopiedInquiry(true);
+    setTimeout(() => setCopiedInquiry(false), 2500);
+  };
+
+  const mailtoHref = `mailto:sundhar.pvt1@gmail.com?subject=${encodeURIComponent(`Product Design Opportunity: ${work.title}`)}&body=${encodeURIComponent(`Hi Sundhar,\n\nI reviewed your portfolio case study for "${work.title}" and would love to connect regarding an opportunity.\n\nBest,\n`)}`;
 
   return (
     <div
@@ -58,25 +65,26 @@ export default function WorkModal({ work, onClose }) {
             onClick={onClose}
             autoFocus
           >
-            <i className="ri-close-line"></i> [ CLOSE ]
+            <i className="ri-close-line" aria-hidden="true"></i> [ CLOSE ]
           </button>
         </div>
 
         <div className="work-modal-body">
           <div className="work-modal-cover">
-            <img
-              src={coverUrl}
-              alt={`Cover for ${work.title}`}
-              onError={(e) => {
-                e.target.src = `https://picsum.photos/seed/${randomId + 50}/800/400?grayscale`;
-              }}
-            />
+            <WorkCoverVisual title={work.title} />
           </div>
 
           <p className="work-modal-period" id="modal-period" ref={periodRef}>{work.period}</p>
 
           <h3 className="work-modal-section-label">&gt; MY_ROLE.txt</h3>
           <p id="modal-role" ref={roleRef}>{work.role}</p>
+
+          {work.details && (
+            <>
+              <h3 className="work-modal-section-label">&gt; BRIEF_AND_CHALLENGE.txt</h3>
+              <p className="work-modal-details">{work.details}</p>
+            </>
+          )}
 
           <div className="impact-grid">
             <div className="impact-column">
@@ -96,6 +104,28 @@ export default function WorkModal({ work, onClose }) {
             {stackItems.map((item, i) => (
               <span key={i} className="stack-tag">{item}</span>
             ))}
+          </div>
+
+          <div className="work-modal-recruiter-box">
+            <div className="recruiter-box-header">// RECRUITER_DISPATCH.sh</div>
+            <p className="recruiter-box-note">
+              High-fidelity interactive Figma prototypes, design system component tokens, and detailed research artifacts are available for this case study.
+            </p>
+            <div className="recruiter-box-actions">
+              <a
+                href={mailtoHref}
+                className="recruiter-action-btn primary"
+              >
+                [ INQUIRE ABOUT THIS PROJECT ]
+              </a>
+              <button
+                type="button"
+                className={`recruiter-action-btn secondary ${copiedInquiry ? 'copied' : ''}`}
+                onClick={handleCopyInquiry}
+              >
+                {copiedInquiry ? '[ ✓ INQUIRY COPIED ]' : '[ COPY INQUIRY NOTE ]'}
+              </button>
+            </div>
           </div>
         </div>
       </div>

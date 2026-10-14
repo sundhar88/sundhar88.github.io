@@ -1,18 +1,23 @@
-/**
- * ContactTile — contact links
- */
+import { useState } from 'react';
 import BentoTile from './BentoTile';
+import { useSound } from '../hooks/useSound';
 
 const CONTACTS = [
   {
     href: 'mailto:sundhar.pvt1@gmail.com',
     icon: 'ri-mail-send-line',
-    label: 'Email',
+    label: 'Email App',
   },
   {
     href: 'https://linkedin.com/in/sundharm',
     icon: 'ri-linkedin-box-line',
     label: 'LinkedIn',
+    external: true,
+  },
+  {
+    href: 'https://github.com/sundhar88',
+    icon: 'ri-github-line',
+    label: 'GitHub',
     external: true,
   },
   {
@@ -30,10 +35,44 @@ const CONTACTS = [
 ];
 
 export default function ContactTile() {
+  const [copied, setCopied] = useState(false);
+  const { playClick } = useSound();
+
+  const handleCopyEmail = (e) => {
+    e.preventDefault();
+    if (navigator?.clipboard?.writeText) {
+      navigator.clipboard.writeText('sundhar.pvt1@gmail.com');
+    }
+    setCopied(true);
+    if (playClick) playClick();
+    setTimeout(() => setCopied(false), 2500);
+  };
+
   return (
     <BentoTile id="contact-tile" className="span-1">
       <div className="tile-header">cat contact.txt</div>
-      <p className="contact-subtitle">// digital coordinates</p>
+
+      <div className="contact-status-bar">
+        <span className="contact-status-dot"></span>
+        <span className="contact-status-text">OPEN FOR STAFF / LEAD ROLES</span>
+      </div>
+
+      <div className="contact-email-card">
+        <div className="contact-email-info">
+          <span className="contact-email-label">&gt; DIRECT_INBOX:</span>
+          <span className="contact-email-addr">sundhar.pvt1@gmail.com</span>
+        </div>
+        <button
+          type="button"
+          className={`contact-copy-btn ${copied ? 'copied' : ''}`}
+          onClick={handleCopyEmail}
+          aria-label="Copy email address to clipboard"
+        >
+          {copied ? '[ ✓ COPIED TO CLIPBOARD ]' : '[ COPY EMAIL ]'}
+        </button>
+      </div>
+
+      <p className="contact-subtitle">// digital networks</p>
       <div className="contact-grid">
         {CONTACTS.map(({ href, icon, label, external }) => (
           <a

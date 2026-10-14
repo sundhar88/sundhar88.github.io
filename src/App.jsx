@@ -24,7 +24,7 @@ export default function App() {
   const [splashDone, setSplashDone] = useState(false);
 
   const { theme, accent, toggleTheme, changeAccent } = useTheme();
-  const { crt, interlace, glow, toggleCrt, toggleInterlace, toggleGlow } = useEffects();
+  const { masterFx, toggleMasterFx, crt, interlace, glow, toggleCrt, toggleInterlace, toggleGlow } = useEffects();
 
   // useSound registers the global click handler
   useSound();
@@ -48,8 +48,8 @@ export default function App() {
             </feComponentTransfer>
           </filter>
           <filter id="chromatic-aberration">
-            <feOffset in="SourceGraphic" dx="1.5" dy="0" result="red" />
-            <feOffset in="SourceGraphic" dx="-1.5" dy="0" result="blue" />
+            <feOffset id="chroma-offset-red" in="SourceGraphic" dx="1.5" dy="0" result="red" />
+            <feOffset id="chroma-offset-blue" in="SourceGraphic" dx="-1.5" dy="0" result="blue" />
             <feColorMatrix in="red" type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="redOnly" />
             <feColorMatrix in="blue" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" result="blueOnly" />
             <feBlend in="redOnly" in2="blueOnly" mode="screen" result="rb" />
@@ -68,6 +68,8 @@ export default function App() {
           <HeroTile />
           <AboutTile />
           <SettingsTile
+            masterFx={masterFx}
+            onToggleMasterFx={toggleMasterFx}
             theme={theme}
             accent={accent}
             onToggleTheme={toggleTheme}

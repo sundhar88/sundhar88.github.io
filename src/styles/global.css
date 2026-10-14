@@ -12,6 +12,30 @@
 html {
   font-size: 16px;
   scroll-behavior: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent) var(--bg-primary);
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--bg-primary);
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--accent);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-dim);
 }
 
 body {
@@ -48,7 +72,7 @@ body.crt-enabled::before {
   );
   z-index: 11000;
   pointer-events: none;
-  animation: crt-flicker 8s linear infinite;
+  opacity: var(--crt-scanline-opacity, 1);
 }
 
 body.crt-enabled::after {
@@ -71,26 +95,42 @@ body.crt-enabled * {
     -0.5px 0 0 rgba(0, 255, 255, 0.12);
 }
 
-@keyframes crt-flicker {
-  0%   { opacity: 1; }
-  5%   { opacity: 0.98; }
-  10%  { opacity: 1; }
-  15%  { opacity: 0.97; }
-  20%  { opacity: 1; }
-  100% { opacity: 1; }
-}
-
-/* Interlace Effect */
-body.text-interlace-enabled {
-  -webkit-font-smoothing: none;
-  font-smooth: never;
-}
-
+/* Interlace Effect (GSAP bound) */
 body.text-interlace-enabled * {
   text-shadow:
-    1px 0px 1px rgba(255, 0, 0, 0.8),
-    -1px 0px 1px rgba(0, 255, 255, 0.8),
-    0px 0px 8px var(--accent);
+    var(--chroma-shift-x, 1.5px) var(--chroma-shift-y, 0px) 0 rgba(255, 0, 0, 0.7),
+    calc(var(--chroma-shift-x, 1.5px) * -1) calc(var(--chroma-shift-y, 0px) * -1) 0 rgba(0, 255, 255, 0.7);
+}
+
+/* ---- Master Safe Mode / Vanilla Fallback ---- */
+body.safe-mode {
+  background-color: var(--bg-primary) !important;
+}
+
+body.safe-mode::before,
+body.safe-mode::after {
+  display: none !important;
+  content: none !important;
+}
+
+body.safe-mode,
+body.safe-mode * {
+  animation: none !important;
+  transition: none !important;
+  filter: none !important;
+  text-shadow: none !important;
+}
+
+body.safe-mode .container {
+  transform: none !important;
+}
+
+body.safe-mode .edge-light {
+  display: none !important;
+}
+
+body.safe-mode .theme-overlay {
+  display: none !important;
 }
 
 /* Typography */
@@ -131,12 +171,26 @@ a:hover {
   color: var(--bg-primary);
 }
 
+button, input, textarea, select {
+  font-family: inherit;
+}
+
 a, button, [role="tab"] {
   cursor: pointer;
 }
 
 textarea, input {
   cursor: text;
+  caret-color: var(--accent);
+}
+
+.tabular-nums,
+.prop-val,
+.seek-labels,
+.impact-number,
+.telemetry-val,
+.clock-display {
+  font-variant-numeric: tabular-nums;
 }
 
 [class^="ri-"],
@@ -148,8 +202,8 @@ textarea, input {
 }
 
 :focus-visible {
-  outline: 2px dashed var(--accent);
-  outline-offset: 4px;
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
 }
 
 /* Theme overlay */

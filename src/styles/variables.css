@@ -4,28 +4,42 @@
 :root {
   --accent: #FFFFFF;
   --accent-rgb: 255, 255, 255;
-  --bg-primary: #000000;
-  --bg-primary-rgb: 0, 0, 0;
-  --bg-secondary: #1a1a1a;
-  --bg-secondary-rgb: 26, 26, 26;
+  --accent-dim: rgba(255, 255, 255, 0.2);
 
+  /* Clean Neutral Dark Surfaces */
+  --bg-primary: #0a0a0c;
+  --bg-primary-rgb: 10, 10, 12;
+  --bg-surface: #121316;
+  --bg-surface-rgb: 18, 19, 22;
+  --bg-surface-hover: #1a1b1f;
+  --bg-surface-hover-rgb: 26, 27, 31;
+  --bg-surface-inset: #0e0f12;
+  --bg-secondary: #141518;
+  --bg-secondary-rgb: 20, 21, 24;
+
+  --border-color: rgba(255, 255, 255, 0.14);
+  --border-color-subtle: rgba(255, 255, 255, 0.07);
+  --border-style: 1px solid var(--accent);
+
+  --text-primary: #EDEDED;
+  --text-secondary: rgba(255, 255, 255, 0.7);
+  --text-muted: rgba(255, 255, 255, 0.45);
+
+  /* Functional Accents */
   --c-mono: #FFFFFF;
   --c-yellow: #FFB000;
-  --c-green: #00FF41;
+  --c-green: #00FF66;
   --c-red: #FF4D4D;
-  --c-cyan: #00FFFF;
+  --c-cyan: #00E5FF;
   --c-blue: #6699FF;
   --c-purple: #D1A3FF;
   --c-pink: #FF80BF;
 
-  --scanline-color: rgba(255, 255, 255, 0.06);
+  --scanline-color: rgba(255, 255, 255, 0.04);
 
   --font-mono: 'IBM Plex Mono', monospace;
   --font-display: 'VT323', monospace;
 
-  --speed-fast: 0ms;
-  --speed-base: 0ms;
-  --speed-slow: 0ms;
   --ease-theme: linear;
 
   --space-xs: 0.5rem;
@@ -33,34 +47,45 @@
   --space-md: 1.2rem;
   --space-lg: 2.5rem;
 
-  --border-style: 2px solid var(--accent);
-
   --fs-xs: clamp(0.65rem, 0.62rem + 0.15vw, 0.75rem);
   --fs-sm: clamp(0.75rem, 0.72rem + 0.15vw, 0.85rem);
   --fs-base: clamp(0.9rem, 0.86rem + 0.2vw, 1rem);
   --fs-md: clamp(1.1rem, 1.05rem + 0.25vw, 1.25rem);
   --fs-lg: clamp(1.4rem, 1.3rem + 0.5vw, 1.8rem);
   --fs-xl: clamp(2rem, 1.8rem + 1.5vw, 3.5rem);
-  --accent-dim: rgba(var(--accent-rgb), 0.3);
 }
 
 :root[data-theme="light"] {
-  --accent: #000000;
-  --accent-rgb: 0, 0, 0;
-  --bg-primary: #e0e0e0;
-  --bg-primary-rgb: 224, 224, 224;
-  --bg-secondary: #cccccc;
-  --bg-secondary-rgb: 204, 204, 204;
+  --accent: #111111;
+  --accent-rgb: 17, 17, 17;
+  --accent-dim: rgba(17, 17, 17, 0.15);
 
-  --c-mono: #000000;
-  --c-yellow: #805E00;
-  --c-green: #00661A;
-  --c-red: #B30000;
-  --c-cyan: #006666;
-  --c-blue: #0033CC;
-  --c-purple: #7A29CC;
-  --c-pink: #B8005D;
+  /* Clean Neutral Light Surfaces */
+  --bg-primary: #F5F6F8;
+  --bg-primary-rgb: 245, 246, 248;
+  --bg-surface: #FFFFFF;
+  --bg-surface-rgb: 255, 255, 255;
+  --bg-surface-hover: #ECEEF2;
+  --bg-surface-hover-rgb: 236, 238, 242;
+  --bg-surface-inset: #F0F2F5;
+  --bg-secondary: #EDEDF1;
+  --bg-secondary-rgb: 237, 237, 241;
 
-  --scanline-color: rgba(0, 0, 0, 0.12);
-  --accent-dim: rgba(var(--accent-rgb), 0.3);
+  --border-color: rgba(0, 0, 0, 0.14);
+  --border-color-subtle: rgba(0, 0, 0, 0.07);
+
+  --text-primary: #111111;
+  --text-secondary: rgba(0, 0, 0, 0.68);
+  --text-muted: rgba(0, 0, 0, 0.42);
+
+  --c-mono: #111111;
+  --c-yellow: #B45309;
+  --c-green: #047857;
+  --c-red: #B91C1C;
+  --c-cyan: #0E7490;
+  --c-blue: #1D4ED8;
+  --c-purple: #6D28D9;
+  --c-pink: #BE185D;
+
+  --scanline-color: rgba(0, 0, 0, 0.04);
 }

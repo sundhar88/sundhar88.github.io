@@ -9,6 +9,7 @@ import { useSound } from '../hooks/useSound';
 const WORKS = [
   {
     title: 'Placement Test @ Wall Street English',
+    category: 'EdTech',
     period: '2021 – Present',
     role: 'Lead Product Designer',
     context: 'Global placement test overhaul for student onboarding.',
@@ -21,6 +22,7 @@ const WORKS = [
   },
   {
     title: 'Course Product Revamp @ Wall Street English',
+    category: 'EdTech',
     period: '2022 – Present',
     role: 'Lead Product Designer',
     context: 'Core learning experience and design system scalability.',
@@ -33,6 +35,7 @@ const WORKS = [
   },
   {
     title: 'Study Planner @ Wall Street English',
+    category: 'EdTech',
     period: '2022',
     role: 'Senior Product Designer',
     context: 'Personalized study scheduling for student motivation.',
@@ -45,6 +48,7 @@ const WORKS = [
   },
   {
     title: 'Online Classroom @ Wall Street English',
+    category: 'EdTech',
     period: '2021 – 2023',
     role: 'Lead Product Designer',
     context: 'Virtual teaching experience replication.',
@@ -57,6 +61,7 @@ const WORKS = [
   },
   {
     title: 'Product Designer @ Auro24',
+    category: 'B2B SaaS',
     period: '2021',
     role: 'Product Designer',
     context: 'MDM admin dashboard and marketing website MVP.',
@@ -69,6 +74,7 @@ const WORKS = [
   },
   {
     title: 'UI/UX Designer @ InstaSafe',
+    category: 'B2B SaaS',
     period: '2019 – 2021',
     role: 'UI/UX Designer',
     context: 'Zero-trust network access (ZTNA) SaaS product.',
@@ -81,9 +87,16 @@ const WORKS = [
   },
 ];
 
+const FILTER_CATEGORIES = [
+  { id: 'ALL', label: 'ALL_DOMAINS' },
+  { id: 'EdTech', label: 'EDTECH' },
+  { id: 'B2B SaaS', label: 'B2B_SAAS' },
+];
+
 export default function WorksTile() {
   const [selectedWork, setSelectedWork] = useState(null);
-  const { playOpen, playClose } = useSound();
+  const [activeCategory, setActiveCategory] = useState('ALL');
+  const { playOpen, playClose, playClick } = useSound();
 
   const openWork = (work) => {
     setSelectedWork(work);
@@ -95,14 +108,43 @@ export default function WorksTile() {
     playClose();
   };
 
+  const handleFilterChange = (catId) => {
+    setActiveCategory(catId);
+    if (playClick) playClick();
+  };
+
+  const filteredWorks = activeCategory === 'ALL'
+    ? WORKS
+    : WORKS.filter((w) => w.category === activeCategory);
+
   return (
     <>
       <BentoTile id="works-tile" className="span-2">
         <div className="tile-header">my works.log</div>
+        
+        <div className="works-filter-bar" role="tablist" aria-label="Filter works by domain">
+          <span className="filter-prompt">&gt; grep domain:</span>
+          {FILTER_CATEGORIES.map(({ id, label }) => {
+            const count = id === 'ALL' ? WORKS.length : WORKS.filter(w => w.category === id).length;
+            const isSelected = activeCategory === id;
+            return (
+              <button
+                key={id}
+                role="tab"
+                aria-selected={isSelected}
+                className={`filter-tab ${isSelected ? 'active' : ''}`}
+                onClick={() => handleFilterChange(id)}
+              >
+                [{label} ({count})]
+              </button>
+            );
+          })}
+        </div>
+
         <div className="project-grid">
-          {WORKS.map((work, i) => (
+          {filteredWorks.map((work, i) => (
             <div
-              key={i}
+              key={work.title}
               className="work-card"
               role="button"
               tabIndex={0}
@@ -117,6 +159,7 @@ export default function WorksTile() {
               <div className="work-card-header">
                 <span className="work-card-prefix">DIR</span>
                 <span className="work-card-title">{work.cardTitle}</span>
+                <span className="work-card-badge">{work.category}</span>
               </div>
               
               <div className="work-card-metrics">
